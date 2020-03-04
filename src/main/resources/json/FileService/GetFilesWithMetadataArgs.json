@@ -1,0 +1,25 @@
+{
+  "parameter": {
+    "MaxReturnedFiles": 0,
+    "DocumentNumber": "string",
+    "CaseNumber": "string",
+    "LastDate": "2020-01-22T14:15:37.866Z",
+    "Page": 0,
+    "AdditionalFields": [
+      {
+        "Name": "string",
+        "Value": "string"
+      }
+    ],
+    "AdditionalListFields": [
+      {
+        "Name": "string",
+        "Value": {}
+      }
+    ],
+    "Recno": 0,
+    "IncludeFileData": true,
+    "ADContextUser": "string",
+    "IncludeCustomFields": true
+  }
+}

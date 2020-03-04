@@ -1,0 +1,17 @@
+{
+  "Events": [
+    {
+      "Recno": 0,
+      "Type": "string",
+      "EntityName": "string",
+      "EntityRecno": "string",
+      "InsertedDate": "2020-01-22T14:34:24.287Z",
+      "Data": {}
+    }
+  ],
+  "SkippedLogs": 0,
+  "IsEndOfLog": true,
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}

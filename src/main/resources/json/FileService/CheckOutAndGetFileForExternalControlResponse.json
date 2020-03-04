@@ -1,0 +1,13 @@
+{
+  "CheckOutFileInfo": {
+    "Successful": true,
+    "ErrorMessage": "string",
+    "ErrorDetails": "string",
+    "Title": "string",
+    "TemplateId": "string",
+    "FileRecno": "string"
+  },
+  "FileData": [
+    {}
+  ]
+}

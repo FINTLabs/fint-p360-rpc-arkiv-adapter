@@ -1,0 +1,92 @@
+{
+  "Version": {
+    "Major": 0,
+    "Minor": 0,
+    "Build": 0,
+    "Revision": 0,
+    "MajorRevision": {},
+    "MinorRevision": {}
+  },
+  "Content": {
+    "Headers": [
+      {
+        "Key": "string",
+        "Value": [
+          "string"
+        ]
+      }
+    ]
+  },
+  "StatusCode": "Continue",
+  "ReasonPhrase": "string",
+  "Headers": [
+    {
+      "Key": "string",
+      "Value": [
+        "string"
+      ]
+    }
+  ],
+  "RequestMessage": {
+    "Version": {
+      "Major": 0,
+      "Minor": 0,
+      "Build": 0,
+      "Revision": 0,
+      "MajorRevision": {},
+      "MinorRevision": {}
+    },
+    "Content": {
+      "Headers": [
+        {
+          "Key": "string",
+          "Value": {}
+        }
+      ]
+    },
+    "Method": {
+      "Method": "string"
+    },
+    "RequestUri": {
+      "AbsolutePath": "string",
+      "AbsoluteUri": "string",
+      "LocalPath": "string",
+      "Authority": "string",
+      "HostNameType": "Unknown",
+      "IsDefaultPort": true,
+      "IsFile": true,
+      "IsLoopback": true,
+      "PathAndQuery": "string",
+      "Segments": [
+        "string"
+      ],
+      "IsUnc": true,
+      "Host": "string",
+      "Port": 0,
+      "Query": "string",
+      "Fragment": "string",
+      "Scheme": "string",
+      "OriginalString": "string",
+      "DnsSafeHost": "string",
+      "IdnHost": "string",
+      "IsAbsoluteUri": true,
+      "UserEscaped": true,
+      "UserInfo": "string"
+    },
+    "Headers": [
+      {
+        "Key": "string",
+        "Value": [
+          "string"
+        ]
+      }
+    ],
+    "Properties": [
+      {
+        "Key": "string",
+        "Value": {}
+      }
+    ]
+  },
+  "IsSuccessStatusCode": true
+}

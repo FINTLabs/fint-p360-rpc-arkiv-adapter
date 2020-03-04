@@ -1,0 +1,927 @@
+{
+	"mappeId": {
+		"identifikatorverdi": "15/00123"
+	},
+	"noekkelord": [
+		"Fartøy",
+		"Ternen"
+	],
+	"offentligTittel": "LM9544 - Ternen - Reketråler - Statsbudsjettet - Tilskudd",
+	"opprettetDato": "2015-01-15T13:13:14Z",
+	"part": [],
+	"systemId": {
+		"identifikatorverdi": "232327"
+	},
+	"tittel": "LM9544 - Ternen - Reketråler - Statsbudsjettet - Tilskudd",
+	"journalpost": [
+		{
+			"beskrivelse": "Utgående internt produsert - Journalført - Grønn - Ugradert",
+			"dokumentbeskrivelse": [
+				{
+					"beskrivelse": "Ferdig - Hoveddokument - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/669311"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Mari Søbstad Amundsen"
+					],
+					"tittel": "Ternen - LM9544 - Avslag på søknad om tilskudd fra statsbudsjettet 2015 kap 1429 post 74",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/1"
+							}
+						]
+					}
+				},
+				{
+					"beskrivelse": "Ferdig - Vedlegg - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/669317"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Erik Småland"
+					],
+					"tittel": "2015 Orientering om fordeling BM.pdf",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/2"
+							}
+						]
+					}
+				}
+			],
+			"forfatter": [
+				"Erik Småland"
+			],
+			"korrespondansepart": [
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/223785"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/6"
+							}
+						]
+					}
+				},
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/100180"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/8"
+							}
+						]
+					}
+				},
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/100072"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/5"
+							}
+						]
+					}
+				}
+			],
+			"merknad": [],
+			"nokkelord": [],
+			"offentligTittel": "Ternen - LM9544 - Avslag på søknad om tilskudd fra statsbudsjettet 2015 kap 1429 post 74",
+			"opprettetDato": "2015-04-23T10:37:04Z",
+			"referanseArkivDel": [],
+			"tittel": "Ternen - LM9544 - Avslag på søknad om tilskudd fra statsbudsjettet 2015 kap 1429 post 74",
+			"antallVedlegg": 2,
+			"dokumentetsDato": "2015-04-22T22:00:00Z",
+			"journalDato": "2015-05-13T13:17:42Z",
+			"journalSekvensnummer": 4,
+			"_links": {
+				"saksbehandler": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/personal/personalressurs/ansattnummer/209037"
+					}
+				],
+				"administrativEnhet": [
+					{
+						"href": "https://beta.felleskomponent.no/organisasjonsid/100072"
+					}
+				],
+				"journalposttype": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalposttype/systemid/111"
+					}
+				],
+				"journalstatus": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalstatus/systemid/6"
+					}
+				]
+			}
+		},
+		{
+			"beskrivelse": "Utgående internt produsert - Journalført - Grønn - Ugradert",
+			"dokumentbeskrivelse": [
+				{
+					"beskrivelse": "Ferdig - Hoveddokument - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/652602"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Hanne Marie Fjeld"
+					],
+					"tittel": "Ternen - LM9544 - Søknad om tilskudd fra statsbudsjettet 2015 kap 1429 post 74 - Forlenget behandlingstid",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/1"
+							}
+						]
+					}
+				}
+			],
+			"forfatter": [
+				"Anne Lene Andersen"
+			],
+			"korrespondansepart": [
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/223785"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/6"
+							}
+						]
+					}
+				},
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/100072"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/5"
+							}
+						]
+					}
+				}
+			],
+			"merknad": [],
+			"nokkelord": [],
+			"offentligTittel": "Ternen - LM9544 - Søknad om tilskudd fra statsbudsjettet 2015 kap 1429 post 74 - Forlenget behandlingstid",
+			"opprettetDato": "2015-02-16T09:22:13Z",
+			"referanseArkivDel": [],
+			"tittel": "Ternen - LM9544 - Søknad om tilskudd fra statsbudsjettet 2015 kap 1429 post 74 - Forlenget behandlingstid",
+			"antallVedlegg": 1,
+			"dokumentetsDato": "2015-02-15T23:00:00Z",
+			"journalDato": "2015-02-24T08:01:24Z",
+			"journalSekvensnummer": 3,
+			"_links": {
+				"saksbehandler": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/personal/personalressurs/ansattnummer/219720"
+					}
+				],
+				"administrativEnhet": [
+					{
+						"href": "https://beta.felleskomponent.no/organisasjonsid/100072"
+					}
+				],
+				"journalposttype": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalposttype/systemid/111"
+					}
+				],
+				"journalstatus": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalstatus/systemid/6"
+					}
+				]
+			}
+		},
+		{
+			"beskrivelse": "Inngående eksternt produsert - Journalført - Grønn - Ugradert",
+			"dokumentbeskrivelse": [
+				{
+					"beskrivelse": "Ferdig - Hoveddokument - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/644513"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Postmottak Postmottak"
+					],
+					"tittel": "HOVEDDOKUMENT",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/1"
+							}
+						]
+					}
+				},
+				{
+					"beskrivelse": "Ferdig - Hoveddokument - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/644514"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Postmottak Postmottak"
+					],
+					"tittel": "VEDLEGG til søknad",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/1"
+							}
+						]
+					}
+				},
+				{
+					"beskrivelse": "Ferdig - Vedlegg - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/644515"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Postmottak Postmottak"
+					],
+					"tittel": "Tilbud på fremdriftsanlegg",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/2"
+							}
+						]
+					}
+				},
+				{
+					"beskrivelse": "Ferdig - Vedlegg - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/644516"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Postmottak Postmottak"
+					],
+					"tittel": "Tilbud",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/2"
+							}
+						]
+					}
+				},
+				{
+					"beskrivelse": "Ferdig - Vedlegg - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/644517"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Postmottak Postmottak"
+					],
+					"tittel": "Tilstandsrapport",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/2"
+							}
+						]
+					}
+				}
+			],
+			"forfatter": [
+				"Erik Småland"
+			],
+			"korrespondansepart": [
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/223785"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/5"
+							}
+						]
+					}
+				},
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/100072"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/6"
+							}
+						]
+					}
+				}
+			],
+			"merknad": [],
+			"nokkelord": [],
+			"offentligTittel": "Ternen - LM9544 - Reketråler - A-9-F - Statsbudsjettet 2015 - Søknad om tilskudd",
+			"opprettetDato": "2015-01-16T09:15:44Z",
+			"referanseArkivDel": [],
+			"tittel": "Ternen - LM9544 - Reketråler - A-9-F - Statsbudsjettet 2015 - Søknad om tilskudd",
+			"antallVedlegg": 5,
+			"dokumentetsDato": "2015-01-13T23:00:00Z",
+			"journalDato": "2015-01-15T23:00:00Z",
+			"journalSekvensnummer": 2,
+			"_links": {
+				"saksbehandler": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/personal/personalressurs/ansattnummer/209037"
+					}
+				],
+				"administrativEnhet": [
+					{
+						"href": "https://beta.felleskomponent.no/organisasjonsid/100072"
+					}
+				],
+				"journalposttype": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalposttype/systemid/110"
+					}
+				],
+				"journalstatus": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalstatus/systemid/6"
+					}
+				]
+			}
+		},
+		{
+			"beskrivelse": "Inngående eksternt produsert - Journalført - Grønn - Ugradert",
+			"dokumentbeskrivelse": [
+				{
+					"beskrivelse": "Ferdig - Hoveddokument - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/643604"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Hanne Marie Fjeld"
+					],
+					"tittel": "Søknad om støtte til verneverdig fartøy Ternen.msg",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/1"
+							}
+						]
+					}
+				},
+				{
+					"beskrivelse": "Ferdig - Hoveddokument - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/643605"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Hanne Marie Fjeld"
+					],
+					"tittel": "Ternen-sknad-2015 med alle vedlegg.pdf",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/1"
+							}
+						]
+					}
+				}
+			],
+			"forfatter": [
+				"Erik Småland"
+			],
+			"korrespondansepart": [
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/223785"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/5"
+							}
+						]
+					}
+				},
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/100072"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/6"
+							}
+						]
+					}
+				}
+			],
+			"merknad": [
+				{
+					"merknadsdato": "2015-05-18T18:35:56Z",
+					"merknadstekst": "Merknad ved avskrivning - Fått svar på søknad om tilskudd. ",
+					"_links": {
+						"merknadstype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/merknadstype/systemid/1"
+							}
+						]
+					}
+				}
+			],
+			"nokkelord": [],
+			"offentligTittel": "Ternen - LM9544 - Reketråler - A-9-F - Statsbudsjettet 2015 kap 1429 post 74 - Søknad om tilskudd",
+			"opprettetDato": "2015-01-15T13:23:58Z",
+			"referanseArkivDel": [],
+			"tittel": "Ternen - LM9544 - Reketråler - A-9-F - Statsbudsjettet 2015 kap 1429 post 74 - Søknad om tilskudd",
+			"antallVedlegg": 2,
+			"dokumentetsDato": "2015-01-13T23:00:00Z",
+			"journalDato": "2015-01-14T23:00:00Z",
+			"journalSekvensnummer": 1,
+			"_links": {
+				"saksbehandler": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/personal/personalressurs/ansattnummer/209037"
+					}
+				],
+				"administrativEnhet": [
+					{
+						"href": "https://beta.felleskomponent.no/organisasjonsid/100072"
+					}
+				],
+				"journalposttype": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalposttype/systemid/110"
+					}
+				],
+				"journalstatus": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalstatus/systemid/6"
+					}
+				]
+			}
+		},
+		{
+			"beskrivelse": "Inngående eksternt produsert - Journalført - Grønn - Ugradert",
+			"dokumentbeskrivelse": [
+				{
+					"beskrivelse": "Ferdig - Hoveddokument - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/715576"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Tor Kristian Torsvik"
+					],
+					"tittel": "SV_ 06_00841-8 - Ternen - Søknad om status som verneverdig skip.msg",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/1"
+							}
+						]
+					}
+				}
+			],
+			"forfatter": [
+				"Tor Kristian Torsvik"
+			],
+			"korrespondansepart": [
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/223785"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/5"
+							}
+						]
+					}
+				},
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/100072"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/6"
+							}
+						]
+					}
+				}
+			],
+			"merknad": [],
+			"nokkelord": [],
+			"offentligTittel": "Ternen - Søknad om status som verneverdig skip - Manglende informasjon - Tilbakemelding",
+			"opprettetDato": "2015-11-05T12:00:40Z",
+			"referanseArkivDel": [],
+			"tittel": "Ternen - Søknad om status som verneverdig skip - Manglende informasjon - Tilbakemelding",
+			"antallVedlegg": 1,
+			"dokumentetsDato": "2015-10-19T22:00:00Z",
+			"journalDato": "2015-11-05T12:52:38Z",
+			"journalSekvensnummer": 5,
+			"_links": {
+				"saksbehandler": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/personal/personalressurs/ansattnummer/222764"
+					}
+				],
+				"administrativEnhet": [
+					{
+						"href": "https://beta.felleskomponent.no/organisasjonsid/100072"
+					}
+				],
+				"journalposttype": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalposttype/systemid/110"
+					}
+				],
+				"journalstatus": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalstatus/systemid/6"
+					}
+				]
+			}
+		},
+		{
+			"beskrivelse": "Utgående internt produsert - Journalført - Grønn - Ugradert",
+			"dokumentbeskrivelse": [
+				{
+					"beskrivelse": "Ferdig - Hoveddokument - Grønn - Ugradert - null",
+					"dokumentobjekt": [
+						{
+							"format": "PDF",
+							"_links": {
+								"referanseDokumentfil": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentfil/systemid/715578"
+									}
+								],
+								"variantFormat": [
+									{
+										"href": "https://beta.felleskomponent.no/administrasjon/arkiv/variantformat/systemid/1"
+									}
+								]
+							}
+						}
+					],
+					"forfatter": [
+						"Tor Kristian Torsvik"
+					],
+					"tittel": "SV_ 06_00841-8 - Ternen - Søknad om status som verneverdig skip.msg",
+					"_links": {
+						"dokumentstatus": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/dokumentstatus/systemid/2"
+							}
+						],
+						"tilknyttetRegistreringSom": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/tilknyttetregistreringsom/systemid/1"
+							}
+						]
+					}
+				}
+			],
+			"forfatter": [
+				"Tor Kristian Torsvik"
+			],
+			"korrespondansepart": [
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/100072"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/5"
+							}
+						]
+					}
+				},
+				{
+					"_links": {
+						"korrespondansepart": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondansepart/systemid/223785"
+							}
+						],
+						"korrespondanseparttype": [
+							{
+								"href": "https://beta.felleskomponent.no/administrasjon/arkiv/korrespondanseparttype/systemid/6"
+							}
+						]
+					}
+				}
+			],
+			"merknad": [],
+			"nokkelord": [],
+			"offentligTittel": "LM9544 - Ternen - Søknad om status som verneverdig skip - Ber om dokumentasjon på arbeid utført på båtbyggeri",
+			"opprettetDato": "2015-11-05T12:01:42Z",
+			"referanseArkivDel": [],
+			"tittel": "LM9544 - Ternen - Søknad om status som verneverdig skip - Ber om dokumentasjon på arbeid utført på båtbyggeri",
+			"antallVedlegg": 1,
+			"dokumentetsDato": "2015-11-04T23:00:00Z",
+			"journalDato": "2015-11-09T09:08:38Z",
+			"journalSekvensnummer": 6,
+			"_links": {
+				"saksbehandler": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/personal/personalressurs/ansattnummer/222764"
+					}
+				],
+				"administrativEnhet": [
+					{
+						"href": "https://beta.felleskomponent.no/organisasjonsid/100072"
+					}
+				],
+				"journalposttype": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalposttype/systemid/111"
+					}
+				],
+				"journalstatus": [
+					{
+						"href": "https://beta.felleskomponent.no/administrasjon/arkiv/journalstatus/systemid/6"
+					}
+				]
+			}
+		}
+	],
+	"saksaar": "15",
+	"saksdato": "2015-01-14T23:00:00Z",
+	"sakssekvensnummer": "00123",
+	"_links": {
+		"saksstatus": [
+			{
+				"href": "https://beta.felleskomponent.no/administrasjon/arkiv/saksstatus/systemid/5"
+			},
+			{
+				"href": "https://beta.felleskomponent.no/administrasjon/arkiv/saksstatus/systemid/Under behandling"
+			}
+		],
+		"administrativEnhet": [
+			{
+				"href": "https://beta.felleskomponent.no/organisasjonsid/100072"
+			}
+		],
+		"klasse": [
+			{
+				"href": "https://beta.felleskomponent.no/administrasjon/arkiv/klasse/systemid/105440"
+			}
+		],
+		"self": [
+			{
+				"href": "https://beta.felleskomponent.no/mappeid/15/00123"
+			},
+			{
+				"href": "https://beta.felleskomponent.no/systemid/232327"
+			}
+		]
+	}
+}

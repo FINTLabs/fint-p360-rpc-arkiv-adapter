@@ -1,0 +1,11 @@
+{
+  "parameter": {
+    "ADContextUser": "string",
+    "Documents": [
+      {
+        "Recno": 0,
+        "DocumentNumber": "string"
+      }
+    ]
+  }
+}

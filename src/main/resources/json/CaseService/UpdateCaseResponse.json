@@ -1,0 +1,7 @@
+{
+  "Recno": 0,
+  "CaseNumber": "string",
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}

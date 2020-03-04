@@ -1,0 +1,46 @@
+{
+  "File": {
+    "DocumentRecno": 0,
+    "DocumentNumber": "string",
+    "AccessGroup": "string",
+    "CustomFields": [
+      {
+        "Name": "string",
+        "Value": "string"
+      }
+    ],
+    "Recno": 0,
+    "Title": "string",
+    "Format": "string",
+    "Base64Data": "string",
+    "URL": "string",
+    "RelationTypeDescription": "string",
+    "RelationTypeCode": "string",
+    "VersionFormatDescription": "string",
+    "VersionFormatCode": "string",
+    "Type": "string",
+    "Note": "string",
+    "ModifiedBy": "string",
+    "CheckedOutBy": "string",
+    "CategoryDescription": "string",
+    "CategoryCode": "string",
+    "StatusDescription": "string",
+    "StatusCode": "string",
+    "AccessCodeDescription": "string",
+    "AccessCodeCode": "string",
+    "Paragraph": "string",
+    "DegradeDate": "2020-01-22T14:14:59.456Z",
+    "DegradeCode": "string",
+    "DisposalDate": "2020-01-22T14:14:59.456Z",
+    "DisposalCode": "string",
+    "FiledOnPaper": true,
+    "PaperLocation": "string",
+    "SignDate": "2020-01-22T14:14:59.457Z",
+    "AccessCodeRecno": "string",
+    "Version": 0,
+    "LastChangedDate": "2020-01-22T14:14:59.457Z"
+  },
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}

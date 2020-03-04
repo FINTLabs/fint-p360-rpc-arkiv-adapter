@@ -1,0 +1,196 @@
+{
+  "Cases": [
+    {
+      "Recno": 0,
+      "CaseNumber": "string",
+      "ExternalId": {
+        "Id": "string",
+        "Type": "string"
+      },
+      "Title": "string",
+      "Date": "2020-01-22T13:32:08.743Z",
+      "Status": "string",
+      "AccessCodeDescription": "string",
+      "AccessCodeCode": "string",
+      "AccessGroup": "string",
+      "Paragraph": "string",
+      "ResponsibleEnterprise": {
+        "Email": "string",
+        "Recno": 0,
+        "ExternalId": "string",
+        "Referencenumber": "string",
+        "Name": "string",
+        "Url": "string",
+        "Domain": 0
+      },
+      "ResponsibleEnterpriseName": "string",
+      "ResponsiblePerson": {
+        "Email": "string",
+        "UserId": "string",
+        "Recno": 0,
+        "ExternalId": "string",
+        "Referencenumber": "string",
+        "Name": "string",
+        "Url": "string",
+        "Domain": 0
+      },
+      "ResponsiblePersonName": "string",
+      "ArchiveCodes": [
+        {
+          "ArchiveCode": "string",
+          "ArchiveType": "string",
+          "Sort": 0,
+          "IsManualText": true
+        }
+      ],
+      "Documents": [
+        {
+          "Recno": 0,
+          "DocumentNumber": "string",
+          "CaseNumber": "string",
+          "CaseExternalId": {
+            "Id": "string",
+            "Type": "string"
+          },
+          "Title": "string",
+          "DocumentDate": "2020-01-22T14:07:59.380Z",
+          "JournalDate": "2020-01-22T14:07:59.380Z",
+          "Category": {
+            "Recno": 0,
+            "Code": "string",
+            "Description": "string"
+          },
+          "Type": {
+            "Recno": 0,
+            "Code": "string",
+            "Description": "string"
+          },
+          "StatusCode": "string",
+          "StatusDescription": "string",
+          "AccessCodeDescription": "string",
+          "AccessCodeCode": "string",
+          "AccessCodeRecno": "string",
+          "Paragraph": "string",
+          "ResponsibleEnterprise": {
+            "Email": "string",
+            "Recno": 0,
+            "ExternalId": "string",
+            "Referencenumber": "string",
+            "Name": "string",
+            "Url": "string",
+            "Domain": 0
+          },
+          "ResponsibleEnterpriseName": "string",
+          "ResponsiblePerson": {
+            "Email": "string",
+            "UserId": "string",
+            "Recno": 0,
+            "ExternalId": "string",
+            "Referencenumber": "string",
+            "Name": "string",
+            "Url": "string",
+            "Domain": 0
+          },
+          "ResponsiblePersonName": "string",
+          "Contacts": {},
+          "Files": [
+            {
+              "Title": "string",
+              "Format": "string",
+              "Base64Data": "string",
+              "Data": [
+                {}
+              ],
+              "RelationType": "string",
+              "VersionFormat": "string",
+              "Note": "string",
+              "Category": "string",
+              "Status": "string",
+              "AccessCode": "string",
+              "DegradeCode": "string",
+              "DegradeDate": "2020-01-22T14:04:51.449Z",
+              "FiledOnPaper": true,
+              "PaperLocation": "string",
+              "UploadedFileReference": "string",
+              "AdditionalFields": {}
+            }
+          ],
+          "Remarks": {},
+          "ReferringCases": {},
+          "ReferringDocuments": {},
+          "OfficialTitle": "string",
+          "CreatedDate": "string",
+          "CaseRecno": "string",
+          "LastChangedDate": "string",
+          "CustomFields": {},
+          "DocumentRowPermissions": "string",
+          "DocumentArchive": {
+            "Recno": 0,
+            "Code": "string",
+            "Description": "string"
+          },
+          "SubArchive": {
+            "Recno": 0,
+            "Code": "string",
+            "Description": "string"
+          },
+          "URL": "string",
+          "ArchiveCodes": {},
+          "RecordType": {
+            "Recno": 0,
+            "Code": "string",
+            "Description": "string"
+          },
+          "AccessGroup": "string"
+        }
+      ],
+      "ReferringCases": {},
+      "ReferringDocuments": {},
+      "UnofficialTitle": "string",
+      "CreatedDate": "2020-01-22T13:32:08.743Z",
+      "Notes": "string",
+      "CaseTypeCode": "string",
+      "CaseTypeDescription": "string",
+      "Contacts": [
+        {
+          "Address": {
+            "Type": "string",
+            "Area": "string",
+            "Country": "string",
+            "County": "string",
+            "State": "string",
+            "StreetAddress": "string",
+            "ZipCode": "string",
+            "ZipPlace": "string"
+          },
+          "ContactName":"string",
+          "ContactType": "string",
+          "Recno": 0,
+          "Referencenumber": "string",
+          "Role": "string"
+        }
+      ],
+      "ProjectRecno": "string",
+      "ProjectName": "string",
+      "SubArchive": "string",
+      "SubArchiveCode": "string",
+      "CaseEstates": {},
+      "CaseRowPermissions": "string",
+      "CustomFields": {},
+      "LastChangedDate": "2020-01-22T13:32:08.743Z",
+      "ProgressPlan": {
+        "Recno": "string",
+        "Description": "string",
+        "WorkunitID": "string"
+      },
+      "SubjectSpecificMetaData": "string",
+      "SubjectSpecificMetaDataNamespace": "string",
+      "URL": "string"
+    }
+  ],
+  "TotalPageCount": 0,
+  "TotalCount": 0,
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}

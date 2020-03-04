@@ -1,0 +1,9 @@
+{
+  "parameter": {
+    "EntityName": "string",
+    "EntityRecno": 0,
+    "MaxReturnedLogs": 0,
+    "Page": 0,
+    "SortCriterion": "RecnoDescending"
+  }
+}

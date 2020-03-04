@@ -1,0 +1,7 @@
+{
+  "message": {
+    "User": "string",
+    "ExternalSystem": "string",
+    "FileRecno": "string"
+  }
+}

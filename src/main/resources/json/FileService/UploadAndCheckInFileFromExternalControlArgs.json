@@ -1,0 +1,14 @@
+{
+  "message": {
+    "CheckInFileInfo": {
+      "FileRecno": "string",
+      "Title": "string",
+      "FileFormat": "string",
+      "User": "string",
+      "ExternalSystem": "string"
+    },
+    "FileData": [
+      {}
+    ]
+  }
+}

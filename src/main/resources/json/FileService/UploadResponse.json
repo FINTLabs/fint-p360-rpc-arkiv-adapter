@@ -1,0 +1,6 @@
+{
+  "FileReference": "string",
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}

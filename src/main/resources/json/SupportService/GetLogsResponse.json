@@ -1,0 +1,21 @@
+{
+  "Logs": [
+    {
+      "Recno": 0,
+      "EntityName": "string",
+      "EntityRecno": "string",
+      "InfoTypeCode": "string",
+      "InfoTypeDescription": "string",
+      "CreatedDate": "2020-01-22T14:32:43.196Z",
+      "CreatedBy": "string",
+      "Data": "string",
+      "DataFrom": "string",
+      "DataTo": "string"
+    }
+  ],
+  "TotalPageCount": 0,
+  "TotalCount": 0,
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}

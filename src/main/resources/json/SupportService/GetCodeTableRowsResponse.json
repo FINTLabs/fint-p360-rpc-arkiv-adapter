@@ -1,0 +1,14 @@
+{
+  "CodeTableRows": [
+    {
+      "Language": "string",
+      "IsExpired": true,
+      "Recno": 0,
+      "Code": "string",
+      "Description": "string"
+    }
+  ],
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}

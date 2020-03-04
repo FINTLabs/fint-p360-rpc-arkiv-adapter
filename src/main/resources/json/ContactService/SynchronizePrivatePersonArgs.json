@@ -1,0 +1,68 @@
+{
+  "parameter": {
+    "ADContextUser": "string",
+    "DataSource": "string",
+    "ContactRelations": [
+      {
+        "Recno": 0,
+        "ReferenceNumber": "string",
+        "ExternalId": "string",
+        "Role": "string"
+      }
+    ],
+    "FirstName": "string",
+    "MiddleName": "string",
+    "LastName": "string",
+    "PersonalIdNumber": "string",
+    "ExternalID": "string",
+    "PhoneNumber": "string",
+    "MobilePhone": "string",
+    "Email": "string",
+    "PrivateAddress": {
+      "StreetAddress": "string",
+      "State": "string",
+      "ZipCode": "string",
+      "ZipPlace": "string",
+      "Country": "string",
+      "County": "string",
+      "Area": "string"
+    },
+    "PostAddress": {
+      "StreetAddress": "string",
+      "State": "string",
+      "ZipCode": "string",
+      "ZipPlace": "string",
+      "Country": "string",
+      "County": "string",
+      "Area": "string"
+    },
+    "WorkAddress": {
+      "StreetAddress": "string",
+      "State": "string",
+      "ZipCode": "string",
+      "ZipPlace": "string",
+      "Country": "string",
+      "County": "string",
+      "Area": "string"
+    },
+    "Gender": "Female",
+    "Categories": [
+      "string"
+    ],
+    "CustomNo1": "string",
+    "CustomNo2": "string",
+    "CustomNo3": "string",
+    "Active": true,
+    "CreatedDate": "2020-01-22T14:25:39.446Z",
+    "ModifiedDate": "2020-01-22T14:25:39.446Z",
+    "Title": "string",
+    "AccessGroup": "string",
+    "AdditionalFields": [
+      {
+        "Name": "string",
+        "Value": "string"
+      }
+    ],
+    "AlternativeEmail": "string"
+  }
+}

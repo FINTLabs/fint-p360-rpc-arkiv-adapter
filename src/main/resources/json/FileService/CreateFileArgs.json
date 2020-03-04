@@ -1,0 +1,30 @@
+{
+  "parameter": {
+    "ADContextUser": "string",
+    "DocumentRecno": 0,
+    "DocumentNumber": "string",
+    "Title": "string",
+    "Format": "string",
+    "Base64Data": "string",
+    "Data": [
+      {}
+    ],
+    "RelationType": "string",
+    "VersionFormat": "string",
+    "Note": "string",
+    "Category": "string",
+    "Status": "string",
+    "AccessCode": "string",
+    "DegradeCode": "string",
+    "DegradeDate": "2020-01-22T14:16:45.931Z",
+    "FiledOnPaper": true,
+    "PaperLocation": "string",
+    "UploadedFileReference": "string",
+    "AdditionalFields": [
+      {
+        "Name": "string",
+        "Value": "string"
+      }
+    ]
+  }
+}

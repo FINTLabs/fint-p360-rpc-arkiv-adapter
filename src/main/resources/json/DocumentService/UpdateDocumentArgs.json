@@ -1,0 +1,127 @@
+{
+  "parameter": {
+    "DocumentNumber": "string",
+    "SyncDocumentContacts": true,
+    "ADContextUser": "string",
+    "Title": "string",
+    "UnofficialTitle": "string",
+    "DocumentDate": "2020-01-22T14:07:14.536Z",
+    "Category": "string",
+    "Status": "string",
+    "AccessCode": "string",
+    "AccessGroup": "string",
+    "ResponsiblePersonRecno": 0,
+    "ResponsiblePersonIdNumber": "string",
+    "ResponsiblePersonEmail": "string",
+    "ResponsiblePersonUserId": "string",
+    "ResponsibleEnterpriseRecno": 0,
+    "ResponsibleEnterpriseNumber": "string",
+    "Contacts": [
+      {
+        "Role": "string",
+        "ReferenceNumber": "string",
+        "ExternalId": "string",
+        "IsUnofficial": true,
+        "DispatchChannel": "string"
+      }
+    ],
+    "UnregisteredContacts": [
+      {
+        "Role": "string",
+        "IsUnofficial": true,
+        "ContactName": "string",
+        "ContactCompanyName": "string",
+        "ReferenceNumber": "string",
+        "Address": "string",
+        "Country": "string",
+        "MobilePhone": "string",
+        "Phone": "string",
+        "Fax": "string",
+        "Email": "string",
+        "State": "string",
+        "ZipCode": "string",
+        "ZipPlace": "string",
+        "DispatchChannel": "string"
+      }
+    ],
+    "SendersReference": "string",
+    "Paragraph": "string",
+    "JournalDate": "2020-01-22T14:07:14.536Z",
+    "DispatchedDate": "2020-01-22T14:07:14.536Z",
+    "FiledOnPaper": true,
+    "Notes": "string",
+    "ReferringCases": [
+      {
+        "CaseNumber": "string"
+      }
+    ],
+    "ReferringDocuments": [
+      {
+        "DocumentNumber": "string"
+      }
+    ],
+    "Keywords": [
+      "string"
+    ],
+    "FilesFromTemplate": [
+      {
+        "Title": "string",
+        "TemplateId": "string"
+      }
+    ],
+    "Files": [
+      {
+        "Title": "string",
+        "Format": "string",
+        "Base64Data": "string",
+        "Data": [
+          {}
+        ],
+        "RelationType": "string",
+        "VersionFormat": "string",
+        "Note": "string",
+        "Category": "string",
+        "Status": "string",
+        "AccessCode": "string",
+        "DegradeCode": "string",
+        "DegradeDate": "2020-01-22T14:07:14.536Z",
+        "FiledOnPaper": true,
+        "PaperLocation": "string",
+        "UploadedFileReference": "string",
+        "AdditionalFields": {}
+      }
+    ],
+    "Remarks": [
+      {
+        "Title": "string",
+        "Content": "string",
+        "RemarkType": "string"
+      }
+    ],
+    "Project": "string",
+    "AdditionalFields": [
+      {
+        "Name": "string",
+        "Value": "string"
+      }
+    ],
+    "Estates": [
+      {
+        "Recno": 0,
+        "ExternalId": "string",
+        "Role": "string"
+      }
+    ],
+    "RevisionStatus": "string",
+    "SubArchive": "string",
+    "ArchiveCodes": [
+      {
+        "ArchiveCode": "string",
+        "ArchiveType": "string",
+        "Sort": 0,
+        "IsManualText": true
+      }
+    ],
+    "RecordType": "string"
+  }
+}

@@ -1,0 +1,37 @@
+server:
+  port: 8091
+
+springfox:
+  title: 'FINT SSE Adapter Skeleton'
+  version: '@version@'
+
+fint:
+  p360:
+    defaults:
+      casetype:
+        tilskudd-fartoy:
+          noekkelord:
+          klassifikasjon: Fartøy
+
+  adapter:
+    endpoints:
+      sse: /sse/%s
+      status: /status
+      response: /response
+      providers:
+        arkiv: https://alpha.felleskomponent.no/administrasjon/arkiv/provider
+        kulturminne: https://alpha.felleskomponent.no/kultur/kulturminnevern/provider
+    organizations: fintlabs.no
+
+  oauth:
+    enabled: true
+  #    username:
+  #    password:
+  #    client-id:
+  #    client-secret:
+  #    access-token-uri:
+  #    scope:
+
+security:
+  basic:
+    enabled: false

@@ -1,0 +1,51 @@
+{
+  "parameter": {
+    "ADContextUser": "string",
+    "Recno": 0,
+    "EnterpriseNumber": "string",
+    "ExternalID": "string",
+    "Name": "string",
+    "Telefax": "string",
+    "MobilePhone": "string",
+    "PhoneNumber": "string",
+    "Email": "string",
+    "PostAddress": {
+      "StreetAddress": "string",
+      "State": "string",
+      "ZipCode": "string",
+      "ZipPlace": "string",
+      "Country": "string",
+      "County": "string",
+      "Area": "string"
+    },
+    "OfficeAddress": {
+      "StreetAddress": "string",
+      "State": "string",
+      "ZipCode": "string",
+      "ZipPlace": "string",
+      "Country": "string",
+      "County": "string",
+      "Area": "string"
+    },
+    "Initials": "string",
+    "Web": "string",
+    "Categories": [
+      "string"
+    ],
+    "ParentEnterpriseNumber": "string",
+    "CustomNo1": "string",
+    "CustomNo2": "string",
+    "CustomNo3": "string",
+    "Active": true,
+    "CreatedDate": "2020-01-22T14:30:21.232Z",
+    "ModifiedDate": "2020-01-22T14:30:21.232Z",
+    "AccessGroup": "string",
+    "AdditionalFields": [
+      {
+        "Name": "string",
+        "Value": "string"
+      }
+    ],
+    "AlternativeEmail": "string"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parameter": {
+    "LastDate": "2020-01-23T13:49:49.513Z",
+    "Recno": 0,
+    "ADContextUser": "string",
+    "MaxRows": 0,
+    "Page": 0,
+    "SortingCriterion": "RecnoDescending",
+    "Code": "string",
+    "IncludeMembers": true
+  }
+}

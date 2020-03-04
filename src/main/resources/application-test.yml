@@ -1,0 +1,41 @@
+server:
+  port: 8091
+
+springfox:
+  title: 'FINT SSE Adapter Skeleton'
+  version: '@version@'
+
+fint:
+  adapter:
+    endpoints:
+      sse: /sse/%s
+      status: /status
+      response: /response
+      providers:
+        arkiv: https://beta.felleskomponent.no/administrasjon/arkiv/provider
+        kulturminne: https://beta.felleskomponent.no/kultur/kulturminnevern/provider
+    organizations: ra.no
+
+  oauth:
+    enabled: true
+
+  p360:
+    defaults:
+      casetype:
+        tilskudd-fartoy:
+          klassifikasjon: Fartøy
+          administrativEnhet: 100072
+          arkivdel: 100007
+          noekkelord:
+          saksstatus: 5
+          korrespondansepartType: 5
+          journalpostType: 110
+          journalstatus: 3
+          dokumentstatus: 1
+          dokumentType: 1
+          tilknyttetRegistreringSom: 1
+
+security:
+  basic:
+    enabled: false
+

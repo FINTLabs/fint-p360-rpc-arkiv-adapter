@@ -1,0 +1,7 @@
+{
+  "Recno": 0,
+  "DocumentNumber": "string",
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}

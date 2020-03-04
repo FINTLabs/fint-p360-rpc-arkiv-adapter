@@ -1,0 +1,158 @@
+{
+  "Documents": [
+    {
+      "Recno": 0,
+      "DocumentNumber": "string",
+      "CaseNumber": "string",
+      "CaseExternalId": {
+        "Id": "string",
+        "Type": "string"
+      },
+      "Title": "string",
+      "DocumentDate": "2020-01-22T14:07:59.380Z",
+      "JournalDate": "2020-01-22T14:07:59.380Z",
+      "Category": {
+        "Recno": 0,
+        "Code": "string",
+        "Description": "string"
+      },
+      "Type": {
+        "Recno": 0,
+        "Code": "string",
+        "Description": "string"
+      },
+      "StatusCode": "string",
+      "StatusDescription": "string",
+      "AccessCodeDescription": "string",
+      "AccessCodeCode": "string",
+      "AccessCodeRecno": "string",
+      "Paragraph": "string",
+      "ResponsibleEnterprise": {
+        "Email": "string",
+        "Recno": 0,
+        "ExternalId": "string",
+        "Referencenumber": "string",
+        "Name": "string",
+        "Url": "string",
+        "Domain": 0
+      },
+      "ResponsibleEnterpriseName": "string",
+      "ResponsiblePerson": {
+        "Email": "string",
+        "UserId": "string",
+        "Recno": 0,
+        "ExternalId": "string",
+        "Referencenumber": "string",
+        "Name": "string",
+        "Url": "string",
+        "Domain": 0
+      },
+      "ResponsiblePersonName": "string",
+      "Contacts": [
+        {
+          "ExternalId": "string",
+          "ReferenceNumber": "string",
+          "Role": "string",
+          "SearchName": "string",
+          "Address": "string",
+          "ContactRecno": "string",
+          "Country": "string",
+          "Email": "string",
+          "ZipCode": "string",
+          "ZipPlace": "string"
+        }
+      ],
+      "Files": [
+        {
+          "AccessCodeCode": "string",
+          "AccessCodeDescription": "string",
+          "Base64Data": "string",
+          "CategoryCode": "string",
+          "CategoryDescription": "string",
+          "CheckedOutBy": "string",
+          "DegradeCode": "string",
+          "DegradeDate": "2020-01-22T14:14:59.457Z",
+          "DisposalCode": "string",
+          "DisposalDate": "2020-01-22T14:14:59.457Z",
+          "FiledOnPaper": true,
+          "Format": "string",
+          "ModifiedBy": "string",
+          "Note": "string",
+          "PaperLocation": "string",
+          "Paragraph": "string",
+          "Recno": 0,
+          "RelationTypeCode": "string",
+          "RelationTypeDescription": "string",
+          "SignDate": "2020-01-22T14:14:59.457Z",
+          "StatusCode": "string",
+          "StatusDescription": "string",
+          "Title": "string",
+          "Type": "string",
+          "URL": "string",
+          "VersionFormatCode": "string",
+          "VersionFormatDescription": "string",
+          "LastChangedDate": "2020-01-22T14:14:59.457Z",
+          "AccessCodeRecno": "string"
+        }
+      ],
+      "Remarks": [
+        {
+          "Content": "string",
+          "CreatedBy": "string",
+          "CreatedDate": "string",
+          "ExpirationDate": "string",
+          "ModifiedBy": "string",
+          "ModifiedDate": "string",
+          "Title": "string",
+          "TypeCode": "string",
+          "TypeDescription": "string"
+        }
+      ],
+      "ReferringCases": [
+        "string"
+      ],
+      "ReferringDocuments": [
+        "string"
+      ],
+      "OfficialTitle": "string",
+      "CreatedDate": "string",
+      "CaseRecno": "string",
+      "LastChangedDate": "string",
+      "CustomFields": [
+        {
+          "Name": "string",
+          "Value": "string"
+        }
+      ],
+      "DocumentRowPermissions": "string",
+      "DocumentArchive": {
+        "Recno": 0,
+        "Code": "string",
+        "Description": "string"
+      },
+      "SubArchive": {
+        "Recno": 0,
+        "Code": "string",
+        "Description": "string"
+      },
+      "URL": "string",
+      "ArchiveCodes": [
+        {
+          "ArciveCode": "string",
+          "ArchiveType": "string"
+        }
+      ],
+      "RecordType": {
+        "Recno": 0,
+        "Code": "string",
+        "Description": "string"
+      },
+      "AccessGroup": "string"
+    }
+  ],
+  "TotalPageCount": 0,
+  "TotalCount": 0,
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}

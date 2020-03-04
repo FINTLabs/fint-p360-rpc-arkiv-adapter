@@ -1,0 +1,8 @@
+{
+  "parameter": {
+    "Recno": 0,
+    "IncludeFileData": true,
+    "ADContextUser": "string",
+    "IncludeCustomFields": true
+  }
+}

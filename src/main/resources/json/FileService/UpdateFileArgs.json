@@ -1,0 +1,22 @@
+{
+  "parameter": {
+    "FileRecno": 0,
+    "Comment": "string",
+    "Note": "string",
+    "Category": "string",
+    "FiledOnPaper": true,
+    "ADContextUser": "string",
+    "Data": [
+      {}
+    ],
+    "VersionFormat": "string",
+    "Title": "string",
+    "Format": "string",
+    "AdditionalFields": [
+      {
+        "Name": "string",
+        "Value": "string"
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "parameter": {
+    "ADContextUser": "string",
+    "MaxReturnedDocuments": 0,
+    "IncludeFileData": true,
+    "CaseNumber": "string",
+    "CaseExternalId": {
+      "Id": "string",
+      "Type": "string"
+    },
+    "DocumentNumber": "string",
+    "ContactReferenceNumber": "string",
+    "Title": "string",
+    "ContactExternalId": "string",
+    "IncludeRemarks": true,
+    "IncludeReferringCases": true,
+    "IncludeReferringDocuments": true,
+    "AdditionalFields": [
+      {
+        "Name": "string",
+        "Value": "string"
+      }
+    ],
+    "LastDate": "2020-01-22T14:07:59.360Z",
+    "Recno": 0,
+    "OnlyPublicInfo": true,
+    "Page": 0,
+    "SortingCriterion": "RecnoDescending",
+    "IncludeCustomFields": true,
+    "IncludeAccessMatrixRowPermissions": true,
+    "DateCriteria": [
+      {
+        "DateName": "string",
+        "Operator": "string",
+        "DateValue": "2020-01-22T14:07:59.360Z"
+      }
+    ],
+    "ContactRecnos": [
+      0
+    ],
+    "DocumentArchive": "string",
+    "AdditionalListFields": [
+      {
+        "Name": "string",
+        "Value": {}
+      }
+    ],
+    "SubArchive": "string",
+    "ArchiveCode": "string",
+    "RecordType": "string",
+    "IncludeFiles": true
+  }
+}

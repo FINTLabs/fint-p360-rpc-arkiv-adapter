@@ -1,0 +1,66 @@
+{
+  "PrivatePersons": [
+    {
+      "Recno": 0,
+      "FirstName": "string",
+      "MiddleName": "string",
+      "LastName": "string",
+      "PersonalIdNumber": "string",
+      "ExternalID": "string",
+      "PhoneNumber": "string",
+      "MobilePhone": "string",
+      "Email": "string",
+      "PrivateAddress": {
+        "StreetAddress": "string",
+        "State": "string",
+        "ZipCode": "string",
+        "ZipPlace": "string",
+        "Country": "string",
+        "County": "string",
+        "Area": "string"
+      },
+      "PostAddress": {
+        "StreetAddress": "string",
+        "State": "string",
+        "ZipCode": "string",
+        "ZipPlace": "string",
+        "Country": "string",
+        "County": "string",
+        "Area": "string"
+      },
+      "WorkAddress": {
+        "StreetAddress": "string",
+        "State": "string",
+        "ZipCode": "string",
+        "ZipPlace": "string",
+        "Country": "string",
+        "County": "string",
+        "Area": "string"
+      },
+      "Gender": "Female",
+      "Categories": [
+        "string"
+      ],
+      "CustomNo1": "string",
+      "CustomNo2": "string",
+      "CustomNo3": "string",
+      "Active": true,
+      "CreatedDate": "2020-01-22T14:27:56.517Z",
+      "ModifiedDate": "2020-01-22T14:27:56.517Z",
+      "Title": "string",
+      "AccessGroup": "string",
+      "AdditionalFields": [
+        {
+          "Name": "string",
+          "Value": "string"
+        }
+      ],
+      "AlternativeEmail": "string"
+    }
+  ],
+  "TotalPageCount": 0,
+  "TotalCount": 0,
+  "Successful": true,
+  "ErrorMessage": "string",
+  "ErrorDetails": "string"
+}
