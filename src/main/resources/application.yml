@@ -20,7 +20,6 @@ fint:
       response: /response
       providers:
         arkiv: https://alpha.felleskomponent.no/administrasjon/arkiv/provider
-        kulturminne: https://alpha.felleskomponent.no/kultur/kulturminnevern/provider
     organizations: fintlabs.no
 
   oauth:

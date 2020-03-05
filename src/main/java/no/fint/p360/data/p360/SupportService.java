@@ -38,4 +38,10 @@ public class SupportService extends P360Service {
     public boolean ping()  {
         return getHealth("SupportService/Ping");
     }
-}
+
+    public String getSIFVersion() {
+        return call("SupportService/GetSIFVersion" , null, String.class);
+    }
+
+    }
+

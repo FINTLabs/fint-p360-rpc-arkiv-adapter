@@ -92,7 +92,7 @@ public class EventHandlerService {
         try {
             if (healthCheck()) {
                 healthCheckEvent.addData(new Health("adapter", HealthStatus.APPLICATION_HEALTHY));
-                //healthCheckEvent.setMessage("Connected to SIF version " + supportService.getSIFVersion());
+                healthCheckEvent.setMessage("Connected to SIF version " + supportService.getSIFVersion());
             } else {
                 healthCheckEvent.addData(new Health("adapter", HealthStatus.APPLICATION_UNHEALTHY));
                 healthCheckEvent.setMessage("The adapter is unable to communicate with the application.");

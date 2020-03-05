@@ -58,7 +58,9 @@ public class CaseService extends P360Service {
 
         if (caseResult.size() == 1) {
             return caseResult.get(0);
-        } else{
+        } else if (caseResult.size() == 0){
+            throw new GetTilskuddFartoyNotFoundException("Zero cases found");
+        }else {
             throw new GetTilskuddFartoyNotFoundException("More than one case found");
         }
     }
