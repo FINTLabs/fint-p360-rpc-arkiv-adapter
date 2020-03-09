@@ -41,6 +41,10 @@ public class TitleService {
     }
 
     public void parseTitle(Object object, String title) {
+        if (formats == null){
+            log.warn("No formats defined!");
+            return;
+        }
         String format = formats.get(resourceName(object));
         if (StringUtils.isBlank(format)) {
             log.warn("No format defined for {}", resourceName(object));

@@ -40,7 +40,7 @@ public class SupportService extends P360Service {
     }
 
     public String getSIFVersion() {
-        return call("SupportService/GetSIFVersion" , null, String.class);
+        return call("SupportService/GetSIFVersion" , "", String.class);
     }
 
     }
