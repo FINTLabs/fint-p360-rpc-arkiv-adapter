@@ -61,6 +61,11 @@ public class SseInitializer {
 
     @Scheduled(initialDelay = 20000L, fixedDelay = 5000L)
     public void checkSseConnection() {
+        if (sseClients.isEmpty()) {
+            log.warn("Reinitializing SSE connections!");
+            init();
+            return;
+        }
         try {
             Map<String, Long> expired = sseClients
                     .stream()
