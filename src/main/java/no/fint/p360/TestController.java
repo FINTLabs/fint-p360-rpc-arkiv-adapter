@@ -20,6 +20,11 @@ public class TestController {
     @Autowired
     private AccessGroupService accessGroupService;
 
+    @GetMapping(value = "version", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getVersion() {
+        return supportService.getSIFVersion();
+    }
+
     @GetMapping(value = "codelist", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getCodelist(@RequestParam String id) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(supportService.getCodeTable(id));

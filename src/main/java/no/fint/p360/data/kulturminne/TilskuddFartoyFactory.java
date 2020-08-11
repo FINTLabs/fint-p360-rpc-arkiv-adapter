@@ -86,36 +86,34 @@ public class TilskuddFartoyFactory {
 
         CreateCaseArgs createCaseArgs = new CreateCaseArgs();
 
-        Parameter parameter = new Parameter();
+        createCaseArgs.setTitle(titleService.getTitle(tilskuddFartoy));
+        tilskuddFartoyDefaults.applyDefaultsToCreateCaseParameter(createCaseArgs);
 
-        parameter.setTitle(titleService.getTitle(tilskuddFartoy));
-        tilskuddFartoyDefaults.applyDefaultsToCreateCaseParameter(parameter);
-
-        parameter.setExternalId(P360Utils.getExternalIdParameter(tilskuddFartoy.getSoknadsnummer()));
+        createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFartoy.getSoknadsnummer()));
 
         applyParameterFromLink(
                 tilskuddFartoy.getAdministrativEnhet(),
-                s -> parameter.setResponsibleEnterpriseRecno(Integer.valueOf(s))
+                s -> createCaseArgs.setResponsibleEnterpriseRecno(Integer.valueOf(s))
         );
 
         applyParameterFromLink(
                 tilskuddFartoy.getArkivdel(),
-                parameter::setSubArchive
+                createCaseArgs::setSubArchive
         );
 
         applyParameterFromLink(
                 tilskuddFartoy.getSaksstatus(),
-                parameter::setStatus
+                createCaseArgs::setStatus
         );
 
         if (tilskuddFartoy.getSkjerming() != null) {
             applyParameterFromLink(
                     tilskuddFartoy.getSkjerming().getTilgangsrestriksjon(),
-                    parameter::setAccessCode);
+                    createCaseArgs::setAccessCode);
 
             applyParameterFromLink(
                     tilskuddFartoy.getSkjerming().getSkjermingshjemmel(),
-                    parameter::setParagraph);
+                    createCaseArgs::setParagraph);
 
             // TODO createCaseParameter.setAccessGroup();
         }
@@ -135,7 +133,7 @@ public class TilskuddFartoyFactory {
                 .map(this::createCaseContactParameter)
                 .forEach(contacts::add);
 
-        parameter.setContacts(contacts);
+        createCaseArgs.setContacts(contacts);
 
         List<Remark> remarks = new ArrayList<>();
         if (tilskuddFartoy.getMerknad() != null) {
@@ -145,7 +143,7 @@ public class TilskuddFartoyFactory {
                     .map(this::createCaseRemarkParameter)
                     .forEach(remarks::add);
         }
-        parameter.setRemarks(remarks);
+        createCaseArgs.setRemarks(remarks);
 
         // TODO Responsible person
         /*
@@ -155,7 +153,6 @@ public class TilskuddFartoyFactory {
                 )
         );
         */
-        createCaseArgs.setParameter(parameter);
 
         return createCaseArgs;
     }

@@ -6,7 +6,6 @@ import no.fint.p360.data.utilities.FintUtils;
 import no.p360.model.SupportService.CodeTableRow;
 import no.p360.model.SupportService.GetCodeTableRowsArgs;
 import no.p360.model.SupportService.GetCodeTableRowsResponse;
-import no.p360.model.SupportService.Parameter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,9 +17,9 @@ public class SupportService extends P360Service {
 
     public GetCodeTableRowsResponse getCodeTable(String table) throws CodeTableNotFound {
         GetCodeTableRowsArgs getCodeTableRowsArgs = new GetCodeTableRowsArgs();
-        Parameter parameter = new Parameter();
-        parameter.setCodeTableName(table);
-        getCodeTableRowsArgs.setParameter(parameter);
+        getCodeTableRowsArgs.setCodeTableName(table);
+        getCodeTableRowsArgs.setLanguage("NOR");
+        getCodeTableRowsArgs.setIncludeExpiredValues(true);
         GetCodeTableRowsResponse getCodeTableRowsResponse = call("SupportService/GetCodeTableRows", getCodeTableRowsArgs, GetCodeTableRowsResponse.class);
         if (getCodeTableRowsResponse.getSuccessful()) {
             return getCodeTableRowsResponse;

@@ -14,10 +14,8 @@ public class ContactService extends P360Service {
 
     public PrivatePerson getPrivatePersonByRecno(int recno) {
         GetPrivatePersonsArgs getPrivatePersonsArgs = new GetPrivatePersonsArgs();
-        Parameter__2 parameter = new Parameter__2();
-        parameter.setRecno(recno);
-        parameter.setIncludeCustomFields(true);
-        getPrivatePersonsArgs.setParameter(parameter);
+        getPrivatePersonsArgs.setRecno(recno);
+        getPrivatePersonsArgs.setIncludeCustomFields(true);
         GetPrivatePersonsResponse getPrivatePersonsResponse = call("ContactService/GetPrivatePersons", getPrivatePersonsArgs, GetPrivatePersonsResponse.class);
         log.info("PrivatePersonsResult: {}", getPrivatePersonsResponse);
         if (getPrivatePersonsResponse.getSuccessful() && getPrivatePersonsResponse.getTotalPageCount() == 1) {
@@ -28,10 +26,8 @@ public class ContactService extends P360Service {
 
     public PrivatePerson getPrivatePersonByPersonalIdNumber(String personalIdNumber) throws PrivatePersonNotFound {
         GetPrivatePersonsArgs getPrivatePersonsArgs = new GetPrivatePersonsArgs();
-        Parameter__2 parameter = new Parameter__2();
-        parameter.setIncludeCustomFields(true);
-        parameter.setPersonalIdNumber(personalIdNumber);
-        getPrivatePersonsArgs.setParameter(parameter);
+        getPrivatePersonsArgs.setIncludeCustomFields(true);
+        getPrivatePersonsArgs.setPersonalIdNumber(personalIdNumber);
 
         GetPrivatePersonsResponse getPrivatePersonsResponse = call("ContactService/GetPrivatePersons", getPrivatePersonsArgs, GetPrivatePersonsResponse.class);
         log.info("PrivatePersonsResult: {}", getPrivatePersonsResponse);
@@ -46,10 +42,8 @@ public class ContactService extends P360Service {
 
     public ContactPerson getContactPersonByRecno(int recNo) {
         GetContactPersonsArgs getContactPersonsArgs = new GetContactPersonsArgs();
-        Parameter parameter = new Parameter();
-        parameter.setIncludeCustomFields(true);
-        parameter.setRecno(recNo);
-        getContactPersonsArgs.setParameter(parameter);
+        getContactPersonsArgs.setIncludeCustomFields(true);
+        getContactPersonsArgs.setRecno(recNo);
 
         GetContactPersonsResponse getContactPersonsResponse = call("ContactService/GetContactPersons", getContactPersonsArgs, GetContactPersonsResponse.class);
         log.info("ContactPersonsResult: {}", getContactPersonsResponse);
@@ -63,10 +57,8 @@ public class ContactService extends P360Service {
     public Enterprise getEnterpriseByRecno(int recNo) {
 
         GetEnterprisesArgs getEnterprisesArgs = new GetEnterprisesArgs();
-        Parameter__1 parameter = new Parameter__1();
-        parameter.setIncludeCustomFields(true);
-        parameter.setRecno(recNo);
-        getEnterprisesArgs.setParameter(parameter);
+        getEnterprisesArgs.setIncludeCustomFields(true);
+        getEnterprisesArgs.setRecno(recNo);
 
         GetEnterprisesResponse getEnterprisesResponse = call("ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
 
@@ -81,10 +73,8 @@ public class ContactService extends P360Service {
 
     public Enterprise getEnterpriseByEnterpriseNumber(String enterpriseNumber) throws EnterpriseNotFound {
         GetEnterprisesArgs getEnterprisesArgs = new GetEnterprisesArgs();
-        Parameter__1 parameter = new Parameter__1();
-        parameter.setIncludeCustomFields(true);
-        parameter.setEnterpriseNumber(enterpriseNumber);
-        getEnterprisesArgs.setParameter(parameter);
+        getEnterprisesArgs.setIncludeCustomFields(true);
+        getEnterprisesArgs.setEnterpriseNumber(enterpriseNumber);
 
         GetEnterprisesResponse getEnterprisesResponse = call("ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
 
@@ -99,18 +89,16 @@ public class ContactService extends P360Service {
 
     public Stream<Enterprise> searchEnterprise(Map<String, String> queryParams) {
         GetEnterprisesArgs getEnterprisesArgs = new GetEnterprisesArgs();
-        Parameter__1 parameter = new Parameter__1();
 
         if (queryParams.containsKey("navn")) {
-            parameter.setName(queryParams.get("navn"));
+            getEnterprisesArgs.setName(queryParams.get("navn"));
         }
         if (queryParams.containsKey("organisasjonsnummer")) {
-            parameter.setEnterpriseNumber(queryParams.get("organisasjonsnummer"));
+            getEnterprisesArgs.setEnterpriseNumber(queryParams.get("organisasjonsnummer"));
         }
         if (queryParams.containsKey("maxResults")) {
-            parameter.setMaxRows(Integer.valueOf(queryParams.get("maxResults")));
+            getEnterprisesArgs.setMaxRows(Integer.valueOf(queryParams.get("maxResults")));
         }
-        getEnterprisesArgs.setParameter(parameter);
 
         log.info("GetEnterprises query: {}", getEnterprisesArgs);
         GetEnterprisesResponse getEnterprisesResponse = call("ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
@@ -124,17 +112,15 @@ public class ContactService extends P360Service {
 
     public Stream<PrivatePerson> searchPrivatePerson(Map<String, String> queryParams) {
         GetPrivatePersonsArgs getPrivatePersonsArgs = new GetPrivatePersonsArgs();
-        Parameter__2 parameter = new Parameter__2();
         if (queryParams.containsKey("navn")) {
-            parameter.setName(queryParams.get("navn"));
+            getPrivatePersonsArgs.setName(queryParams.get("navn"));
         }
         if (queryParams.containsKey("maxResults")) {
-            parameter.setMaxRows(Integer.valueOf(queryParams.get("maxResults")));
+            getPrivatePersonsArgs.setMaxRows(Integer.valueOf(queryParams.get("maxResults")));
         }
         if (!queryParams.containsKey("navn")) {
             return Stream.empty();
         }
-        getPrivatePersonsArgs.setParameter(parameter);
 
         log.info("GetPrivatePersons query: {}", getPrivatePersonsArgs);
         GetPrivatePersonsResponse getPrivatePersonsResponse = call("ContactService/GetPrivatePersons", getPrivatePersonsArgs, GetPrivatePersonsResponse.class);
@@ -149,19 +135,16 @@ public class ContactService extends P360Service {
 
     public Stream<ContactPerson> searchContactPerson(Map<String, String> queryParams) {
         GetContactPersonsArgs getContactPersonsArgs = new GetContactPersonsArgs();
-        Parameter parameter = new Parameter();
 
         if (queryParams.containsKey("navn")) {
-            parameter.setName(queryParams.get("navn"));
+            getContactPersonsArgs.setName(queryParams.get("navn"));
         }
         if (queryParams.containsKey("maxResults")) {
-            parameter.setMaxRows(Integer.valueOf(queryParams.get("maxResults")));
+            getContactPersonsArgs.setMaxRows(Integer.valueOf(queryParams.get("maxResults")));
         }
         if (!queryParams.containsKey("navn")) {
             return Stream.empty();
         }
-
-        getContactPersonsArgs.setParameter(parameter);
 
         log.info("GetContactPersons query: {}", getContactPersonsArgs);
         GetContactPersonsResponse getContactPersonsResponse = call("ContactService/GetContactPersons", getContactPersonsArgs, GetContactPersonsResponse.class);

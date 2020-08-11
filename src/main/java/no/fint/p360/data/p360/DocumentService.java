@@ -24,11 +24,9 @@ public class DocumentService extends P360Service {
 
     public Document__1 getDocumentBySystemId(String systemId) throws GetDocumentException {
         GetDocumentsArgs getDocumentsArgs = new GetDocumentsArgs();
-        Parameter__2 parameter = new Parameter__2();
-        parameter.setRecno(Integer.valueOf(systemId));
-        parameter.setIncludeRemarks(Boolean.TRUE);
-        parameter.setIncludeCustomFields(Boolean.TRUE);
-        getDocumentsArgs.setParameter(parameter);
+        getDocumentsArgs.setRecno(Integer.valueOf(systemId));
+        getDocumentsArgs.setIncludeRemarks(Boolean.TRUE);
+        getDocumentsArgs.setIncludeCustomFields(Boolean.TRUE);
 
         GetDocumentsResponse getDocumentsResponse = call("DocumentService/GetDocuments", getDocumentsArgs, GetDocumentsResponse.class);
 
