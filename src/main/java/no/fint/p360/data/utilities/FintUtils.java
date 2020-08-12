@@ -1,11 +1,14 @@
 package no.fint.p360.data.utilities;
 
 import lombok.extern.slf4j.Slf4j;
+import no.fint.model.felles.kodeverk.iso.Landkode;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.felles.kompleksedatatyper.Personnavn;
+import no.fint.model.resource.Link;
 import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.p360.model.ContactService.*;
+import no.p360.model.DocumentService.Contact__1;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
@@ -29,10 +32,6 @@ public enum FintUtils {
         Identifikator identifikator = new Identifikator();
         identifikator.setIdentifikatorverdi(value);
         return identifikator;
-    }
-
-    public static boolean validIdentifikator(Identifikator input) {
-        return Objects.nonNull(input) && StringUtils.isNotBlank(input.getIdentifikatorverdi());
     }
 
     public static Date parseDate(String value) {
@@ -68,6 +67,16 @@ public enum FintUtils {
 
     public static AdresseResource createAdresse(ContactPerson result) {
         return optionalValue(result.getPostAddress()).map(FintUtils::createAddressResource).orElse(null);
+    }
+
+    public static AdresseResource createAdresseResource(Contact__1 address) {
+        AdresseResource adresseResource = new AdresseResource();
+        adresseResource.setAdresselinje(Collections.singletonList(address.getAddress()));
+        adresseResource.setPoststed(address.getZipPlace());
+        adresseResource.setPostnummer(address.getZipCode());
+        if (StringUtils.isNotBlank(address.getCountry()))
+            adresseResource.addLand(Link.with(Landkode.class, "systemid", address.getCountry()));
+        return adresseResource;
     }
 
     private static AdresseResource createAdresseResource(PostAddress__2 address) {
@@ -140,5 +149,9 @@ public enum FintUtils {
         optionalValue(mobilePhone).ifPresent(kontaktinformasjon::setMobiltelefonnummer);
         optionalValue(phoneNumber).ifPresent(kontaktinformasjon::setTelefonnummer);
         return kontaktinformasjon;
+    }
+
+    public static Kontaktinformasjon createKontaktinformasjon(Contact__1 contact) {
+        return getKontaktinformasjon(contact.getEmail(), null, null);
     }
 }
