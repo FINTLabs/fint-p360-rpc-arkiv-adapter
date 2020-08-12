@@ -72,53 +72,49 @@ public class KorrespondansepartFactory {
 
     public SynchronizePrivatePersonArgs toPrivatePerson(KorrespondansepartResource korrespondansepartResource) {
         SynchronizePrivatePersonArgs synchronizePrivatePersonArgs = new SynchronizePrivatePersonArgs();
-        Parameter__5 parameter = new Parameter__5();
         Personnavn personnavn = parsePersonnavn(korrespondansepartResource.getKorrespondansepartNavn());
-        parameter.setFirstName(personnavn.getFornavn());
-        parameter.setLastName(personnavn.getEtternavn());
-        parameter.setPersonalIdNumber(
+        synchronizePrivatePersonArgs.setFirstName(personnavn.getFornavn());
+        synchronizePrivatePersonArgs.setLastName(personnavn.getEtternavn());
+        synchronizePrivatePersonArgs.setPersonalIdNumber(
                 korrespondansepartResource.getFodselsnummer().getIdentifikatorverdi());
 
         ofNullable(korrespondansepartResource.getKontaktinformasjon())
                 .map(Kontaktinformasjon::getEpostadresse)
-                .ifPresent(parameter::setEmail);
+                .ifPresent(synchronizePrivatePersonArgs::setEmail);
 
         ofNullable(korrespondansepartResource.getKontaktinformasjon())
                 .map(Kontaktinformasjon::getMobiltelefonnummer)
-                .ifPresent(parameter::setMobilePhone);
+                .ifPresent(synchronizePrivatePersonArgs::setMobilePhone);
 
-        parameter.setPrivateAddress(createAddress(korrespondansepartResource.getAdresse(), new PrivateAddress__3()));
+        synchronizePrivatePersonArgs.setPrivateAddress(createAddress(korrespondansepartResource.getAdresse(), new PrivateAddress__3()));
 
-        synchronizePrivatePersonArgs.setParameter(parameter);
         return synchronizePrivatePersonArgs;
     }
 
     public SynchronizeEnterpriseArgs toEnterprise(KorrespondansepartResource korrespondansepartResource) {
         SynchronizeEnterpriseArgs synchronizeEnterpriseArgs = new SynchronizeEnterpriseArgs();
-        Parameter__4 parameter = new Parameter__4();
 
-        parameter.setName(korrespondansepartResource.getKorrespondansepartNavn());
-        parameter.setEnterpriseNumber(korrespondansepartResource.getOrganisasjonsnummer().getIdentifikatorverdi());
+        synchronizeEnterpriseArgs.setName(korrespondansepartResource.getKorrespondansepartNavn());
+        synchronizeEnterpriseArgs.setEnterpriseNumber(korrespondansepartResource.getOrganisasjonsnummer().getIdentifikatorverdi());
 
         ofNullable(korrespondansepartResource.getKontaktinformasjon())
                 .map(Kontaktinformasjon::getEpostadresse)
-                .ifPresent(parameter::setEmail);
+                .ifPresent(synchronizeEnterpriseArgs::setEmail);
 
         ofNullable(korrespondansepartResource.getKontaktinformasjon())
                 .map(Kontaktinformasjon::getMobiltelefonnummer)
-                .ifPresent(parameter::setMobilePhone);
+                .ifPresent(synchronizeEnterpriseArgs::setMobilePhone);
 
         ofNullable(korrespondansepartResource.getKontaktinformasjon())
                 .map(Kontaktinformasjon::getTelefonnummer)
-                .ifPresent(parameter::setPhoneNumber);
+                .ifPresent(synchronizeEnterpriseArgs::setPhoneNumber);
 
         ofNullable(korrespondansepartResource.getKontaktinformasjon())
                 .map(Kontaktinformasjon::getNettsted)
-                .ifPresent(parameter::setWeb);
+                .ifPresent(synchronizeEnterpriseArgs::setWeb);
 
-        parameter.setPostAddress(createAddress(korrespondansepartResource.getAdresse(), new PostAddress__4()));
+        synchronizeEnterpriseArgs.setPostAddress(createAddress(korrespondansepartResource.getAdresse(), new PostAddress__4()));
 
-        synchronizeEnterpriseArgs.setParameter(parameter);
         return synchronizeEnterpriseArgs;
     }
 

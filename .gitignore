@@ -17,3 +17,4 @@ generated-sources
 /.settings/
 /bin/
 /.vscode/
+/src/main/resources/application-*.properties

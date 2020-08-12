@@ -1,6 +1,4 @@
 {
-  "parameter": {
-    "Recno": 0,
-    "ADContextUser": "string"
-  }
+  "Recno": 0,
+  "ADContextUser": "string"
 }

@@ -15,16 +15,16 @@ public class CaseService extends P360Service {
 
     public Case getCaseByCaseNumber(String caseNumber) throws GetTilskuddFartoyNotFoundException {
 
-        GetCasesArgs getCasesArgs = CreateGetCaseArgsWithParameter();
-        getCasesArgs.getParameter().setCaseNumber(caseNumber);
+        GetCasesArgs getCasesArgs = new GetCasesArgs();
+        getCasesArgs.setCaseNumber(caseNumber);
 
         return getCase(getCasesArgs);
     }
 
     public Case getCaseBySystemId(String systemId) throws GetTilskuddFartoyNotFoundException {
 
-        GetCasesArgs getCasesArgs = CreateGetCaseArgsWithParameter();
-        getCasesArgs.getParameter().setRecno(Integer.valueOf(systemId));
+        GetCasesArgs getCasesArgs = new GetCasesArgs();
+        getCasesArgs.setRecno(Integer.valueOf(systemId));
 
         return getCase(getCasesArgs);
     }
@@ -35,19 +35,19 @@ public class CaseService extends P360Service {
         id.setId(externalId);
         id.setType(Constants.EXTERNAL_ID_TYPE);
 
-        GetCasesArgs getCasesArgs = CreateGetCaseArgsWithParameter();
-        getCasesArgs.getParameter().setExternalId(id);
+        GetCasesArgs getCasesArgs = new GetCasesArgs();
+        getCasesArgs.setExternalId(id);
 
         return getCase(getCasesArgs);
     }
 
     public List<Case> getCasesByTitle(String title, String maxReturnedCases) {
 
-        GetCasesArgs getCasesArgs = CreateGetCaseArgsWithParameter();
-        getCasesArgs.getParameter().setTitle(title);
+        GetCasesArgs getCasesArgs = new GetCasesArgs();
+        getCasesArgs.setTitle(title);
 
         if (maxReturnedCases != null)
-            getCasesArgs.getParameter().setMaxReturnedCases(Integer.parseInt(maxReturnedCases));
+            getCasesArgs.setMaxReturnedCases(Integer.parseInt(maxReturnedCases));
 
         return getCases(getCasesArgs);
     }
@@ -80,14 +80,6 @@ public class CaseService extends P360Service {
             throw new CreateCaseException(response.getErrorDetails());
 
         return response.getCaseNumber();
-    }
-
-    private static GetCasesArgs CreateGetCaseArgsWithParameter() {
-
-        GetCasesArgs getCasesArgs = new GetCasesArgs();
-        getCasesArgs.setParameter(new Parameter__1());
-
-        return getCasesArgs;
     }
 
     public boolean ping()  {

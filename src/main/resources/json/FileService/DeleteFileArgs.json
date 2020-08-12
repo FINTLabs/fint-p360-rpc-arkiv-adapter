@@ -1,6 +1,4 @@
 {
-  "parameter": {
-    "FileRecno": 0,
-    "ADContextUser": "string"
-  }
+  "FileRecno": 0,
+  "ADContextUser": "string"
 }

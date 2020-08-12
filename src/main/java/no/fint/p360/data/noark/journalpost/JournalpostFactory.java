@@ -176,21 +176,20 @@ public class JournalpostFactory {
     public CreateDocumentArgs toP360(JournalpostResource journalpostResource, String caseNumber) {
 
         CreateDocumentArgs createDocumentArgs = new CreateDocumentArgs();
-        Parameter parameter = new Parameter();
 //        createDocumentParameter.setADContextUser(objectFactory.createDocumentParameterBaseADContextUser(adapterProps.getP360User()));
 
-        parameter.setTitle(journalpostResource.getOffentligTittel());
-        parameter.setUnofficialTitle(journalpostResource.getTittel());
-        parameter.setCaseNumber(caseNumber);
+        createDocumentArgs.setTitle(journalpostResource.getOffentligTittel());
+        createDocumentArgs.setUnofficialTitle(journalpostResource.getTittel());
+        createDocumentArgs.setCaseNumber(caseNumber);
 
         if (journalpostResource.getSkjerming() != null) {
             applyParameterFromLink(
                     journalpostResource.getSkjerming().getTilgangsrestriksjon(),
-                    parameter::setAccessCode);
+                    createDocumentArgs::setAccessCode);
 
             applyParameterFromLink(
                     journalpostResource.getSkjerming().getSkjermingshjemmel(),
-                    parameter::setParagraph);
+                    createDocumentArgs::setParagraph);
 
             // TODO createDocumentParameter.setAccessGroup();
         }
@@ -200,18 +199,18 @@ public class JournalpostFactory {
 
         applyParameterFromLink(
                 journalpostResource.getJournalposttype(),
-                parameter::setCategory);
+                createDocumentArgs::setCategory);
 
         applyParameterFromLink(
                 journalpostResource.getJournalstatus(),
-                parameter::setStatus);
+                createDocumentArgs::setStatus);
 
         //Todo: Testing here, to see if contacts are added to the Parameter eventhough we never say parameter.setContacts
         ofNullable(journalpostResource.getKorrespondansepart()).ifPresent(korrespondanseResources -> {
             korrespondanseResources
                     .stream()
                     .map(this::createDocumentContact)
-                    .forEach(parameter.getContacts()::add);
+                    .forEach(createDocumentArgs.getContacts()::add);
         });
 
         ofNullable(journalpostResource.getDokumentbeskrivelse()).ifPresent(dokumentbeskrivelseResources -> {
@@ -219,16 +218,15 @@ public class JournalpostFactory {
                     .stream()
                     .peek(r -> log.info("Handling Dokumentbeskrivelse: {}", r))
                     .flatMap(this::createFiles)
-                    .forEach(parameter.getFiles()::add);
+                    .forEach(createDocumentArgs.getFiles()::add);
         });
 
         ofNullable(journalpostResource.getMerknad()).ifPresent(merknadResources -> {
             merknadResources
                     .stream()
                     .map(this::createDocumentRemarkParameter)
-                    .forEach(parameter.getRemarks()::add);
+                    .forEach(createDocumentArgs.getRemarks()::add);
         });
-        createDocumentArgs.setParameter(parameter);
         return createDocumentArgs;
     }
 

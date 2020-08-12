@@ -8,7 +8,7 @@ import no.fint.p360.CaseDefaults;
 import no.fint.p360.data.CaseProperties;
 import no.fint.p360.data.utilities.Constants;
 import no.p360.model.CaseService.ArchiveCode;
-import no.p360.model.CaseService.Parameter;
+import no.p360.model.CaseService.CreateCaseArgs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -122,11 +122,11 @@ public class TilskuddFartoyDefaults {
         });
     }
 
-    public void applyDefaultsToCreateCaseParameter(Parameter parameter) {
+    public void applyDefaultsToCreateCaseParameter(CreateCaseArgs createCaseArgs) {
 
-        parameter.setKeywords(Arrays.asList(properties.getNoekkelord()));
-        parameter.setFiledOnPaper(false);
-        parameter.setCaseType(Constants.CASE_TYPE_NOARK);
+        createCaseArgs.setKeywords(Arrays.asList(properties.getNoekkelord()));
+        createCaseArgs.setFiledOnPaper(false);
+        createCaseArgs.setCaseType(Constants.CASE_TYPE_NOARK);
 
         List<ArchiveCode> archiveCodes = new ArrayList<>();
         ArchiveCode archiveCode = new ArchiveCode();
@@ -136,6 +136,6 @@ public class TilskuddFartoyDefaults {
         archiveCode.setIsManualText(false);
         archiveCodes.add(archiveCode);
 
-        parameter.setArchiveCodes(archiveCodes);
+        createCaseArgs.setArchiveCodes(archiveCodes);
     }
 }
