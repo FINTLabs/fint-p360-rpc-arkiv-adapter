@@ -8,18 +8,15 @@ import no.fint.model.resource.administrasjon.arkiv.JournalpostResource;
 import no.fint.model.resource.administrasjon.arkiv.MerknadResource;
 import no.fint.model.resource.administrasjon.arkiv.PartsinformasjonResource;
 import no.fint.model.resource.kultur.kulturminnevern.TilskuddFartoyResource;
-import no.fint.p360.data.exception.GetDocumentException;
-import no.fint.p360.data.exception.IllegalCaseNumberFormat;
-import no.fint.p360.data.exception.NoSuchTitleDimension;
-import no.fint.p360.data.exception.UnableToParseTitle;
+import no.fint.p360.data.exception.*;
 import no.fint.p360.data.noark.common.NoarkFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
-import no.fint.p360.data.utilities.FintUtils;
-import no.fint.p360.data.utilities.NOARKUtils;
-import no.fint.p360.data.utilities.P360Utils;
-import no.fint.p360.data.utilities.TitleParser;
+import no.fint.p360.data.utilities.*;
 import no.fint.p360.service.TitleService;
-import no.p360.model.CaseService.*;
+import no.p360.model.CaseService.Case;
+import no.p360.model.CaseService.Contact;
+import no.p360.model.CaseService.CreateCaseArgs;
+import no.p360.model.CaseService.Remark;
 import no.p360.model.DocumentService.CreateDocumentArgs;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +43,10 @@ public class TilskuddFartoyFactory {
     @Autowired
     TitleService titleService;
 
-    public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat {
+    public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddfartoyException {
+        if (!isTilskuddFartoy(caseResult)) {
+            throw new NotTilskuddfartoyException(caseResult.getCaseNumber());
+        }
 
         TilskuddFartoyResource tilskuddFartoy = new TilskuddFartoyResource();
         String caseNumber = caseResult.getCaseNumber();
@@ -73,14 +73,6 @@ public class TilskuddFartoyFactory {
         return tilskuddFartoy;
     }
 
-
-    public List<TilskuddFartoyResource> toFintResourceList(List<Case> caseResults) throws GetDocumentException, IllegalCaseNumberFormat {
-        List<TilskuddFartoyResource> result = new ArrayList<>(caseResults.size());
-        for (Case caseResult : caseResults) {
-            result.add(toFintResource(caseResult));
-        }
-        return result;
-    }
 
     public CreateCaseArgs convertToCreateCase(TilskuddFartoyResource tilskuddFartoy) {
 
@@ -201,4 +193,17 @@ public class TilskuddFartoyFactory {
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
         return journalpostFactory.toP360(journalpostResource, caseNumber);
     }
+
+    // TODO: 2019-05-11 Should we check for both archive classification and external id (is it a digisak)
+    // TODO Compare with CaseProperties
+    private boolean isTilskuddFartoy(Case caseResult) {
+
+        if (FintUtils.optionalValue(caseResult.getExternalId()).isPresent() && FintUtils.optionalValue(caseResult.getArchiveCodes()).isPresent()) {
+            return caseResult.getExternalId().getType().equals(Constants.EXTERNAL_ID_TYPE);
+        }
+
+        return false;
+
+    }
+
 }
