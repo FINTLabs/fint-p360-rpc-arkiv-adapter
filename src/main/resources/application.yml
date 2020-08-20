@@ -6,20 +6,12 @@ springfox:
   version: '@version@'
 
 fint:
-  p360:
-    defaults:
-      casetype:
-        tilskudd-fartoy:
-          noekkelord:
-          klassifikasjon: Fartøy
-
   adapter:
     endpoints:
       sse: /sse/%s
       status: /status
       response: /response
       providers:
-        arkiv: https://alpha.felleskomponent.no/administrasjon/arkiv/provider
     organizations: fintlabs.no
 
   oauth:
