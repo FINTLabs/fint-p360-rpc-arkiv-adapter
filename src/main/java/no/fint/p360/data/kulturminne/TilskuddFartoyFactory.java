@@ -12,11 +12,9 @@ import no.fint.p360.data.exception.*;
 import no.fint.p360.data.noark.common.NoarkFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.data.utilities.*;
+import no.fint.p360.service.AdditionalFieldService;
 import no.fint.p360.service.TitleService;
-import no.p360.model.CaseService.Case;
-import no.p360.model.CaseService.Contact;
-import no.p360.model.CaseService.CreateCaseArgs;
-import no.p360.model.CaseService.Remark;
+import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.CreateDocumentArgs;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
@@ -38,10 +37,10 @@ public class TilskuddFartoyFactory {
     private JournalpostFactory journalpostFactory;
 
     @Autowired
-    private TilskuddFartoyDefaults tilskuddFartoyDefaults;
+    TitleService titleService;
 
     @Autowired
-    TitleService titleService;
+    AdditionalFieldService additionalFieldService;
 
     public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddfartoyException {
         if (!isTilskuddFartoy(caseResult)) {
@@ -79,7 +78,17 @@ public class TilskuddFartoyFactory {
         CreateCaseArgs createCaseArgs = new CreateCaseArgs();
 
         createCaseArgs.setTitle(titleService.getTitle(tilskuddFartoy));
-        tilskuddFartoyDefaults.applyDefaultsToCreateCaseParameter(createCaseArgs);
+
+        createCaseArgs.setAdditionalFields(
+                additionalFieldService.getFieldsForResource(tilskuddFartoy)
+                        .peek(System.out::println)
+                        .map(it -> {
+                            AdditionalField additionalField = new AdditionalField();
+                            additionalField.setName(it.getName());
+                            additionalField.setValue(it.getValue());
+                            return additionalField;
+                        }).collect(Collectors.toList())
+        );
 
         createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFartoy.getSoknadsnummer()));
 

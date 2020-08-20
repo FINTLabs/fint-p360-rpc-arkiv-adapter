@@ -66,6 +66,7 @@ public class CaseService extends P360Service {
     }
 
     public List<Case> getCases(GetCasesArgs getCasesArgs) {
+        getCasesArgs.setIncludeCustomFields(true);
 
         GetCasesResponse response = call("CaseService/GetCases", getCasesArgs, GetCasesResponse.class);
         if (!response.getSuccessful()) {

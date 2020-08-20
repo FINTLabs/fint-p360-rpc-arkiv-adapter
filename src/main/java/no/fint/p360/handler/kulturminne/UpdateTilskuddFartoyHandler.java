@@ -8,6 +8,7 @@ import no.fint.event.model.ResponseStatus;
 import no.fint.model.kultur.kulturminnevern.KulturminnevernActions;
 import no.fint.model.resource.FintLinks;
 import no.fint.model.resource.kultur.kulturminnevern.TilskuddFartoyResource;
+import no.fint.p360.CaseDefaults;
 import no.fint.p360.data.exception.*;
 import no.fint.p360.data.kulturminne.TilskuddFartoyFactory;
 import no.fint.p360.data.kulturminne.TilskuddfartoyService;
@@ -19,6 +20,7 @@ import no.fint.p360.service.CaseDefaultsService;
 import no.fint.p360.service.CaseQueryService;
 import no.fint.p360.service.ValidationService;
 import no.p360.model.CaseService.Case;
+import no.p360.model.CaseService.CreateCaseArgs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,9 @@ public class UpdateTilskuddFartoyHandler implements Handler {
 
     @Autowired
     private TilskuddFartoyFactory tilskuddFartoyFactory;
+
+    @Autowired
+    private CaseDefaults caseDefaults;
 
     @Autowired
     private CaseDefaultsService caseDefaultsService;
@@ -65,14 +70,14 @@ public class UpdateTilskuddFartoyHandler implements Handler {
         TilskuddFartoyResource tilskuddFartoyResource = objectMapper.convertValue(response.getData().get(0), TilskuddFartoyResource.class);
 
         if (operation == Operation.CREATE) {
-            caseDefaultsService.applyDefaultsForCreation("tilskudd-fartoy", tilskuddFartoyResource);
+            caseDefaultsService.applyDefaultsForCreation(caseDefaults.getTilskuddfartoy(), tilskuddFartoyResource);
             log.info("Case: {}", tilskuddFartoyResource);
             if (!validationService.validate(response, tilskuddFartoyResource)) {
                 return;
             }
             createCase(response, tilskuddFartoyResource);
         } else if (operation == Operation.UPDATE) {
-            caseDefaultsService.applyDefaultsForUpdate("tilskudd-fartoy", tilskuddFartoyResource);
+            caseDefaultsService.applyDefaultsForUpdate(caseDefaults.getTilskuddfartoy(), tilskuddFartoyResource);
             if (!validationService.validate(response, tilskuddFartoyResource.getJournalpost())) {
                 return;
             }
@@ -107,7 +112,13 @@ public class UpdateTilskuddFartoyHandler implements Handler {
 
     private void createCase(Event<FintLinks> response, TilskuddFartoyResource tilskuddFartoyResource) {
         try {
-            String caseNumber = caseService.createCase(tilskuddFartoyFactory.convertToCreateCase(tilskuddFartoyResource));
+            final CreateCaseArgs createCaseArgs =
+                    caseDefaultsService
+                            .applyDefaultsToCreateCaseParameter(
+                                    caseDefaults.getTilskuddfartoy(),
+                                    tilskuddFartoyFactory.convertToCreateCase(
+                                            tilskuddFartoyResource));
+            String caseNumber = caseService.createCase(createCaseArgs);
             createDocumentsForCase(tilskuddFartoyResource, caseNumber);
             tilskuddfartoyService.getTilskuddFartoyForQuery("mappeid/" + caseNumber, response);
         } catch (CreateCaseException | CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotTilskuddfartoyException e) {

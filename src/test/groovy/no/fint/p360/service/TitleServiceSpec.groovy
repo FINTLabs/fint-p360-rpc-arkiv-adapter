@@ -2,14 +2,14 @@ package no.fint.p360.service
 
 import no.fint.model.felles.kompleksedatatyper.Identifikator
 import no.fint.model.resource.kultur.kulturminnevern.TilskuddFartoyResource
-import no.fint.p360.TitleFormats
+import no.fint.p360.CustomFormats
 import spock.lang.Specification
 
 class TitleServiceSpec extends Specification {
     TitleService titleService
 
     void setup() {
-        titleService = new TitleService(new TitleFormats(format: [
+        titleService = new TitleService(new CustomFormats(title: [
                 'tilskuddfartoy': '${kallesignal} - ${fartoyNavn} - Tilskudd - ${kulturminneId} - ${soknadsnummer.identifikatorverdi}'
         ]))
     }

@@ -4,26 +4,21 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.model.administrasjon.arkiv.*;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.arkiv.SaksmappeResource;
-import no.fint.p360.CaseDefaults;
 import no.fint.p360.data.CaseProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import no.fint.p360.data.utilities.Constants;
+import no.p360.model.CaseService.ArchiveCode;
+import no.p360.model.CaseService.CreateCaseArgs;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @Slf4j
 public class CaseDefaultsService {
-    @Autowired
-    private CaseDefaults caseDefaults;
 
-    @PostConstruct
-    public void init() {
-        log.info("Case Defaults: {}", caseDefaults);
-    }
-
-    public void applyDefaultsForCreation(String caseType, SaksmappeResource resource) {
-        CaseProperties properties = caseDefaults.getCasetype().get(caseType);
+    public void applyDefaultsForCreation(CaseProperties properties, SaksmappeResource resource) {
         if (properties == null) {
             return;
         }
@@ -48,11 +43,10 @@ public class CaseDefaultsService {
                     properties.getAdministrativEnhet()
             ));
         }
-        applyDefaultsForUpdate(caseType, resource);
+        applyDefaultsForUpdate(properties, resource);
     }
 
-    public void applyDefaultsForUpdate(String caseType, SaksmappeResource resource) {
-        CaseProperties properties = caseDefaults.getCasetype().get(caseType);
+    public void applyDefaultsForUpdate(CaseProperties properties, SaksmappeResource resource) {
         if (properties == null) {
             return;
         }
@@ -126,5 +120,25 @@ public class CaseDefaultsService {
             }
         });
     }
+
+    public CreateCaseArgs applyDefaultsToCreateCaseParameter(CaseProperties properties, CreateCaseArgs createCaseArgs) {
+
+        createCaseArgs.setKeywords(Arrays.asList(properties.getNoekkelord()));
+        createCaseArgs.setFiledOnPaper(false);
+        createCaseArgs.setCaseType(Constants.CASE_TYPE_NOARK);
+
+        List<ArchiveCode> archiveCodes = new ArrayList<>();
+        ArchiveCode archiveCode = new ArchiveCode();
+        archiveCode.setArchiveType(properties.getKlassifikasjon());
+        archiveCode.setArchiveCode(properties.getKlasse());
+        archiveCode.setSort(1);
+        archiveCode.setIsManualText(false);
+        archiveCodes.add(archiveCode);
+
+        createCaseArgs.setArchiveCodes(archiveCodes);
+
+        return createCaseArgs;
+    }
+
 
 }
