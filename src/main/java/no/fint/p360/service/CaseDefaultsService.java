@@ -1,11 +1,11 @@
 package no.fint.p360.service;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.geointegrasjon.CaseDefaults;
-import no.fint.geointegrasjon.model.CaseProperties;
 import no.fint.model.administrasjon.arkiv.*;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.arkiv.SaksmappeResource;
+import no.fint.p360.CaseDefaults;
+import no.fint.p360.data.CaseProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
