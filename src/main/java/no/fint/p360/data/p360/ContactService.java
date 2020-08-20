@@ -1,12 +1,11 @@
 package no.fint.p360.data.p360;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.p360.data.exception.*;
 import no.p360.model.ContactService.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.stream.Stream;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -50,6 +49,40 @@ public class ContactService extends P360Service {
 
         if (getEnterprisesResponse.getSuccessful() && getEnterprisesResponse.getTotalPageCount() == 1) {
             return getEnterprisesResponse.getEnterprises().get(0);
+        }
+
+        return null;
+    }
+
+    public List<Enterprise> getEnterprisesByCategory(String category) {
+        GetEnterprisesArgs getEnterprisesArgs = new GetEnterprisesArgs();
+        getEnterprisesArgs.setCategories(Collections.singletonList(category));
+        getEnterprisesArgs.setIncludeCustomFields(true);
+        GetEnterprisesResponse getEnterprisesResponse = call("ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
+
+        log.info("EnterpriseResult: {}", getEnterprisesResponse);
+
+        if (getEnterprisesResponse.getSuccessful()) {
+            return getEnterprisesResponse.getEnterprises();
+        } else {
+            log.warn(getEnterprisesResponse.getErrorMessage());
+        }
+
+        return null;
+    }
+
+    public List<Enterprise> getEnterprisesByName(String name) {
+        GetEnterprisesArgs getEnterprisesArgs = new GetEnterprisesArgs();
+        getEnterprisesArgs.setName(name);
+        getEnterprisesArgs.setIncludeCustomFields(true);
+        GetEnterprisesResponse getEnterprisesResponse = call("ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
+
+        log.info("EnterpriseResult: {}", getEnterprisesResponse);
+
+        if (getEnterprisesResponse.getSuccessful()) {
+            return getEnterprisesResponse.getEnterprises();
+        } else {
+            log.warn(getEnterprisesResponse.getErrorMessage());
         }
 
         return null;

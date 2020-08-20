@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.model.felles.kodeverk.iso.Landkode;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
+import no.fint.model.felles.kompleksedatatyper.Periode;
 import no.fint.model.felles.kompleksedatatyper.Personnavn;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
@@ -16,7 +17,10 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Optional;
 
 @Slf4j
 public enum FintUtils {
@@ -32,6 +36,19 @@ public enum FintUtils {
         Identifikator identifikator = new Identifikator();
         identifikator.setIdentifikatorverdi(value);
         return identifikator;
+    }
+
+    public static Periode createPeriode(Date fromDate, Date toDate) {
+        Periode periode = new Periode();
+        periode.setStart(fromDate);
+        periode.setSlutt(toDate);
+        return periode;
+    }
+
+    public static Periode createPeriode(Date fromDate) {
+        Periode periode = new Periode();
+        periode.setStart(fromDate);
+        return periode;
     }
 
     public static Date parseDate(String value) {

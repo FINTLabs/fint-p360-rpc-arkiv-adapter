@@ -3,6 +3,7 @@ package no.fint.p360;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.fint.p360.data.p360.AccessGroupService;
+import no.fint.p360.data.p360.ContactService;
 import no.fint.p360.data.p360.SupportService;
 import no.p360.model.AccessGroupService.GetAccessGroupsArgs;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class TestController {
     @Autowired
     private AccessGroupService accessGroupService;
 
+    @Autowired
+    private ContactService contactService;
+
     @GetMapping(value = "version", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getVersion() {
         return supportService.getSIFVersion();
@@ -34,5 +38,10 @@ public class TestController {
     public String getAccessGroup() throws JsonProcessingException {
         GetAccessGroupsArgs getAccessGroupsArgs = new GetAccessGroupsArgs();
         return new ObjectMapper().writeValueAsString(accessGroupService.getAccessGroups(getAccessGroupsArgs));
+    }
+
+    @GetMapping(path = "contact", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getContact(@RequestParam String name) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(contactService.getEnterprisesByName(name));
     }
 }
