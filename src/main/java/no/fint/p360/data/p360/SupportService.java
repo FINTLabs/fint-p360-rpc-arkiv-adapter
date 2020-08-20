@@ -18,8 +18,8 @@ public class SupportService extends P360Service {
     public GetCodeTableRowsResponse getCodeTable(String table) throws CodeTableNotFound {
         GetCodeTableRowsArgs getCodeTableRowsArgs = new GetCodeTableRowsArgs();
         getCodeTableRowsArgs.setCodeTableName(table);
-        getCodeTableRowsArgs.setLanguage("NOR");
-        getCodeTableRowsArgs.setIncludeExpiredValues(true);
+        //getCodeTableRowsArgs.setLanguage("NOR");
+        //getCodeTableRowsArgs.setIncludeExpiredValues(true);
         GetCodeTableRowsResponse getCodeTableRowsResponse = call("SupportService/GetCodeTableRows", getCodeTableRowsArgs, GetCodeTableRowsResponse.class);
         if (getCodeTableRowsResponse.getSuccessful()) {
             return getCodeTableRowsResponse;

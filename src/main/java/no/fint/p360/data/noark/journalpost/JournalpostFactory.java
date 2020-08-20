@@ -8,9 +8,12 @@ import no.fint.model.administrasjon.arkiv.Merknadstype;
 import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.arkiv.*;
+import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.data.noark.dokument.DokumentbeskrivelseFactory;
+import no.fint.p360.data.p360.ContactService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.DocumentService.*;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;
+import static no.fint.p360.data.utilities.FintUtils.createAdresse;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
@@ -79,8 +83,9 @@ public class JournalpostFactory {
                         .map(Collection::stream)
                         .orElse(Stream.empty())
                         .map(it -> {
-                            KorrespondanseResource result = new KorrespondanseResource();
-                            result.addKorrespondansepart(Link.with(Korrespondansepart.class, "systemid", it.getContactRecno()));
+                            KorrespondansepartResource result = new KorrespondansepartResource();
+                            result.setAdresse(FintUtils.createAdresseResource(it));
+                            result.setKontaktinformasjon(FintUtils.createKontaktinformasjon(it));
                             optionalValue(it.getRole())
                                     .flatMap(role ->
                                             kodeverkRepository
@@ -213,7 +218,7 @@ public class JournalpostFactory {
             korrespondanseResources
                     .stream()
                     .map(this::createDocumentContact)
-                    .forEach(createDocumentArgs.getContacts()::add);
+                    .forEach(createDocumentArgs.getUnregisteredContacts()::add);
         });
 
         ofNullable(journalpostResource.getDokumentbeskrivelse()).ifPresent(dokumentbeskrivelseResources -> {
@@ -250,19 +255,44 @@ public class JournalpostFactory {
     }
 
 
-    private Contact createDocumentContact(KorrespondanseResource korrespondansepart) {
-        Contact contact = new Contact();
+    private UnregisteredContact createDocumentContact(KorrespondansepartResource korrespondansepart) {
+        UnregisteredContact contact = new UnregisteredContact();
 
-        applyParameterFromLink(
-                korrespondansepart.getKorrespondansepart(),
-                contact::setReferenceNumber
-        );
+        if (StringUtils.isNotBlank(korrespondansepart.getOrganisasjonsnummer())) {
+            contact.setReferenceNumber(korrespondansepart.getOrganisasjonsnummer());
+        } else if (StringUtils.isNotBlank(korrespondansepart.getFodselsnummer())) {
+            contact.setReferenceNumber(korrespondansepart.getFodselsnummer());
+        }
+        contact.setContactName(korrespondansepart.getKorrespondansepartNavn());
+
+        setAddress(contact, korrespondansepart.getAdresse());
+        setPhones(contact, korrespondansepart.getKontaktinformasjon());
 
         applyParameterFromLink(
                 korrespondansepart.getKorrespondanseparttype(),
                 contact::setRole);
 
         return contact;
+    }
+
+    private void setPhones(UnregisteredContact contact, Kontaktinformasjon kontaktinformasjon) {
+        if (kontaktinformasjon == null)
+            return;
+
+        contact.setMobilePhone(kontaktinformasjon.getMobiltelefonnummer());
+        contact.setPhone(kontaktinformasjon.getTelefonnummer());
+        contact.setEmail(kontaktinformasjon.getEpostadresse());
+    }
+
+    private void setAddress(UnregisteredContact contact, AdresseResource adresse) {
+        if (adresse == null)
+            return;
+
+        contact.setZipCode(adresse.getPostnummer());
+        contact.setZipPlace(adresse.getPoststed());
+        contact.setAddress(String.join("\n", adresse.getAdresselinje()));
+
+        applyParameterFromLink(adresse.getLand(), contact::setCountry);
     }
 
     private Stream<File> createFiles(DokumentbeskrivelseResource dokumentbeskrivelse) {
