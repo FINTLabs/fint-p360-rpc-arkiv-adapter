@@ -3,7 +3,6 @@ package no.fint.p360.data.p360;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.p360.AdapterProps;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

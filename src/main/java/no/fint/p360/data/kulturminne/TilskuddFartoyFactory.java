@@ -1,6 +1,5 @@
 package no.fint.p360.data.kulturminne;
 
-import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.model.kultur.kulturminnevern.TilskuddFartoy;
 import no.fint.model.resource.Link;
@@ -10,14 +9,14 @@ import no.fint.model.resource.administrasjon.arkiv.PartsinformasjonResource;
 import no.fint.model.resource.kultur.kulturminnevern.TilskuddFartoyResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
-import no.fint.p360.data.exception.NoSuchTitleDimension;
-import no.fint.p360.data.exception.UnableToParseTitle;
+import no.fint.p360.data.exception.NotTilskuddfartoyException;
 import no.fint.p360.data.noark.common.NoarkFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
+import no.fint.p360.data.utilities.Constants;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.NOARKUtils;
 import no.fint.p360.data.utilities.P360Utils;
-import no.fint.p360.data.utilities.TitleParser;
+import no.fint.p360.service.AdditionalFieldService;
 import no.fint.p360.service.TitleService;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.CreateDocumentArgs;
@@ -25,8 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
@@ -41,28 +40,21 @@ public class TilskuddFartoyFactory {
     private JournalpostFactory journalpostFactory;
 
     @Autowired
-    private TilskuddFartoyDefaults tilskuddFartoyDefaults;
-
-    @Autowired
     TitleService titleService;
 
-    public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat {
+    @Autowired
+    AdditionalFieldService additionalFieldService;
+
+    public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddfartoyException {
+        if (!isTilskuddFartoy(caseResult)) {
+            throw new NotTilskuddfartoyException(caseResult.getCaseNumber());
+        }
 
         TilskuddFartoyResource tilskuddFartoy = new TilskuddFartoyResource();
         String caseNumber = caseResult.getCaseNumber();
 
         String caseYear = NOARKUtils.getCaseYear(caseNumber);
         String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
-
-        try {
-            TitleParser.Title title = TitleParser.parseTitle(caseResult.getTitle());
-            tilskuddFartoy.setFartoyNavn(Strings.nullToEmpty(title.getDimension(TitleParser.FARTOY_NAVN)));
-            tilskuddFartoy.setKallesignal(Strings.nullToEmpty(title.getDimension(TitleParser.FARTOY_KALLESIGNAL)));
-            tilskuddFartoy.setKulturminneId(Strings.nullToEmpty(title.getDimension(TitleParser.KULTURMINNE_ID)));
-            tilskuddFartoy.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
-        } catch (UnableToParseTitle | NoSuchTitleDimension e) {
-            log.error("{}", e.getMessage(), e);
-        }
 
         noarkFactory.getSaksmappe(caseResult, tilskuddFartoy);
 
@@ -74,20 +66,22 @@ public class TilskuddFartoyFactory {
     }
 
 
-    public List<TilskuddFartoyResource> toFintResourceList(List<Case> caseResults) throws GetDocumentException, IllegalCaseNumberFormat {
-        List<TilskuddFartoyResource> result = new ArrayList<>(caseResults.size());
-        for (Case caseResult : caseResults) {
-            result.add(toFintResource(caseResult));
-        }
-        return result;
-    }
-
     public CreateCaseArgs convertToCreateCase(TilskuddFartoyResource tilskuddFartoy) {
 
         CreateCaseArgs createCaseArgs = new CreateCaseArgs();
 
         createCaseArgs.setTitle(titleService.getTitle(tilskuddFartoy));
-        tilskuddFartoyDefaults.applyDefaultsToCreateCaseParameter(createCaseArgs);
+
+        createCaseArgs.setAdditionalFields(
+                additionalFieldService.getFieldsForResource(tilskuddFartoy)
+                        .peek(System.out::println)
+                        .map(it -> {
+                            AdditionalField additionalField = new AdditionalField();
+                            additionalField.setName(it.getName());
+                            additionalField.setValue(it.getValue());
+                            return additionalField;
+                        }).collect(Collectors.toList())
+        );
 
         createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFartoy.getSoknadsnummer()));
 
@@ -125,25 +119,23 @@ public class TilskuddFartoyFactory {
         //createCaseParameter.setUnofficialTitle();
 
 
-        List<Contact> contacts = new ArrayList<>();
+        if (tilskuddFartoy.getPart() != null) {
+            List<Contact> contacts = tilskuddFartoy
+                    .getPart()
+                    .stream()
+                    .map(this::createCaseContactParameter)
+                    .collect(Collectors.toList());
+            createCaseArgs.setContacts(contacts);
+        }
 
-        tilskuddFartoy
-                .getPart()
-                .stream()
-                .map(this::createCaseContactParameter)
-                .forEach(contacts::add);
-
-        createCaseArgs.setContacts(contacts);
-
-        List<Remark> remarks = new ArrayList<>();
         if (tilskuddFartoy.getMerknad() != null) {
-            tilskuddFartoy
+            List<Remark> remarks = tilskuddFartoy
                     .getMerknad()
                     .stream()
                     .map(this::createCaseRemarkParameter)
-                    .forEach(remarks::add);
+                    .collect(Collectors.toList());
+            createCaseArgs.setRemarks(remarks);
         }
-        createCaseArgs.setRemarks(remarks);
 
         // TODO Responsible person
         /*
@@ -201,4 +193,17 @@ public class TilskuddFartoyFactory {
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
         return journalpostFactory.toP360(journalpostResource, caseNumber);
     }
+
+    // TODO: 2019-05-11 Should we check for both archive classification and external id (is it a digisak)
+    // TODO Compare with CaseProperties
+    private boolean isTilskuddFartoy(Case caseResult) {
+
+        if (FintUtils.optionalValue(caseResult.getExternalId()).isPresent() && FintUtils.optionalValue(caseResult.getArchiveCodes()).isPresent()) {
+            return caseResult.getExternalId().getType().equals(Constants.EXTERNAL_ID_TYPE);
+        }
+
+        return false;
+
+    }
+
 }

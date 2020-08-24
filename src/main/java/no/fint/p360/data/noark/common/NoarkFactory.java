@@ -1,5 +1,6 @@
 package no.fint.p360.data.noark.common;
 
+import no.fint.model.administrasjon.arkiv.Arkivdel;
 import no.fint.model.administrasjon.arkiv.Saksstatus;
 import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.administrasjon.personal.Personalressurs;
@@ -17,6 +18,7 @@ import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.NOARKUtils;
 import no.fint.p360.repository.KodeverkRepository;
+import no.fint.p360.service.AdditionalFieldService;
 import no.fint.p360.service.TitleService;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
@@ -45,6 +47,9 @@ public class NoarkFactory {
 
     @Autowired
     private TitleService titleService;
+
+    @Autowired
+    private AdditionalFieldService additionalFieldService;
 
     @Autowired
     private PartFactory partFactory;
@@ -103,6 +108,10 @@ public class NoarkFactory {
                 .map(Link.apply(Saksstatus.class, "systemid"))
                 .ifPresent(saksmappeResource::addSaksstatus);
 
+        optionalValue(caseResult.getSubArchive())
+                .map(Link.apply(Arkivdel.class, "systemid"))
+                .ifPresent(saksmappeResource::addArkivdel);
+
         optionalValue(caseResult.getResponsibleEnterprise())
                 .map(ResponsibleEnterprise::getRecno)
                 .map(String::valueOf)
@@ -127,9 +136,17 @@ public class NoarkFactory {
                 .map(Identifikator::getIdentifikatorverdi)
                 .map(Link.apply(KlasseResource.class, "systemid"))
                 .forEach(saksmappeResource::addKlasse);
+
         titleService.parseTitle(saksmappeResource, saksmappeResource.getTittel());
+
+        additionalFieldService.parseFields(saksmappeResource,
+                caseResult.getCustomFields()
+                        .stream()
+                        .map(f -> new AdditionalFieldService.Field(f.getName(), StringUtils.trimToEmpty(f.getValue())))
+                        .collect(Collectors.toList()));
     }
-    public boolean health()  {
+
+    public boolean health() {
         return documentService.ping();
     }
 }

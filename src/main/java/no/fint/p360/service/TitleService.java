@@ -1,7 +1,7 @@
 package no.fint.p360.service;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.p360.TitleFormats;
+import no.fint.p360.CustomFormats;
 import no.fint.p360.data.utilities.BeanPropertyLookup;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.RegExUtils;
@@ -20,32 +20,32 @@ import java.util.regex.Pattern;
 @Slf4j
 public class TitleService {
 
-    private final Map<String,String> formats;
+    private final Map<String,String> titles;
 
-    public TitleService(TitleFormats formats) {
-        this.formats = formats.getFormat();
+    public TitleService(CustomFormats formats) {
+        this.titles = formats.getTitle();
     }
 
     public <T> String getTitle(T object) {
         String type = resourceName(object);
-        if (!formats.containsKey(type)) {
+        if (!titles.containsKey(type)) {
             throw new IllegalArgumentException("No format defined for " + type);
         }
-        String title = new StringSubstitutor(new BeanPropertyLookup<>(object)).replace(formats.get(type));
+        String title = new StringSubstitutor(new BeanPropertyLookup<>(object)).replace(titles.get(type));
         log.info("Title: '{}'", title);
         return title;
     }
 
-    private String resourceName(Object object) {
+    public static String resourceName(Object object) {
         return StringUtils.removeEnd(StringUtils.lowerCase(object.getClass().getSimpleName()), "resource");
     }
 
     public void parseTitle(Object object, String title) {
-        if (formats == null){
+        if (titles == null){
             log.warn("No formats defined!");
             return;
         }
-        String format = formats.get(resourceName(object));
+        String format = titles.get(resourceName(object));
         if (StringUtils.isBlank(format)) {
             log.warn("No format defined for {}", resourceName(object));
             return;
@@ -56,7 +56,7 @@ public class TitleService {
         while (nameMatcher.find()) {
             nameList.add(nameMatcher.group(1));
         }
-        System.out.println("nameList = " + nameList);
+        log.debug("nameList = {}", nameList);
 
         String pattern = RegExUtils.replaceAll(format, names, "(.+)");
         Pattern titlePattern = Pattern.compile("^" + pattern + "$");

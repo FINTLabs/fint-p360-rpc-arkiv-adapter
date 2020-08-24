@@ -1,6 +1,9 @@
 package no.fint.p360.service;
 
+import no.fint.event.model.Event;
 import no.fint.event.model.Problem;
+import no.fint.event.model.ResponseStatus;
+import no.fint.model.resource.FintLinks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +29,20 @@ public class ValidationService {
                 .collect(Collectors.toList());
     }
 
-
+    public boolean validate(Event<FintLinks> event, Object resource) {
+        if (resource == null) {
+            event.setResponseStatus(ResponseStatus.REJECTED);
+            event.setMessage("RESOURCE WAS NULL");
+            return false;
+        }
+        final List<Problem> problems = getProblems(resource);
+        if (problems.isEmpty()) {
+            return true;
+        }
+        event.setProblems(problems);
+        event.setResponseStatus(ResponseStatus.REJECTED);
+        event.setStatusCode("INVALID");
+        return false;
+    }
+    
 }
