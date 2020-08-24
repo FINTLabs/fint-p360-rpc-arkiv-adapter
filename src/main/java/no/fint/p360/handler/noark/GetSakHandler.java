@@ -5,40 +5,42 @@ import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.administrasjon.arkiv.ArkivActions;
 import no.fint.model.resource.FintLinks;
-import no.fint.p360.data.exception.*;
-import no.fint.p360.data.noark.sak.SakService;
+import no.fint.p360.data.exception.CaseNotFound;
+import no.fint.p360.data.exception.GetDocumentException;
+import no.fint.p360.data.exception.IllegalCaseNumberFormat;
+import no.fint.p360.data.noark.sak.SakFactory;
 import no.fint.p360.handler.Handler;
-import org.apache.commons.lang3.StringUtils;
+import no.fint.p360.service.CaseQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Set;
-
-import static no.fint.p360.data.utilities.QueryUtils.getQueryParams;
 
 @Slf4j
 @Service
 public class GetSakHandler implements Handler {
     @Autowired
-    private SakService sakService;
+    private SakFactory sakFactory;
+
+    @Autowired
+    private CaseQueryService caseQueryService;
 
     @Override
     public void accept(Event<FintLinks> response) {
         String query = response.getQuery();
+        if (!caseQueryService.isValidQuery(query)) {
+            response.setResponseStatus(ResponseStatus.REJECTED);
+            response.setStatusCode("BAD_REQUEST");
+            response.setMessage("Invalid query: " + query);
+            return;
+        }
+        response.setData(new LinkedList<>());
         try {
-            response.getData().clear();
-            if (StringUtils.startsWithIgnoreCase(query, "mappeid/")) {
-                response.addData(sakService.getSakByCaseNumber(StringUtils.removeStartIgnoreCase(query, "mappeid/")));
-            } else if (StringUtils.startsWithIgnoreCase(query, "systemid/")) {
-                response.addData(sakService.getSakBySystemId(StringUtils.removeStartIgnoreCase(query, "systemid/")));
-            } else if (StringUtils.startsWith(query, "?")) {
-                sakService.searchSakByTitle(getQueryParams(query)).forEach(response::addData);
-            } else {
-                throw new IllegalArgumentException("Invalid query: " + query);
-            }
+            caseQueryService.query(query).map(sakFactory::toFintResource).forEach(response::addData);
             response.setResponseStatus(ResponseStatus.ACCEPTED);
-        } catch (GetTilskuddFartoyNotFoundException e) {
+        } catch (CaseNotFound e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode("NOT_FOUND");
             response.setMessage(e.getMessage());
@@ -56,7 +58,7 @@ public class GetSakHandler implements Handler {
 
     @Override
     public boolean health() {
-        return sakService.health();
+        return sakFactory.health();
     }
 }
 

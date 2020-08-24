@@ -4,5 +4,5 @@ public enum Constants {
     ;
 
     public static final String EXTERNAL_ID_TYPE = "Digisak";
-    public static final String CASE_TYPE_NOARK = "recno:2";
+    public static final String CASE_TYPE_NOARK = "Case";
 }

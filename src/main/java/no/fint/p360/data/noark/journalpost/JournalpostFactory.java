@@ -1,7 +1,10 @@
 package no.fint.p360.data.noark.journalpost;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.administrasjon.arkiv.*;
+import no.fint.model.administrasjon.arkiv.JournalStatus;
+import no.fint.model.administrasjon.arkiv.JournalpostType;
+import no.fint.model.administrasjon.arkiv.KorrespondansepartType;
+import no.fint.model.administrasjon.arkiv.Merknadstype;
 import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
