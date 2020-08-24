@@ -1,6 +1,5 @@
 package no.fint.p360.data.kulturminne;
 
-import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.model.kultur.kulturminnevern.TilskuddFartoy;
 import no.fint.model.resource.Link;
@@ -8,10 +7,15 @@ import no.fint.model.resource.administrasjon.arkiv.JournalpostResource;
 import no.fint.model.resource.administrasjon.arkiv.MerknadResource;
 import no.fint.model.resource.administrasjon.arkiv.PartsinformasjonResource;
 import no.fint.model.resource.kultur.kulturminnevern.TilskuddFartoyResource;
-import no.fint.p360.data.exception.*;
+import no.fint.p360.data.exception.GetDocumentException;
+import no.fint.p360.data.exception.IllegalCaseNumberFormat;
+import no.fint.p360.data.exception.NotTilskuddfartoyException;
 import no.fint.p360.data.noark.common.NoarkFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
-import no.fint.p360.data.utilities.*;
+import no.fint.p360.data.utilities.Constants;
+import no.fint.p360.data.utilities.FintUtils;
+import no.fint.p360.data.utilities.NOARKUtils;
+import no.fint.p360.data.utilities.P360Utils;
 import no.fint.p360.service.AdditionalFieldService;
 import no.fint.p360.service.TitleService;
 import no.p360.model.CaseService.*;
@@ -20,7 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,16 +55,6 @@ public class TilskuddFartoyFactory {
 
         String caseYear = NOARKUtils.getCaseYear(caseNumber);
         String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
-
-        try {
-            TitleParser.Title title = TitleParser.parseTitle(caseResult.getTitle());
-            tilskuddFartoy.setFartoyNavn(Strings.nullToEmpty(title.getDimension(TitleParser.FARTOY_NAVN)));
-            tilskuddFartoy.setKallesignal(Strings.nullToEmpty(title.getDimension(TitleParser.FARTOY_KALLESIGNAL)));
-            tilskuddFartoy.setKulturminneId(Strings.nullToEmpty(title.getDimension(TitleParser.KULTURMINNE_ID)));
-            tilskuddFartoy.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
-        } catch (UnableToParseTitle | NoSuchTitleDimension e) {
-            log.error("{}", e.getMessage(), e);
-        }
 
         noarkFactory.getSaksmappe(caseResult, tilskuddFartoy);
 
@@ -126,25 +119,23 @@ public class TilskuddFartoyFactory {
         //createCaseParameter.setUnofficialTitle();
 
 
-        List<Contact> contacts = new ArrayList<>();
+        if (tilskuddFartoy.getPart() != null) {
+            List<Contact> contacts = tilskuddFartoy
+                    .getPart()
+                    .stream()
+                    .map(this::createCaseContactParameter)
+                    .collect(Collectors.toList());
+            createCaseArgs.setContacts(contacts);
+        }
 
-        tilskuddFartoy
-                .getPart()
-                .stream()
-                .map(this::createCaseContactParameter)
-                .forEach(contacts::add);
-
-        createCaseArgs.setContacts(contacts);
-
-        List<Remark> remarks = new ArrayList<>();
         if (tilskuddFartoy.getMerknad() != null) {
-            tilskuddFartoy
+            List<Remark> remarks = tilskuddFartoy
                     .getMerknad()
                     .stream()
                     .map(this::createCaseRemarkParameter)
-                    .forEach(remarks::add);
+                    .collect(Collectors.toList());
+            createCaseArgs.setRemarks(remarks);
         }
-        createCaseArgs.setRemarks(remarks);
 
         // TODO Responsible person
         /*

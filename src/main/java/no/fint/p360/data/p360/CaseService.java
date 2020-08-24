@@ -66,6 +66,7 @@ public class CaseService extends P360Service {
     }
 
     public List<Case> getCases(GetCasesArgs getCasesArgs) {
+        getCasesArgs.setIncludeCaseContacts(true);
         getCasesArgs.setIncludeCustomFields(true);
 
         GetCasesResponse response = call("CaseService/GetCases", getCasesArgs, GetCasesResponse.class);
@@ -82,7 +83,7 @@ public class CaseService extends P360Service {
         CreateCaseResponse response = call("CaseService/CreateCase", createCasesArgs, CreateCaseResponse.class);
 
         if (!response.getSuccessful())
-            throw new CreateCaseException(response.getErrorDetails());
+            throw new CreateCaseException(response.getErrorMessage());
 
         return response.getCaseNumber();
     }

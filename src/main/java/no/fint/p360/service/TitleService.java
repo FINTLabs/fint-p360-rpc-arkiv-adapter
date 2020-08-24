@@ -56,7 +56,7 @@ public class TitleService {
         while (nameMatcher.find()) {
             nameList.add(nameMatcher.group(1));
         }
-        System.out.println("nameList = " + nameList);
+        log.debug("nameList = {}", nameList);
 
         String pattern = RegExUtils.replaceAll(format, names, "(.+)");
         Pattern titlePattern = Pattern.compile("^" + pattern + "$");
