@@ -139,7 +139,7 @@ public class NoarkFactory {
 
         titleService.parseTitle(saksmappeResource, saksmappeResource.getTittel());
 
-        additionalFieldService.parseFields(saksmappeResource,
+        additionalFieldService.setFieldsForResource(saksmappeResource,
                 caseResult.getCustomFields()
                         .stream()
                         .map(f -> new AdditionalFieldService.Field(f.getName(), StringUtils.trimToEmpty(f.getValue())))
