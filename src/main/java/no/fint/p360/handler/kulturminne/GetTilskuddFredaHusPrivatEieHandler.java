@@ -8,8 +8,8 @@ import no.fint.model.resource.FintLinks;
 import no.fint.p360.data.exception.CaseNotFound;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
-import no.fint.p360.data.exception.NotTilskuddfartoyException;
-import no.fint.p360.data.kulturminne.TilskuddFartoyService;
+import no.fint.p360.data.exception.NotTilskuddFredaHusPrivatEieException;
+import no.fint.p360.data.kulturminne.TilskuddFredaHusPrivatEieService;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.service.CaseQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,9 @@ import java.util.Set;
 
 @Service
 @Slf4j
-public class GetTilskuddFartoyHandler implements Handler {
+public class GetTilskuddFredaHusPrivatEieHandler implements Handler {
     @Autowired
-    private TilskuddFartoyService tilskuddfartoyService;
+    private TilskuddFredaHusPrivatEieService tilskuddFredaHusPrivatEieService;
 
     @Autowired
     private CaseQueryService caseQueryService;
@@ -37,14 +37,14 @@ public class GetTilskuddFartoyHandler implements Handler {
             return;
         }
         try {
-            tilskuddfartoyService.getTilskuddFartoyForQuery(query, response);
+            tilskuddFredaHusPrivatEieService.getTilskuddFredaHusPrivatEieForQuery(query, response);
         } catch (CaseNotFound e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode("NOT_FOUND");
             response.setMessage(e.getMessage());
-        } catch (NotTilskuddfartoyException e) {
+        } catch (NotTilskuddFredaHusPrivatEieException e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
-            response.setStatusCode("NOT_A_TILSKUDDFARTOY_SAK");
+            response.setStatusCode("NOT_A_TILSKUDDFREDAHUSPRIVATEIE_SAK");
             response.setMessage(e.getMessage());
         } catch (GetDocumentException | IllegalCaseNumberFormat e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
@@ -55,7 +55,7 @@ public class GetTilskuddFartoyHandler implements Handler {
 
     @Override
     public Set<String> actions() {
-        return Collections.singleton(KulturminnevernActions.GET_TILSKUDDFARTOY.name());
+        return Collections.singleton(KulturminnevernActions.GET_TILSKUDDFREDAHUSPRIVATEIE.name());
     }
 
 }

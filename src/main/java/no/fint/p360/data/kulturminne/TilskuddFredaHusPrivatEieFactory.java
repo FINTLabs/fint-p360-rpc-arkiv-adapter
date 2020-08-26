@@ -4,10 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.TitleService;
 import no.fint.model.resource.administrasjon.arkiv.JournalpostResource;
-import no.fint.model.resource.kultur.kulturminnevern.TilskuddFartoyResource;
+import no.fint.model.resource.kultur.kulturminnevern.TilskuddFredaHusPrivatEieResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
-import no.fint.p360.data.exception.NotTilskuddfartoyException;
+import no.fint.p360.data.exception.NotTilskuddFredaHusPrivatEieException;
 import no.fint.p360.data.noark.common.NoarkFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.data.utilities.Constants;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class TilskuddFartoyFactory {
+public class TilskuddFredaHusPrivatEieFactory {
 
     @Autowired
     private NoarkFactory noarkFactory;
@@ -35,31 +35,31 @@ public class TilskuddFartoyFactory {
     @Autowired
     AdditionalFieldService additionalFieldService;
 
-    public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddfartoyException {
-        if (!isTilskuddFartoy(caseResult)) {
-            throw new NotTilskuddfartoyException(caseResult.getCaseNumber());
+    public TilskuddFredaHusPrivatEieResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddFredaHusPrivatEieException {
+        if (!isTilskuddFredaHusPrivatEie(caseResult)) {
+            throw new NotTilskuddFredaHusPrivatEieException(caseResult.getCaseNumber());
         }
 
-        TilskuddFartoyResource tilskuddFartoy = new TilskuddFartoyResource();
-        tilskuddFartoy.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
-        noarkFactory.getSaksmappe(caseResult, tilskuddFartoy);
+        TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEie = new TilskuddFredaHusPrivatEieResource();
+        tilskuddFredaHusPrivatEie.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
+        noarkFactory.getSaksmappe(caseResult, tilskuddFredaHusPrivatEie);
 
         /*
         String caseNumber = caseResult.getCaseNumber();
         String caseYear = NOARKUtils.getCaseYear(caseNumber);
         String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
-        tilskuddFartoy.addSelf(Link.with(TilskuddFartoy.class, "mappeid", caseYear, sequenceNumber));
-        tilskuddFartoy.addSelf(Link.with(TilskuddFartoy.class, "systemid", caseResult.getRecno().toString()));
-        tilskuddFartoy.addSelf(Link.with(TilskuddFartoy.class, "soknadsnummer", caseResult.getExternalId().getId()));
+        tilskuddFredaHusPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "mappeid", caseYear, sequenceNumber));
+        tilskuddFredaHusPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "systemid", caseResult.getRecno().toString()));
+        tilskuddFredaHusPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "soknadsnummer", caseResult.getExternalId().getId()));
          */
 
-        return tilskuddFartoy;
+        return tilskuddFredaHusPrivatEie;
     }
 
 
-    public CreateCaseArgs convertToCreateCase(TilskuddFartoyResource tilskuddFartoy) {
-        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(tilskuddFartoy);
-        createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFartoy.getSoknadsnummer()));
+    public CreateCaseArgs convertToCreateCase(TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEie) {
+        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(tilskuddFredaHusPrivatEie);
+        createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFredaHusPrivatEie.getSoknadsnummer()));
         return createCaseArgs;
     }
 
@@ -69,7 +69,7 @@ public class TilskuddFartoyFactory {
 
     // TODO: 2019-05-11 Should we check for both archive classification and external id (is it a digisak)
     // TODO Compare with CaseProperties
-    private boolean isTilskuddFartoy(Case caseResult) {
+    private boolean isTilskuddFredaHusPrivatEie(Case caseResult) {
 
         if (FintUtils.optionalValue(caseResult.getExternalId()).isPresent() && FintUtils.optionalValue(caseResult.getArchiveCodes()).isPresent()) {
             return caseResult.getExternalId().getType().equals(Constants.EXTERNAL_ID_TYPE);
