@@ -1,5 +1,7 @@
 package no.fint.p360.data.noark.common;
 
+import no.fint.arkiv.AdditionalFieldService;
+import no.fint.arkiv.TitleService;
 import no.fint.model.administrasjon.arkiv.Arkivdel;
 import no.fint.model.administrasjon.arkiv.Saksstatus;
 import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
@@ -18,8 +20,6 @@ import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.NOARKUtils;
 import no.fint.p360.repository.KodeverkRepository;
-import no.fint.p360.service.AdditionalFieldService;
-import no.fint.p360.service.TitleService;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
@@ -139,7 +139,7 @@ public class NoarkFactory {
 
         titleService.parseTitle(saksmappeResource, saksmappeResource.getTittel());
 
-        additionalFieldService.parseFields(saksmappeResource,
+        additionalFieldService.setFieldsForResource(saksmappeResource,
                 caseResult.getCustomFields()
                         .stream()
                         .map(f -> new AdditionalFieldService.Field(f.getName(), StringUtils.trimToEmpty(f.getValue())))

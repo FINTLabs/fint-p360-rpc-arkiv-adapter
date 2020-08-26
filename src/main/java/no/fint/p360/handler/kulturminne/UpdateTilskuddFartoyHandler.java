@@ -2,13 +2,13 @@ package no.fint.p360.handler.kulturminne;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import no.fint.arkiv.CaseDefaults;
 import no.fint.event.model.Event;
 import no.fint.event.model.Operation;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.kultur.kulturminnevern.KulturminnevernActions;
 import no.fint.model.resource.FintLinks;
 import no.fint.model.resource.kultur.kulturminnevern.TilskuddFartoyResource;
-import no.fint.p360.CaseDefaults;
 import no.fint.p360.data.exception.*;
 import no.fint.p360.data.kulturminne.TilskuddFartoyFactory;
 import no.fint.p360.data.kulturminne.TilskuddfartoyService;
@@ -16,8 +16,8 @@ import no.fint.p360.data.p360.CaseService;
 import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.QueryUtils;
 import no.fint.p360.handler.Handler;
-import no.fint.p360.service.CaseDefaultsService;
 import no.fint.p360.service.CaseQueryService;
+import no.fint.p360.service.P360CaseDefaultsService;
 import no.fint.p360.service.ValidationService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
@@ -46,7 +46,7 @@ public class UpdateTilskuddFartoyHandler implements Handler {
     private CaseDefaults caseDefaults;
 
     @Autowired
-    private CaseDefaultsService caseDefaultsService;
+    private P360CaseDefaultsService caseDefaultsService;
 
     @Autowired
     private CaseQueryService caseQueryService;

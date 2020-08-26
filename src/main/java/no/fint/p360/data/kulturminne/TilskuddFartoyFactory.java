@@ -1,6 +1,8 @@
 package no.fint.p360.data.kulturminne;
 
 import lombok.extern.slf4j.Slf4j;
+import no.fint.arkiv.AdditionalFieldService;
+import no.fint.arkiv.TitleService;
 import no.fint.model.kultur.kulturminnevern.TilskuddFartoy;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.arkiv.JournalpostResource;
@@ -16,8 +18,6 @@ import no.fint.p360.data.utilities.Constants;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.NOARKUtils;
 import no.fint.p360.data.utilities.P360Utils;
-import no.fint.p360.service.AdditionalFieldService;
-import no.fint.p360.service.TitleService;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.CreateDocumentArgs;
 import org.apache.commons.lang3.StringUtils;

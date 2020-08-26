@@ -70,7 +70,8 @@ dependencies {
     compile('no.fint:fint-event-model:3.0.0')
     compile('no.fint:fint-relation-model:1.1.5')
     compile('no.fint:fint-model-resource:0.3.3')
-    
+    compile('no.fint:fint-arkiv-case-defaults:1.0.0-beta-10')
+
     compile("no.fint:fint-arkiv-model-java:${apiVersion}")
 
     compile('org.springframework.boot:spring-boot-starter-web')
