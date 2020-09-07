@@ -9,7 +9,7 @@ import no.fint.p360.data.exception.CaseNotFound;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.exception.NotTilskuddfartoyException;
-import no.fint.p360.data.kulturminne.TilskuddFartoyService;
+import no.fint.p360.data.kulturminne.TilskuddFartoyServices;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.service.CaseQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.Set;
 @Slf4j
 public class GetTilskuddFartoyHandler implements Handler {
     @Autowired
-    private TilskuddFartoyService tilskuddfartoyService;
+    private TilskuddFartoyServices tilskuddfartoyService;
 
     @Autowired
     private CaseQueryService caseQueryService;

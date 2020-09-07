@@ -12,7 +12,7 @@ import java.util.LinkedList;
 
 @Slf4j
 @Service
-public class TilskuddFartoyService {
+public class TilskuddFartoyServices {
 
     @Autowired
     private TilskuddFartoyFactory tilskuddFartoyFactory;

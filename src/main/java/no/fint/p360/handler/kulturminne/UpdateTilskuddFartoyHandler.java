@@ -11,7 +11,7 @@ import no.fint.model.resource.FintLinks;
 import no.fint.model.resource.kultur.kulturminnevern.TilskuddFartoyResource;
 import no.fint.p360.data.exception.*;
 import no.fint.p360.data.kulturminne.TilskuddFartoyFactory;
-import no.fint.p360.data.kulturminne.TilskuddFartoyService;
+import no.fint.p360.data.kulturminne.TilskuddFartoyServices;
 import no.fint.p360.data.p360.CaseService;
 import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.QueryUtils;
@@ -37,7 +37,7 @@ public class UpdateTilskuddFartoyHandler implements Handler {
     private ValidationService validationService;
 
     @Autowired
-    private TilskuddFartoyService tilskuddfartoyService;
+    private TilskuddFartoyServices tilskuddfartoyService;
 
     @Autowired
     private TilskuddFartoyFactory tilskuddFartoyFactory;
