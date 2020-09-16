@@ -21,6 +21,7 @@ import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
 @Service
 public class NoarkFactory {
+
+    @Value("${fint.arkiv.part:false}")
+    private boolean usePart;
 
     @Autowired
     private DocumentService documentService;
@@ -193,7 +197,7 @@ public class NoarkFactory {
         //createCaseParameter.setStartDate();
         //createCaseParameter.setUnofficialTitle();
 
-        if (saksmappeResource.getPart() != null) {
+        if (usePart && saksmappeResource.getPart() != null) {
             createCaseArgs.setContacts(
                     saksmappeResource
                             .getPart()
