@@ -19,7 +19,7 @@ public class DocumentService extends P360Service {
             log.info("Documents successfully created");
             return;
         }
-        throw new CreateDocumentException(createDocumentResponse.getErrorDetails());
+        throw new CreateDocumentException(createDocumentResponse.getErrorMessage());
     }
 
     public Document__1 getDocumentBySystemId(String systemId) throws GetDocumentException {
@@ -37,7 +37,7 @@ public class DocumentService extends P360Service {
         if (getDocumentsResponse.getTotalPageCount() != 1) {
             throw new GetDocumentException("Document could not be found");
         }
-        throw new GetDocumentException(getDocumentsResponse.getErrorDetails());
+        throw new GetDocumentException(getDocumentsResponse.getErrorMessage());
     }
 
     public boolean ping()  {
