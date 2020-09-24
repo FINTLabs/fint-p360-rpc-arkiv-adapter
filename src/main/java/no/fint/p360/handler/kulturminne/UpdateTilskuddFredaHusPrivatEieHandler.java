@@ -8,10 +8,10 @@ import no.fint.event.model.Operation;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.kultur.kulturminnevern.KulturminnevernActions;
 import no.fint.model.resource.FintLinks;
-import no.fint.model.resource.kultur.kulturminnevern.TilskuddFartoyResource;
+import no.fint.model.resource.kultur.kulturminnevern.TilskuddFredaHusPrivatEieResource;
 import no.fint.p360.data.exception.*;
-import no.fint.p360.data.kulturminne.TilskuddFartoyFactory;
-import no.fint.p360.data.kulturminne.TilskuddFartoyServices;
+import no.fint.p360.data.kulturminne.TilskuddFredaHusPrivatEieFactory;
+import no.fint.p360.data.kulturminne.TilskuddFredaHusPrivatEieService;
 import no.fint.p360.data.p360.CaseService;
 import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.QueryUtils;
@@ -29,7 +29,7 @@ import java.util.Set;
 
 @Service
 @Slf4j
-public class UpdateTilskuddFartoyHandler implements Handler {
+public class UpdateTilskuddFredaHusPrivatEieHandler implements Handler {
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -37,10 +37,10 @@ public class UpdateTilskuddFartoyHandler implements Handler {
     private ValidationService validationService;
 
     @Autowired
-    private TilskuddFartoyServices tilskuddfartoyService;
+    private TilskuddFredaHusPrivatEieService tilskuddFredaHusPrivatEieService;
 
     @Autowired
-    private TilskuddFartoyFactory tilskuddFartoyFactory;
+    private TilskuddFredaHusPrivatEieFactory tilskuddFredaHusPrivatEieFactory;
 
     @Autowired
     private CaseDefaults caseDefaults;
@@ -67,76 +67,76 @@ public class UpdateTilskuddFartoyHandler implements Handler {
 
         Operation operation = response.getOperation();
 
-        TilskuddFartoyResource tilskuddFartoyResource = objectMapper.convertValue(response.getData().get(0), TilskuddFartoyResource.class);
+        TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEieResource = objectMapper.convertValue(response.getData().get(0), TilskuddFredaHusPrivatEieResource.class);
 
         if (operation == Operation.CREATE) {
-            caseDefaultsService.applyDefaultsForCreation(caseDefaults.getTilskuddfartoy(), tilskuddFartoyResource);
-            log.info("Case: {}", tilskuddFartoyResource);
-            if (!validationService.validate(response, tilskuddFartoyResource)) {
+            caseDefaultsService.applyDefaultsForCreation(caseDefaults.getTilskuddfredahusprivateie(), tilskuddFredaHusPrivatEieResource);
+            log.info("Case: {}", tilskuddFredaHusPrivatEieResource);
+            if (!validationService.validate(response, tilskuddFredaHusPrivatEieResource)) {
                 return;
             }
-            createCase(response, tilskuddFartoyResource);
+            createCase(response, tilskuddFredaHusPrivatEieResource);
         } else if (operation == Operation.UPDATE) {
-            caseDefaultsService.applyDefaultsForUpdate(caseDefaults.getTilskuddfartoy(), tilskuddFartoyResource);
-            if (!validationService.validate(response, tilskuddFartoyResource.getJournalpost())) {
+            caseDefaultsService.applyDefaultsForUpdate(caseDefaults.getTilskuddfredahusprivateie(), tilskuddFredaHusPrivatEieResource);
+            if (!validationService.validate(response, tilskuddFredaHusPrivatEieResource.getJournalpost())) {
                 return;
             }
-            updateCase(response, response.getQuery(), tilskuddFartoyResource);
+            updateCase(response, response.getQuery(), tilskuddFredaHusPrivatEieResource);
         } else {
             throw new IllegalArgumentException("Invalid operation: " + operation);
         }
     }
 
-    private void updateCase(Event<FintLinks> response, String query, TilskuddFartoyResource tilskuddFartoyResource) {
+    private void updateCase(Event<FintLinks> response, String query, TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEieResource) {
         if (!caseQueryService.isValidQuery(query)) {
             response.setStatusCode("BAD_REQUEST");
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setMessage("Invalid query: " + query);
             return;
         }
-        if (tilskuddFartoyResource.getJournalpost() == null ||
-                tilskuddFartoyResource.getJournalpost().isEmpty()) {
+        if (tilskuddFredaHusPrivatEieResource.getJournalpost() == null ||
+                tilskuddFredaHusPrivatEieResource.getJournalpost().isEmpty()) {
             throw new IllegalArgumentException("Update must contain at least one Journalpost");
         }
-        log.info("Complete document for update: {}", tilskuddFartoyResource);
+        log.info("Complete document for update: {}", tilskuddFredaHusPrivatEieResource);
         try {
             Case theCase = caseQueryService.query(query).collect(QueryUtils.toSingleton());
             String caseNumber = theCase.getCaseNumber();
-            createDocumentsForCase(tilskuddFartoyResource, caseNumber);
-            tilskuddfartoyService.getTilskuddFartoyForQuery(query, response);
-        } catch (CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotTilskuddfartoyException e) {
+            createDocumentsForCase(tilskuddFredaHusPrivatEieResource, caseNumber);
+            tilskuddFredaHusPrivatEieService.getTilskuddFredaHusPrivatEieForQuery(query, response);
+        } catch (CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotTilskuddFredaHusPrivatEieException e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setMessage(e.getMessage());
         }
     }
 
-    private void createCase(Event<FintLinks> response, TilskuddFartoyResource tilskuddFartoyResource) {
+    private void createCase(Event<FintLinks> response, TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEieResource) {
         try {
             final CreateCaseArgs createCaseArgs =
                     caseDefaultsService
                             .applyDefaultsToCreateCaseParameter(
-                                    caseDefaults.getTilskuddfartoy(),
-                                    tilskuddFartoyFactory.convertToCreateCase(
-                                            tilskuddFartoyResource));
+                                    caseDefaults.getTilskuddfredahusprivateie(),
+                                    tilskuddFredaHusPrivatEieFactory.convertToCreateCase(
+                                            tilskuddFredaHusPrivatEieResource));
             String caseNumber = caseService.createCase(createCaseArgs);
-            createDocumentsForCase(tilskuddFartoyResource, caseNumber);
-            tilskuddfartoyService.getTilskuddFartoyForQuery("mappeid/" + caseNumber, response);
-        } catch (CreateCaseException | CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotTilskuddfartoyException e) {
+            createDocumentsForCase(tilskuddFredaHusPrivatEieResource, caseNumber);
+            tilskuddFredaHusPrivatEieService.getTilskuddFredaHusPrivatEieForQuery("mappeid/" + caseNumber, response);
+        } catch (CreateCaseException | CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotTilskuddFredaHusPrivatEieException e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setMessage(e.getMessage());
         }
     }
 
-    private void createDocumentsForCase(TilskuddFartoyResource tilskuddFartoyResource, String caseNumber) {
-        tilskuddFartoyResource
+    private void createDocumentsForCase(TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEieResource, String caseNumber) {
+        tilskuddFredaHusPrivatEieResource
                 .getJournalpost()
                 .stream()
-                .map(it -> tilskuddFartoyFactory.convertToCreateDocument(it, caseNumber))
+                .map(it -> tilskuddFredaHusPrivatEieFactory.convertToCreateDocument(it, caseNumber))
                 .forEach(documentService::createDocument);
     }
 
     @Override
     public Set<String> actions() {
-        return Collections.singleton(KulturminnevernActions.UPDATE_TILSKUDDFARTOY.name());
+        return Collections.singleton(KulturminnevernActions.UPDATE_TILSKUDDFREDAHUSPRIVATEIE.name());
     }
 }

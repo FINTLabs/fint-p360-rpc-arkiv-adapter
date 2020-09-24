@@ -8,10 +8,7 @@ import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
-import no.fint.model.resource.administrasjon.arkiv.JournalpostResource;
-import no.fint.model.resource.administrasjon.arkiv.KlasseResource;
-import no.fint.model.resource.administrasjon.arkiv.SaksmappeResource;
-import no.fint.model.resource.administrasjon.arkiv.SaksstatusResource;
+import no.fint.model.resource.administrasjon.arkiv.*;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
@@ -24,6 +21,7 @@ import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,9 +30,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
+import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
 @Service
 public class NoarkFactory {
+
+    @Value("${fint.arkiv.part:false}")
+    private boolean usePart;
 
     @Autowired
     private DocumentService documentService;
@@ -144,6 +146,130 @@ public class NoarkFactory {
                         .stream()
                         .map(f -> new AdditionalFieldService.Field(f.getName(), StringUtils.trimToEmpty(f.getValue())))
                         .collect(Collectors.toList()));
+    }
+
+
+    public CreateCaseArgs createCaseArgs(SaksmappeResource saksmappeResource) {
+        CreateCaseArgs createCaseArgs = new CreateCaseArgs();
+
+        createCaseArgs.setTitle(titleService.getTitle(saksmappeResource));
+        createCaseArgs.setAdditionalFields(
+                additionalFieldService.getFieldsForResource(saksmappeResource)
+                        .map(it -> {
+                            AdditionalField additionalField = new AdditionalField();
+                            additionalField.setName(it.getName());
+                            additionalField.setValue(it.getValue());
+                            return additionalField;
+                        }).collect(Collectors.toList())
+        );
+
+        applyParameterFromLink(
+                saksmappeResource.getAdministrativEnhet(),
+                Integer::valueOf,
+                createCaseArgs::setResponsibleEnterpriseRecno
+        );
+
+        applyParameterFromLink(
+                saksmappeResource.getArkivdel(),
+                createCaseArgs::setSubArchive
+        );
+
+        applyParameterFromLink(
+                saksmappeResource.getSaksstatus(),
+                createCaseArgs::setStatus
+        );
+
+        if (saksmappeResource.getSkjerming() != null) {
+            applyParameterFromLink(
+                    saksmappeResource.getSkjerming().getTilgangsrestriksjon(),
+                    createCaseArgs::setAccessCode);
+
+            applyParameterFromLink(
+                    saksmappeResource.getSkjerming().getSkjermingshjemmel(),
+                    createCaseArgs::setParagraph);
+
+            // TODO createCaseParameter.setAccessGroup();
+        }
+
+        // TODO createCaseParameter.setCategory(objectFactory.createCaseParameterBaseCategory("recno:99999"));
+        // TODO Missing parameters
+        //createCaseParameter.setRemarks();
+        //createCaseParameter.setStartDate();
+        //createCaseParameter.setUnofficialTitle();
+
+        if (usePart && saksmappeResource.getPart() != null) {
+            createCaseArgs.setContacts(
+                    saksmappeResource
+                            .getPart()
+                            .stream()
+                            .map(this::createCaseContactParameter)
+                            .collect(Collectors.toList())
+            );
+        }
+
+        if (saksmappeResource.getMerknad() != null) {
+            createCaseArgs.setRemarks(
+                    saksmappeResource
+                            .getMerknad()
+                            .stream()
+                            .map(this::createCaseRemarkParameter)
+                            .collect(Collectors.toList()));
+        }
+
+
+        // TODO Responsible person
+        /*
+        createCaseParameter.setResponsiblePersonIdNumber(
+                objectFactory.createCaseParameterBaseResponsiblePersonIdNumber(
+                        tilskuddFartoy.getSaksansvarlig().get(0).getHref()
+                )
+        );
+        */
+        return createCaseArgs;
+    }
+
+    private Remark createCaseRemarkParameter(MerknadResource merknadResource) {
+        Remark remark = new Remark();
+        remark.setContent(merknadResource.getMerknadstekst());
+
+        merknadResource
+                .getMerknadstype()
+                .stream()
+                .map(Link::getHref)
+                .filter(StringUtils::isNotBlank)
+                .map(s -> StringUtils.substringAfterLast(s, "/"))
+                .map(s -> StringUtils.prependIfMissing(s, "recno:"))
+                .findFirst()
+                .ifPresent(remark::setRemarkType);
+
+        return remark;
+    }
+
+
+    public Contact createCaseContactParameter(PartsinformasjonResource partsinformasjon) {
+        Contact contact = new Contact();
+
+        partsinformasjon
+                .getPart()
+                .stream()
+                .map(Link::getHref)
+                .filter(StringUtils::isNotBlank)
+                .map(s -> StringUtils.substringAfterLast(s, "/"))
+                .map(s -> StringUtils.prependIfMissing(s, "recno:"))
+                .findFirst()
+                .ifPresent(contact::setReferenceNumber);
+
+        partsinformasjon
+                .getPartRolle()
+                .stream()
+                .map(Link::getHref)
+                .filter(StringUtils::isNotBlank)
+                .map(s -> StringUtils.substringAfterLast(s, "/"))
+                .map(s -> StringUtils.prependIfMissing(s, "recno:"))
+                .findFirst()
+                .ifPresent(contact::setRole);
+
+        return contact;
     }
 
     public boolean health() {

@@ -30,7 +30,7 @@ public class FileService extends P360Service {
             return fileWithMetadata.getFile();
         }
 
-        log.info("Retrieving {} failed: {}", recNo, fileWithMetadata.getErrorDetails());
+        log.info("Retrieving {} failed: {}", recNo, fileWithMetadata.getErrorMessage());
         throw new FileNotFound(fileWithMetadata.getErrorMessage());
     }
 

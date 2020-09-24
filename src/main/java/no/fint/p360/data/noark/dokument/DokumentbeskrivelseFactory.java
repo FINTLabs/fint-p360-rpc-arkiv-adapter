@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -142,7 +141,7 @@ public class DokumentbeskrivelseFactory {
 
         // TODO 2019-12-09 Large documents, and ability to fetch from both external URIs and P360
         log.info("Dokumentfil: {}", dokumentobjekt.getReferanseDokumentfil());
-        byte[] bytes = dokumentobjekt
+        String base64 = dokumentobjekt
                 .getReferanseDokumentfil()
                 .stream()
                 .peek(l -> log.info("Link: {}", l))
@@ -153,13 +152,12 @@ public class DokumentbeskrivelseFactory {
                 .map(internalRepository::silentGetFile)
                 .map(DokumentfilResource::getData)
                 .filter(StringUtils::isNotBlank)
-                .map(Base64.getDecoder()::decode)
                 .findAny()
                 .orElseThrow(() -> new FileNotFound("File not found for " + dokumentbeskrivelse.getTittel()));
 
 
         // TODO: Does this work at all?         file.setData(new String(bytes));
-        file.setData(new String(bytes));
+        file.setBase64Data(base64);
         return file;
     }
 }
