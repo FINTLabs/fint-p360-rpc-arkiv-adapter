@@ -21,7 +21,7 @@ public class FileService extends P360Service {
         GetFileWithMetadataArgs getFileWithMetadataArgs = new GetFileWithMetadataArgs();
         getFileWithMetadataArgs.setRecno(Integer.parseInt(recNo));
         getFileWithMetadataArgs.setIncludeFileData(true);
-        getFileWithMetadataArgs.setADContextUser(props.getP360User());
+        // TODO Rejected by P360: getFileWithMetadataArgs.setADContextUser(props.getP360User());
 
         GetFileWithMetadataResponse fileWithMetadata = call("FileService/GetFileWithMetadata", getFileWithMetadataArgs, GetFileWithMetadataResponse.class);
 
