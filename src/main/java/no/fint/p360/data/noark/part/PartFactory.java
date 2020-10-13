@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static no.fint.p360.data.utilities.FintUtils.createAdresseResource;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 
 @SuppressWarnings("Duplicates")
@@ -20,12 +21,12 @@ public class PartFactory {
     KodeverkRepository kodeverkRepository;
 
     public PartResource getPartsinformasjon(Contact__1 caseContactResult) {
-        PartResource PartResource = new PartResource();
+        PartResource part = new PartResource();
 
-        optionalValue(caseContactResult.getRecno())
-                .map(String::valueOf)
-                .map(Link.apply(PartResource.class, "partid"))
-                .ifPresent(PartResource::addPart);
+        part.setPartNavn(caseContactResult.getContactName());
+        part.setAdresse(createAdresseResource(caseContactResult.getAddress()));
+
+        // TODO
 
         optionalValue(caseContactResult.getRole())
                 .flatMap(role ->
@@ -37,9 +38,10 @@ public class PartFactory {
                 .map(PartRolleResource::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
                 .map(Link.apply(PartRolleResource.class, "systemid"))
-                .ifPresent(PartResource::addPartRolle);
+                .ifPresent(part::addPartRolle);
 
-        return PartResource;
+        return part;
     }
+
 
 }
