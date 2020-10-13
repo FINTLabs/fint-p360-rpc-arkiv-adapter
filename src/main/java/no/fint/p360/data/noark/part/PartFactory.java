@@ -26,7 +26,8 @@ public class PartFactory {
         part.setPartNavn(caseContactResult.getContactName());
         part.setAdresse(createAdresseResource(caseContactResult.getAddress()));
 
-        // TODO
+        // TODO part.setKontaktinformasjon();
+        // TODO part.setKontaktperson();
 
         optionalValue(caseContactResult.getRole())
                 .flatMap(role ->

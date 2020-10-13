@@ -7,9 +7,11 @@ import no.fint.model.arkiv.kodeverk.Saksstatus;
 import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.arkiv.kodeverk.*;
 import no.fint.model.resource.arkiv.noark.*;
+import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.codes.klasse.KlasseFactory;
@@ -22,15 +24,18 @@ import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Optional.ofNullable;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
@@ -135,7 +140,7 @@ public class NoarkFactory {
                 .getArchiveCodes()
                 .stream()
                 .map(klasseFactory::toFintResource)
-                .findFirst()
+                .findFirst() // TODO 0..*
                 .ifPresent(saksmappeResource::setKlasse);
 
         titleService.parseTitle(saksmappeResource, saksmappeResource.getTittel());
@@ -248,7 +253,38 @@ public class NoarkFactory {
     public UnregisteredContact createCaseContactParameter(PartResource part) {
         UnregisteredContact contact = new UnregisteredContact();
 
-        // TODO
+        ofNullable(part.getAdresse())
+                .map(AdresseResource::getAdresselinje)
+                .map(l -> String.join("\n", l))
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setAddress);
+
+        ofNullable(part.getAdresse())
+                .map(AdresseResource::getPostnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setZipCode);
+
+        ofNullable(part.getAdresse())
+                .map(AdresseResource::getPoststed)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setZipPlace);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getEpostadresse)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setEmail);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getMobiltelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setMobilePhone);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getTelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setPhone);
+
+
         contact.setContactName(part.getKontaktperson());
         contact.setContactCompanyName(part.getPartNavn());
 

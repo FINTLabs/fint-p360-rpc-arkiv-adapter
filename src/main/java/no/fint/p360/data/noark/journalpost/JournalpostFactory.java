@@ -214,28 +214,29 @@ public class JournalpostFactory {
                 journalpostResource.getJournalstatus(),
                 createDocumentArgs::setStatus);
 
-        //Todo: Testing here, to see if contacts are added to the Parameter eventhough we never say parameter.setContacts
-        ofNullable(journalpostResource.getKorrespondansepart()).ifPresent(korrespondanseResources -> {
-            korrespondanseResources
-                    .stream()
-                    .map(this::createDocumentContact)
-                    .forEach(createDocumentArgs.getUnregisteredContacts()::add);
-        });
+        createDocumentArgs.setUnregisteredContacts(
+                ofNullable(journalpostResource.getKorrespondansepart())
+                        .map(List::stream)
+                        .orElseGet(Stream::empty)
+                        .map(this::createDocumentContact)
+                        .collect(Collectors.toList()));
 
-        ofNullable(journalpostResource.getDokumentbeskrivelse()).ifPresent(dokumentbeskrivelseResources -> {
-            dokumentbeskrivelseResources
-                    .stream()
-                    .peek(r -> log.info("Handling Dokumentbeskrivelse: {}", r))
-                    .flatMap(this::createFiles)
-                    .forEach(createDocumentArgs.getFiles()::add);
-        });
 
-        ofNullable(journalpostResource.getMerknad()).ifPresent(merknadResources -> {
-            merknadResources
-                    .stream()
-                    .map(this::createDocumentRemarkParameter)
-                    .forEach(createDocumentArgs.getRemarks()::add);
-        });
+        createDocumentArgs.setFiles(
+                ofNullable(journalpostResource.getDokumentbeskrivelse())
+                        .map(List::stream)
+                        .orElseGet(Stream::empty)
+                        .peek(r -> log.info("Handling Dokumentbeskrivelse: {}", r))
+                        .flatMap(this::createFiles)
+                        .collect(Collectors.toList()));
+
+        createDocumentArgs.setRemarks(
+                ofNullable(journalpostResource.getMerknad())
+                        .map(List::stream)
+                        .orElseGet(Stream::empty)
+                        .map(this::createDocumentRemarkParameter)
+                        .collect(Collectors.toList()));
+
         return createDocumentArgs;
     }
 

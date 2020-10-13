@@ -35,6 +35,7 @@ public class KodeverkHandler implements Handler {
         suppliers.put(GET_ALL_DOKUMENTTYPE, merge(noarkMetadataService::getDokumentType, kodeverkRepository::getDokumentType));
         suppliers.put(GET_ALL_JOURNALPOSTTYPE, merge(noarkMetadataService::getJournalpostType, kodeverkRepository::getJournalpostType));
         suppliers.put(GET_ALL_JOURNALSTATUS, merge(noarkMetadataService::getJournalStatus, kodeverkRepository::getJournalStatus));
+        //suppliers.put(GET_ALL_KLASSIFIKASJONSTYPE, noarkMetadataService.getKla);
         suppliers.put(GET_ALL_KORRESPONDANSEPARTTYPE, merge(noarkMetadataService::getKorrespondansepartType, kodeverkRepository::getKorrespondansepartType));
         suppliers.put(GET_ALL_MERKNADSTYPE, kodeverkRepository::getMerknadstype);
         suppliers.put(GET_ALL_PARTROLLE, merge(noarkMetadataService::getPartRolle, kodeverkRepository::getPartRolle));
@@ -43,7 +44,6 @@ public class KodeverkHandler implements Handler {
         suppliers.put(GET_ALL_TILGANGSRESTRIKSJON, kodeverkRepository::getTilgangsrestriksjon);
         suppliers.put(GET_ALL_TILKNYTTETREGISTRERINGSOM, merge(noarkMetadataService::getTilknyttetRegistreringSom, kodeverkRepository::getTilknyttetRegistreringSom));
         suppliers.put(GET_ALL_VARIANTFORMAT, merge(noarkMetadataService::getVariantformat, kodeverkRepository::getVariantformat));
-        //TODO suppliers.put(GET_ALL_KLASSIFIKASJONSSYSTEM, kodeverkRepository::getKlassifikasjonssystem);
         //TODO suppliers.put(GET_ALL_KLASSE, kodeverkRepository::getKlasse);
     }
 
