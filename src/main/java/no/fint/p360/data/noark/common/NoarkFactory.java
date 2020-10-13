@@ -84,10 +84,12 @@ public class NoarkFactory {
                 .collect(Collectors.toList()));
 
         saksmappeResource.setPart(
+                Stream.concat(
                 optionalValue(caseResult.getContacts())
                         .map(List::stream)
                         .orElseGet(Stream::empty)
-                        .map(partFactory::getPartsinformasjon)
+                        .map(partFactory::getPartsinformasjon),
+                        caseResult.get
                         .collect(Collectors.toList()));
 
         List<String> journalpostIds = optionalValue(caseResult.getDocuments())
