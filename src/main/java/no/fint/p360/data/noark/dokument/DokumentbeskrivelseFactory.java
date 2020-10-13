@@ -1,10 +1,12 @@
 package no.fint.p360.data.noark.dokument;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.administrasjon.arkiv.*;
+import no.fint.model.arkiv.noark.*;
+import no.fint.model.arkiv.kodeverk.*;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
-import no.fint.model.resource.administrasjon.arkiv.*;
+import no.fint.model.resource.arkiv.noark.*;
+import no.fint.model.resource.arkiv.kodeverk.*;
 import no.fint.p360.data.exception.FileNotFound;
 import no.fint.p360.data.noark.codes.filformat.FilformatResource;
 import no.fint.p360.repository.InternalRepository;

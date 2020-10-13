@@ -2,9 +2,9 @@ package no.fint.p360.data.noark.part;
 
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
-import no.fint.model.resource.administrasjon.arkiv.PartResource;
-import no.fint.model.resource.administrasjon.arkiv.PartRolleResource;
-import no.fint.model.resource.administrasjon.arkiv.PartsinformasjonResource;
+import no.fint.model.resource.arkiv.noark.PartResource;
+import no.fint.model.resource.arkiv.kodeverk.PartRolleResource;
+import no.fint.model.resource.arkiv.noark.PartResource;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.CaseService.Contact__1;
@@ -71,13 +71,13 @@ public class PartFactory {
 
     }
 
-    public PartsinformasjonResource getPartsinformasjon(Contact__1 caseContactResult) {
-        PartsinformasjonResource partsinformasjonResource = new PartsinformasjonResource();
+    public PartResource getPartsinformasjon(Contact__1 caseContactResult) {
+        PartResource PartResource = new PartResource();
 
         optionalValue(caseContactResult.getRecno())
                 .map(String::valueOf)
                 .map(Link.apply(PartResource.class, "partid"))
-                .ifPresent(partsinformasjonResource::addPart);
+                .ifPresent(PartResource::addPart);
 
         optionalValue(caseContactResult.getRole())
                 .flatMap(role ->
@@ -89,9 +89,9 @@ public class PartFactory {
                 .map(PartRolleResource::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
                 .map(Link.apply(PartRolleResource.class, "systemid"))
-                .ifPresent(partsinformasjonResource::addPartRolle);
+                .ifPresent(PartResource::addPartRolle);
 
-        return partsinformasjonResource;
+        return PartResource;
     }
 
 }

@@ -2,15 +2,17 @@ package no.fint.p360.data.noark.common;
 
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.TitleService;
-import no.fint.model.administrasjon.arkiv.Arkivdel;
-import no.fint.model.administrasjon.arkiv.Saksstatus;
+import no.fint.model.arkiv.noark.Arkivdel;
+import no.fint.model.arkiv.kodeverk.Saksstatus;
 import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
-import no.fint.model.resource.administrasjon.arkiv.*;
+import no.fint.model.resource.arkiv.kodeverk.*;
+import no.fint.model.resource.arkiv.noark.*;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
+import no.fint.p360.data.noark.codes.klasse.KlasseFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.data.noark.part.PartFactory;
 import no.fint.p360.data.p360.DocumentService;
@@ -55,6 +57,9 @@ public class NoarkFactory {
 
     @Autowired
     private PartFactory partFactory;
+
+    @Autowired
+    private KlasseFactory klasseFactory;
 
     public void getSaksmappe(Case caseResult, SaksmappeResource saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
         String caseNumber = caseResult.getCaseNumber();
@@ -129,15 +134,9 @@ public class NoarkFactory {
         caseResult
                 .getArchiveCodes()
                 .stream()
-                .map(ArchiveCode__1::getArchiveCode)
-                .flatMap(code -> kodeverkRepository
-                        .getKlasse()
-                        .stream()
-                        .filter(it -> StringUtils.equals(code, it.getTittel())))
-                .map(KlasseResource::getSystemId)
-                .map(Identifikator::getIdentifikatorverdi)
-                .map(Link.apply(KlasseResource.class, "systemid"))
-                .forEach(saksmappeResource::addKlasse);
+                .map(klasseFactory::toFintResource)
+                .findFirst()
+                .ifPresent(saksmappeResource::setKlasse);
 
         titleService.parseTitle(saksmappeResource, saksmappeResource.getTittel());
 
@@ -198,7 +197,7 @@ public class NoarkFactory {
         //createCaseParameter.setUnofficialTitle();
 
         if (usePart && saksmappeResource.getPart() != null) {
-            createCaseArgs.setContacts(
+            createCaseArgs.setUnregisteredContacts(
                     saksmappeResource
                             .getPart()
                             .stream()
@@ -246,20 +245,14 @@ public class NoarkFactory {
     }
 
 
-    public Contact createCaseContactParameter(PartsinformasjonResource partsinformasjon) {
-        Contact contact = new Contact();
+    public UnregisteredContact createCaseContactParameter(PartResource part) {
+        UnregisteredContact contact = new UnregisteredContact();
 
-        partsinformasjon
-                .getPart()
-                .stream()
-                .map(Link::getHref)
-                .filter(StringUtils::isNotBlank)
-                .map(s -> StringUtils.substringAfterLast(s, "/"))
-                .map(s -> StringUtils.prependIfMissing(s, "recno:"))
-                .findFirst()
-                .ifPresent(contact::setReferenceNumber);
+        // TODO
+        contact.setContactName(part.getKontaktperson());
+        contact.setContactCompanyName(part.getPartNavn());
 
-        partsinformasjon
+        part
                 .getPartRolle()
                 .stream()
                 .map(Link::getHref)

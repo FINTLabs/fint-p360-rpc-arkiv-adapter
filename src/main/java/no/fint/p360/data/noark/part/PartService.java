@@ -1,6 +1,6 @@
 package no.fint.p360.data.noark.part;
 
-import no.fint.model.resource.administrasjon.arkiv.PartResource;
+import no.fint.model.resource.arkiv.noark.PartResource;
 import no.fint.p360.data.exception.PartNotFound;
 import no.fint.p360.data.p360.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;

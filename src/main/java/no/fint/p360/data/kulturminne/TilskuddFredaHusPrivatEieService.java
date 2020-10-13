@@ -15,7 +15,7 @@ import java.util.LinkedList;
 public class TilskuddFredaHusPrivatEieService {
 
     @Autowired
-    private TilskuddFredaHusPrivatEieFactory tilskuddFredaHusPrivatEieFactory;
+    private TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory;
 
     @Autowired
     private CaseQueryService caseQueryService;
@@ -23,7 +23,7 @@ public class TilskuddFredaHusPrivatEieService {
 
     public void getTilskuddFredaHusPrivatEieForQuery(String query, Event<FintLinks> response) {
         response.setData(new LinkedList<>());
-        caseQueryService.query(query).map(tilskuddFredaHusPrivatEieFactory::toFintResource).forEach(response::addData);
+        caseQueryService.query(query).map(tilskuddFredaBygningPrivatEieFactory::toFintResource).forEach(response::addData);
         response.setResponseStatus(ResponseStatus.ACCEPTED);
     }
 }

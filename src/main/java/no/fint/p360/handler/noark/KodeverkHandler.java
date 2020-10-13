@@ -5,7 +5,7 @@ import no.fint.arkiv.NoarkMetadataService;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.event.model.Status;
-import no.fint.model.administrasjon.arkiv.ArkivActions;
+import no.fint.model.arkiv.kodeverk.KodeverkActions;
 import no.fint.model.resource.FintLinks;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.repository.KodeverkRepository;
@@ -21,13 +21,13 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static no.fint.model.administrasjon.arkiv.ArkivActions.*;
+import static no.fint.model.arkiv.kodeverk.KodeverkActions.*;
 
 @Service
 @Slf4j
 public class KodeverkHandler implements Handler {
 
-    private final EnumMap<ArkivActions, Supplier<List<? extends FintLinks>>> suppliers = new EnumMap<>(ArkivActions.class);
+    private final EnumMap<KodeverkActions, Supplier<List<? extends FintLinks>>> suppliers = new EnumMap<>(KodeverkActions.class);
 
     @PostConstruct
     public void init() {
@@ -43,8 +43,8 @@ public class KodeverkHandler implements Handler {
         suppliers.put(GET_ALL_TILGANGSRESTRIKSJON, kodeverkRepository::getTilgangsrestriksjon);
         suppliers.put(GET_ALL_TILKNYTTETREGISTRERINGSOM, merge(noarkMetadataService::getTilknyttetRegistreringSom, kodeverkRepository::getTilknyttetRegistreringSom));
         suppliers.put(GET_ALL_VARIANTFORMAT, merge(noarkMetadataService::getVariantformat, kodeverkRepository::getVariantformat));
-        suppliers.put(GET_ALL_KLASSIFIKASJONSSYSTEM, kodeverkRepository::getKlassifikasjonssystem);
-        suppliers.put(GET_ALL_KLASSE, kodeverkRepository::getKlasse);
+        //TODO suppliers.put(GET_ALL_KLASSIFIKASJONSSYSTEM, kodeverkRepository::getKlassifikasjonssystem);
+        //TODO suppliers.put(GET_ALL_KLASSE, kodeverkRepository::getKlasse);
     }
 
     @Autowired
@@ -61,7 +61,7 @@ public class KodeverkHandler implements Handler {
             return;
         }
         response.setResponseStatus(ResponseStatus.ACCEPTED);
-        suppliers.getOrDefault(ArkivActions.valueOf(response.getAction()), Collections::emptyList)
+        suppliers.getOrDefault(KodeverkActions.valueOf(response.getAction()), Collections::emptyList)
                 .get()
                 .forEach(response::addData);
     }

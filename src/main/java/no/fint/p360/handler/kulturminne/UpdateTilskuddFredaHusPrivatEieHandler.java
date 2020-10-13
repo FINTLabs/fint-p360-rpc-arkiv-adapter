@@ -6,11 +6,11 @@ import no.fint.arkiv.CaseDefaults;
 import no.fint.event.model.Event;
 import no.fint.event.model.Operation;
 import no.fint.event.model.ResponseStatus;
-import no.fint.model.kultur.kulturminnevern.KulturminnevernActions;
+import no.fint.model.arkiv.kulturminnevern.KulturminnevernActions;
 import no.fint.model.resource.FintLinks;
-import no.fint.model.resource.kultur.kulturminnevern.TilskuddFredaHusPrivatEieResource;
+import no.fint.model.resource.arkiv.kulturminnevern.TilskuddFredaBygningPrivatEieResource;
 import no.fint.p360.data.exception.*;
-import no.fint.p360.data.kulturminne.TilskuddFredaHusPrivatEieFactory;
+import no.fint.p360.data.kulturminne.TilskuddFredaBygningPrivatEieFactory;
 import no.fint.p360.data.kulturminne.TilskuddFredaHusPrivatEieService;
 import no.fint.p360.data.p360.CaseService;
 import no.fint.p360.data.p360.DocumentService;
@@ -40,7 +40,7 @@ public class UpdateTilskuddFredaHusPrivatEieHandler implements Handler {
     private TilskuddFredaHusPrivatEieService tilskuddFredaHusPrivatEieService;
 
     @Autowired
-    private TilskuddFredaHusPrivatEieFactory tilskuddFredaHusPrivatEieFactory;
+    private TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory;
 
     @Autowired
     private CaseDefaults caseDefaults;
@@ -67,7 +67,7 @@ public class UpdateTilskuddFredaHusPrivatEieHandler implements Handler {
 
         Operation operation = response.getOperation();
 
-        TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEieResource = objectMapper.convertValue(response.getData().get(0), TilskuddFredaHusPrivatEieResource.class);
+        TilskuddFredaBygningPrivatEieResource tilskuddFredaHusPrivatEieResource = objectMapper.convertValue(response.getData().get(0), TilskuddFredaBygningPrivatEieResource.class);
 
         if (operation == Operation.CREATE) {
             caseDefaultsService.applyDefaultsForCreation(caseDefaults.getTilskuddfredahusprivateie(), tilskuddFredaHusPrivatEieResource);
@@ -87,7 +87,7 @@ public class UpdateTilskuddFredaHusPrivatEieHandler implements Handler {
         }
     }
 
-    private void updateCase(Event<FintLinks> response, String query, TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEieResource) {
+    private void updateCase(Event<FintLinks> response, String query, TilskuddFredaBygningPrivatEieResource tilskuddFredaHusPrivatEieResource) {
         if (!caseQueryService.isValidQuery(query)) {
             response.setStatusCode("BAD_REQUEST");
             response.setResponseStatus(ResponseStatus.REJECTED);
@@ -110,13 +110,13 @@ public class UpdateTilskuddFredaHusPrivatEieHandler implements Handler {
         }
     }
 
-    private void createCase(Event<FintLinks> response, TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEieResource) {
+    private void createCase(Event<FintLinks> response, TilskuddFredaBygningPrivatEieResource tilskuddFredaHusPrivatEieResource) {
         try {
             final CreateCaseArgs createCaseArgs =
                     caseDefaultsService
                             .applyDefaultsToCreateCaseParameter(
                                     caseDefaults.getTilskuddfredahusprivateie(),
-                                    tilskuddFredaHusPrivatEieFactory.convertToCreateCase(
+                                    tilskuddFredaBygningPrivatEieFactory.convertToCreateCase(
                                             tilskuddFredaHusPrivatEieResource));
             String caseNumber = caseService.createCase(createCaseArgs);
             createDocumentsForCase(tilskuddFredaHusPrivatEieResource, caseNumber);
@@ -127,16 +127,16 @@ public class UpdateTilskuddFredaHusPrivatEieHandler implements Handler {
         }
     }
 
-    private void createDocumentsForCase(TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEieResource, String caseNumber) {
+    private void createDocumentsForCase(TilskuddFredaBygningPrivatEieResource tilskuddFredaHusPrivatEieResource, String caseNumber) {
         tilskuddFredaHusPrivatEieResource
                 .getJournalpost()
                 .stream()
-                .map(it -> tilskuddFredaHusPrivatEieFactory.convertToCreateDocument(it, caseNumber))
+                .map(it -> tilskuddFredaBygningPrivatEieFactory.convertToCreateDocument(it, caseNumber))
                 .forEach(documentService::createDocument);
     }
 
     @Override
     public Set<String> actions() {
-        return Collections.singleton(KulturminnevernActions.UPDATE_TILSKUDDFREDAHUSPRIVATEIE.name());
+        return Collections.singleton(KulturminnevernActions.UPDATE_TILSKUDDFREDABYGNINGPRIVATEIE.name());
     }
 }

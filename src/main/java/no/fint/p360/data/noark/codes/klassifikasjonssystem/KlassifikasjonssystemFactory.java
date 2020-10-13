@@ -2,7 +2,7 @@ package no.fint.p360.data.noark.codes.klassifikasjonssystem;
 
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.resource.administrasjon.arkiv.KlassifikasjonssystemResource;
+import no.fint.model.resource.arkiv.noark.KlassifikasjonssystemResource;
 import no.fint.p360.data.utilities.FintUtils;
 import no.p360.model.SupportService.CodeTableRow;
 import org.springframework.stereotype.Service;

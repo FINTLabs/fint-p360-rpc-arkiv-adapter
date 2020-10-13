@@ -2,7 +2,8 @@ package no.fint.p360.repository;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.resource.administrasjon.arkiv.*;
+import no.fint.model.resource.arkiv.kodeverk.*;
+import no.fint.model.resource.arkiv.noark.*;
 import no.fint.p360.data.noark.codes.CaseCategoryService;
 import no.fint.p360.data.noark.codes.dokumentstatus.DokumentstatusService;
 import no.fint.p360.data.noark.codes.dokumenttype.DokumenttypeService;
