@@ -29,7 +29,7 @@ import java.util.Set;
 
 @Service
 @Slf4j
-public class UpdateTilskuddFredaHusPrivatEieHandler implements Handler {
+public class UpdateTilskuddFredaBygningPrivatEieHandler implements Handler {
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -70,14 +70,14 @@ public class UpdateTilskuddFredaHusPrivatEieHandler implements Handler {
         TilskuddFredaBygningPrivatEieResource tilskuddFredaHusPrivatEieResource = objectMapper.convertValue(response.getData().get(0), TilskuddFredaBygningPrivatEieResource.class);
 
         if (operation == Operation.CREATE) {
-            caseDefaultsService.applyDefaultsForCreation(caseDefaults.getTilskuddfredahusprivateie(), tilskuddFredaHusPrivatEieResource);
+            caseDefaultsService.applyDefaultsForCreation(caseDefaults.getTilskuddfredabygningprivateie(), tilskuddFredaHusPrivatEieResource);
             log.info("Case: {}", tilskuddFredaHusPrivatEieResource);
             if (!validationService.validate(response, tilskuddFredaHusPrivatEieResource)) {
                 return;
             }
             createCase(response, tilskuddFredaHusPrivatEieResource);
         } else if (operation == Operation.UPDATE) {
-            caseDefaultsService.applyDefaultsForUpdate(caseDefaults.getTilskuddfredahusprivateie(), tilskuddFredaHusPrivatEieResource);
+            caseDefaultsService.applyDefaultsForUpdate(caseDefaults.getTilskuddfredabygningprivateie(), tilskuddFredaHusPrivatEieResource);
             if (!validationService.validate(response, tilskuddFredaHusPrivatEieResource.getJournalpost())) {
                 return;
             }
@@ -115,7 +115,7 @@ public class UpdateTilskuddFredaHusPrivatEieHandler implements Handler {
             final CreateCaseArgs createCaseArgs =
                     caseDefaultsService
                             .applyDefaultsToCreateCaseParameter(
-                                    caseDefaults.getTilskuddfredahusprivateie(),
+                                    caseDefaults.getTilskuddfredabygningprivateie(),
                                     tilskuddFredaBygningPrivatEieFactory.convertToCreateCase(
                                             tilskuddFredaHusPrivatEieResource));
             String caseNumber = caseService.createCase(createCaseArgs);
