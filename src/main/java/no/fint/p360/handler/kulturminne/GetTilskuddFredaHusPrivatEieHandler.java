@@ -9,7 +9,7 @@ import no.fint.p360.data.exception.CaseNotFound;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.exception.NotTilskuddFredaHusPrivatEieException;
-import no.fint.p360.data.kulturminne.TilskuddFredaHusPrivatEieService;
+import no.fint.p360.data.kulturminne.TilskuddFredaBygningPrivatEieService;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.service.CaseQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.Set;
 @Slf4j
 public class GetTilskuddFredaHusPrivatEieHandler implements Handler {
     @Autowired
-    private TilskuddFredaHusPrivatEieService tilskuddFredaHusPrivatEieService;
+    private TilskuddFredaBygningPrivatEieService tilskuddFredaBygningPrivatEieService;
 
     @Autowired
     private CaseQueryService caseQueryService;
@@ -37,7 +37,7 @@ public class GetTilskuddFredaHusPrivatEieHandler implements Handler {
             return;
         }
         try {
-            tilskuddFredaHusPrivatEieService.getTilskuddFredaHusPrivatEieForQuery(query, response);
+            tilskuddFredaBygningPrivatEieService.getTilskuddFredaBygningPrivatEieForQuery(query, response);
         } catch (CaseNotFound e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode("NOT_FOUND");

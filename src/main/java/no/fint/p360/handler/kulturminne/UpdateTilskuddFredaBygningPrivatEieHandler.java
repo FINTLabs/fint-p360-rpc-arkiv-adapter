@@ -11,7 +11,7 @@ import no.fint.model.resource.FintLinks;
 import no.fint.model.resource.arkiv.kulturminnevern.TilskuddFredaBygningPrivatEieResource;
 import no.fint.p360.data.exception.*;
 import no.fint.p360.data.kulturminne.TilskuddFredaBygningPrivatEieFactory;
-import no.fint.p360.data.kulturminne.TilskuddFredaHusPrivatEieService;
+import no.fint.p360.data.kulturminne.TilskuddFredaBygningPrivatEieService;
 import no.fint.p360.data.p360.CaseService;
 import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.QueryUtils;
@@ -22,6 +22,7 @@ import no.fint.p360.service.ValidationService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -37,7 +38,7 @@ public class UpdateTilskuddFredaBygningPrivatEieHandler implements Handler {
     private ValidationService validationService;
 
     @Autowired
-    private TilskuddFredaHusPrivatEieService tilskuddFredaHusPrivatEieService;
+    private TilskuddFredaBygningPrivatEieService tilskuddFredaBygningPrivatEieService;
 
     @Autowired
     private TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory;
@@ -103,9 +104,10 @@ public class UpdateTilskuddFredaBygningPrivatEieHandler implements Handler {
             Case theCase = caseQueryService.query(query).collect(QueryUtils.toSingleton());
             String caseNumber = theCase.getCaseNumber();
             createDocumentsForCase(tilskuddFredaHusPrivatEieResource, caseNumber);
-            tilskuddFredaHusPrivatEieService.getTilskuddFredaHusPrivatEieForQuery(query, response);
+            tilskuddFredaBygningPrivatEieService.getTilskuddFredaBygningPrivatEieForQuery(query, response);
         } catch (CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotTilskuddFredaHusPrivatEieException e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
+            response.setStatusCode(HttpStatus.BAD_REQUEST.name());
             response.setMessage(e.getMessage());
         }
     }
@@ -120,9 +122,10 @@ public class UpdateTilskuddFredaBygningPrivatEieHandler implements Handler {
                                             tilskuddFredaHusPrivatEieResource));
             String caseNumber = caseService.createCase(createCaseArgs);
             createDocumentsForCase(tilskuddFredaHusPrivatEieResource, caseNumber);
-            tilskuddFredaHusPrivatEieService.getTilskuddFredaHusPrivatEieForQuery("mappeid/" + caseNumber, response);
+            tilskuddFredaBygningPrivatEieService.getTilskuddFredaBygningPrivatEieForQuery("mappeid/" + caseNumber, response);
         } catch (CreateCaseException | CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotTilskuddFredaHusPrivatEieException e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
+            response.setStatusCode(HttpStatus.BAD_REQUEST.name());
             response.setMessage(e.getMessage());
         }
     }

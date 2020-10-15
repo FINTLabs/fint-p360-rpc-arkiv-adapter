@@ -3,8 +3,9 @@ package no.fint.p360.data.kulturminne;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.TitleService;
-import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.model.resource.arkiv.kulturminnevern.TilskuddFredaBygningPrivatEieResource;
+import no.fint.model.resource.arkiv.noark.JournalpostResource;
+import no.fint.model.resource.felles.kompleksedatatyper.MatrikkelnummerResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.exception.NotTilskuddFredaHusPrivatEieException;
@@ -41,6 +42,7 @@ public class TilskuddFredaBygningPrivatEieFactory {
         }
 
         TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEie = new TilskuddFredaBygningPrivatEieResource();
+        tilskuddFredaBygningPrivatEie.setMatrikkelnummer(new MatrikkelnummerResource());
         tilskuddFredaBygningPrivatEie.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
         noarkFactory.getSaksmappe(caseResult, tilskuddFredaBygningPrivatEie);
 

@@ -65,7 +65,7 @@ public class EventHandlerService {
                 log.warn("No handler found for {}", e.getAction());
                 e.setStatus(Status.ADAPTER_REJECTED);
                 e.setResponseStatus(ResponseStatus.REJECTED);
-                e.setStatusCode(HttpStatus.NOT_ACCEPTABLE.name());
+                e.setStatusCode(HttpStatus.BAD_REQUEST.name());
                 e.setMessage("Unsupported action");
             }).accept(response);
         } catch (IllegalArgumentException e) {
