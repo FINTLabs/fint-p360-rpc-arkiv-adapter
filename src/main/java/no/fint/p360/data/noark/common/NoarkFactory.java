@@ -2,14 +2,14 @@ package no.fint.p360.data.noark.common;
 
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.TitleService;
-import no.fint.model.arkiv.noark.Arkivdel;
-import no.fint.model.arkiv.kodeverk.Saksstatus;
 import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.administrasjon.personal.Personalressurs;
+import no.fint.model.arkiv.kodeverk.Saksstatus;
+import no.fint.model.arkiv.noark.Arkivdel;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
-import no.fint.model.resource.arkiv.kodeverk.*;
+import no.fint.model.resource.arkiv.kodeverk.SaksstatusResource;
 import no.fint.model.resource.arkiv.noark.*;
 import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.data.exception.GetDocumentException;
@@ -24,14 +24,12 @@ import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -136,12 +134,12 @@ public class NoarkFactory {
                 .map(Link.apply(Personalressurs.class, "ansattnummer"))
                 .ifPresent(saksmappeResource::addSaksansvarlig);
 
-        caseResult
-                .getArchiveCodes()
-                .stream()
-                .map(klasseFactory::toFintResource)
-                .findFirst() // TODO 0..*
-                .ifPresent(saksmappeResource::setKlasse);
+        saksmappeResource.setKlasse(
+                caseResult
+                        .getArchiveCodes()
+                        .stream()
+                        .map(klasseFactory::toFintResource)
+                        .collect(Collectors.toList()));
 
         titleService.parseTitle(saksmappeResource, saksmappeResource.getTittel());
 
@@ -220,6 +218,15 @@ public class NoarkFactory {
                             .collect(Collectors.toList()));
         }
 
+        if (saksmappeResource.getKlasse() != null) {
+            createCaseArgs.setArchiveCodes(
+                    saksmappeResource
+                            .getKlasse()
+                            .stream()
+                            .map(this::createCaseArchiveCode)
+                            .collect(Collectors.toList()));
+        }
+
 
         // TODO Responsible person
         /*
@@ -230,6 +237,16 @@ public class NoarkFactory {
         );
         */
         return createCaseArgs;
+    }
+
+    private ArchiveCode createCaseArchiveCode(KlasseResource klasseResource) {
+        ArchiveCode archiveCode = new ArchiveCode();
+        applyParameterFromLink(klasseResource.getKlassifikasjonssystem(), archiveCode::setArchiveType);
+        archiveCode.setArchiveCode(klasseResource.getKlasseId());
+        archiveCode.setSort(klasseResource.getRekkefolge());
+        archiveCode.setIsManualText(false);
+        // TODO Manual text
+        return archiveCode;
     }
 
     private Remark createCaseRemarkParameter(MerknadResource merknadResource) {
