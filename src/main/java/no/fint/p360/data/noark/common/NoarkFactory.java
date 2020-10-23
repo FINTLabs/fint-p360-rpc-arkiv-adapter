@@ -2,9 +2,9 @@ package no.fint.p360.data.noark.common;
 
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.TitleService;
-import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.arkiv.kodeverk.Saksstatus;
+import no.fint.model.arkiv.noark.AdministrativEnhet;
 import no.fint.model.arkiv.noark.Arkivdel;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
@@ -125,7 +125,7 @@ public class NoarkFactory {
         optionalValue(caseResult.getResponsibleEnterprise())
                 .map(ResponsibleEnterprise::getRecno)
                 .map(String::valueOf)
-                .map(Link.apply(Organisasjonselement.class, "organisasjonsid"))
+                .map(Link.apply(AdministrativEnhet.class, "systemid"))
                 .ifPresent(saksmappeResource::addAdministrativEnhet);
 
         optionalValue(caseResult.getResponsiblePerson())

@@ -1,20 +1,24 @@
 package no.fint.p360.data.noark.journalpost;
 
 import lombok.extern.slf4j.Slf4j;
+import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.arkiv.kodeverk.JournalStatus;
 import no.fint.model.arkiv.kodeverk.JournalpostType;
 import no.fint.model.arkiv.kodeverk.KorrespondansepartType;
 import no.fint.model.arkiv.kodeverk.Merknadstype;
-import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
-import no.fint.model.administrasjon.personal.Personalressurs;
+import no.fint.model.arkiv.noark.AdministrativEnhet;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
-import no.fint.model.resource.arkiv.noark.*;
-import no.fint.model.resource.arkiv.kodeverk.*;
+import no.fint.model.resource.arkiv.kodeverk.JournalStatusResource;
+import no.fint.model.resource.arkiv.kodeverk.KorrespondansepartTypeResource;
+import no.fint.model.resource.arkiv.kodeverk.MerknadstypeResource;
+import no.fint.model.resource.arkiv.noark.DokumentbeskrivelseResource;
+import no.fint.model.resource.arkiv.noark.JournalpostResource;
+import no.fint.model.resource.arkiv.noark.KorrespondansepartResource;
+import no.fint.model.resource.arkiv.noark.MerknadResource;
 import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.data.noark.dokument.DokumentbeskrivelseFactory;
-import no.fint.p360.data.p360.ContactService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.DocumentService.*;
@@ -30,7 +34,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;
-import static no.fint.p360.data.utilities.FintUtils.createAdresse;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
@@ -116,7 +119,7 @@ public class JournalpostFactory {
         optionalValue(documentResult.getResponsibleEnterprise())
                 .map(ResponsibleEnterprise::getRecno)
                 .map(String::valueOf)
-                .map(Link.apply(Organisasjonselement.class, "organisasjonsid"))
+                .map(Link.apply(AdministrativEnhet.class, "systemid"))
                 .ifPresent(journalpost::addAdministrativEnhet);
         optionalValue(documentResult.getCategory())
                 .map(Category::getRecno)
@@ -202,6 +205,11 @@ public class JournalpostFactory {
 
             // TODO createDocumentParameter.setAccessGroup();
         }
+
+        applyParameterFromLink(
+                journalpostResource.getAdministrativEnhet(),
+                Integer::parseInt,
+                createDocumentArgs::setResponsibleEnterpriseRecno);
 
         // TODO Set from incoming fields
         //createDocumentParameter.setDocumentDate();
