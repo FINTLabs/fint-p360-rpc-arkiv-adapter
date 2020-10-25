@@ -2,7 +2,7 @@ package no.fint.p360.data.noark.administrativenhet;
 
 import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.resource.Link;
-import no.fint.model.resource.administrasjon.arkiv.AdministrativEnhetResource;
+import no.fint.model.resource.arkiv.noark.AdministrativEnhetResource;
 import no.fint.p360.data.utilities.FintUtils;
 import no.p360.model.ContactService.Enterprise;
 import org.apache.commons.lang3.StringUtils;

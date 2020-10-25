@@ -1,7 +1,7 @@
 package no.fint.p360.data.noark.codes.dokumenttype;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.resource.administrasjon.arkiv.DokumentTypeResource;
+import no.fint.model.resource.arkiv.kodeverk.DokumentTypeResource;
 import no.fint.p360.data.p360.SupportService;
 import no.fint.p360.data.utilities.BegrepMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -14,6 +14,7 @@ import no.fint.p360.data.p360.SupportService;
 import no.fint.p360.handler.Handler;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -64,16 +65,19 @@ public class EventHandlerService {
                 log.warn("No handler found for {}", e.getAction());
                 e.setStatus(Status.ADAPTER_REJECTED);
                 e.setResponseStatus(ResponseStatus.REJECTED);
+                e.setStatusCode(HttpStatus.BAD_REQUEST.name());
                 e.setMessage("Unsupported action");
             }).accept(response);
         } catch (IllegalArgumentException e) {
             log.warn("Illegal arguments in event {}: {}", response, e.getMessage());
             response.setResponseStatus(ResponseStatus.REJECTED);
+            response.setStatusCode(HttpStatus.BAD_REQUEST.name());
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             log.error("Error handling event {}", response, e);
             response.setResponseStatus(ResponseStatus.ERROR);
             response.setMessage(ExceptionUtils.getStackTrace(e));
+            response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.name());
         } finally {
             if (response.getData() != null) {
                 log.info("{}: Response for {}: {}, {} items", component, response.getAction(), response.getResponseStatus(), response.getData().size());

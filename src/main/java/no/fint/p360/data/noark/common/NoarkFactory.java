@@ -2,15 +2,19 @@ package no.fint.p360.data.noark.common;
 
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.TitleService;
-import no.fint.model.administrasjon.arkiv.Arkivdel;
-import no.fint.model.administrasjon.arkiv.Saksstatus;
-import no.fint.model.administrasjon.organisasjon.Organisasjonselement;
 import no.fint.model.administrasjon.personal.Personalressurs;
+import no.fint.model.arkiv.kodeverk.Saksstatus;
+import no.fint.model.arkiv.noark.AdministrativEnhet;
+import no.fint.model.arkiv.noark.Arkivdel;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
-import no.fint.model.resource.administrasjon.arkiv.*;
+import no.fint.model.resource.arkiv.kodeverk.SaksstatusResource;
+import no.fint.model.resource.arkiv.noark.*;
+import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
+import no.fint.p360.data.noark.codes.klasse.KlasseFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.data.noark.part.PartFactory;
 import no.fint.p360.data.p360.DocumentService;
@@ -29,6 +33,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Optional.ofNullable;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
@@ -55,6 +60,9 @@ public class NoarkFactory {
 
     @Autowired
     private PartFactory partFactory;
+
+    @Autowired
+    private KlasseFactory klasseFactory;
 
     public void getSaksmappe(Case caseResult, SaksmappeResource saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
         String caseNumber = caseResult.getCaseNumber();
@@ -117,7 +125,7 @@ public class NoarkFactory {
         optionalValue(caseResult.getResponsibleEnterprise())
                 .map(ResponsibleEnterprise::getRecno)
                 .map(String::valueOf)
-                .map(Link.apply(Organisasjonselement.class, "organisasjonsid"))
+                .map(Link.apply(AdministrativEnhet.class, "systemid"))
                 .ifPresent(saksmappeResource::addAdministrativEnhet);
 
         optionalValue(caseResult.getResponsiblePerson())
@@ -126,18 +134,12 @@ public class NoarkFactory {
                 .map(Link.apply(Personalressurs.class, "ansattnummer"))
                 .ifPresent(saksmappeResource::addSaksansvarlig);
 
-        caseResult
-                .getArchiveCodes()
-                .stream()
-                .map(ArchiveCode__1::getArchiveCode)
-                .flatMap(code -> kodeverkRepository
-                        .getKlasse()
+        saksmappeResource.setKlasse(
+                caseResult
+                        .getArchiveCodes()
                         .stream()
-                        .filter(it -> StringUtils.equals(code, it.getTittel())))
-                .map(KlasseResource::getSystemId)
-                .map(Identifikator::getIdentifikatorverdi)
-                .map(Link.apply(KlasseResource.class, "systemid"))
-                .forEach(saksmappeResource::addKlasse);
+                        .map(klasseFactory::toFintResource)
+                        .collect(Collectors.toList()));
 
         titleService.parseTitle(saksmappeResource, saksmappeResource.getTittel());
 
@@ -198,7 +200,7 @@ public class NoarkFactory {
         //createCaseParameter.setUnofficialTitle();
 
         if (usePart && saksmappeResource.getPart() != null) {
-            createCaseArgs.setContacts(
+            createCaseArgs.setUnregisteredContacts(
                     saksmappeResource
                             .getPart()
                             .stream()
@@ -216,6 +218,15 @@ public class NoarkFactory {
                             .collect(Collectors.toList()));
         }
 
+        if (saksmappeResource.getKlasse() != null) {
+            createCaseArgs.setArchiveCodes(
+                    saksmappeResource
+                            .getKlasse()
+                            .stream()
+                            .map(this::createCaseArchiveCode)
+                            .collect(Collectors.toList()));
+        }
+
 
         // TODO Responsible person
         /*
@@ -226,6 +237,16 @@ public class NoarkFactory {
         );
         */
         return createCaseArgs;
+    }
+
+    private ArchiveCode createCaseArchiveCode(KlasseResource klasseResource) {
+        ArchiveCode archiveCode = new ArchiveCode();
+        applyParameterFromLink(klasseResource.getKlassifikasjonssystem(), archiveCode::setArchiveType);
+        archiveCode.setArchiveCode(klasseResource.getKlasseId());
+        archiveCode.setSort(klasseResource.getRekkefolge());
+        archiveCode.setIsManualText(false);
+        // TODO Manual text
+        return archiveCode;
     }
 
     private Remark createCaseRemarkParameter(MerknadResource merknadResource) {
@@ -246,20 +267,45 @@ public class NoarkFactory {
     }
 
 
-    public Contact createCaseContactParameter(PartsinformasjonResource partsinformasjon) {
-        Contact contact = new Contact();
+    public UnregisteredContact createCaseContactParameter(PartResource part) {
+        UnregisteredContact contact = new UnregisteredContact();
 
-        partsinformasjon
-                .getPart()
-                .stream()
-                .map(Link::getHref)
+        ofNullable(part.getAdresse())
+                .map(AdresseResource::getAdresselinje)
+                .map(l -> String.join("\n", l))
                 .filter(StringUtils::isNotBlank)
-                .map(s -> StringUtils.substringAfterLast(s, "/"))
-                .map(s -> StringUtils.prependIfMissing(s, "recno:"))
-                .findFirst()
-                .ifPresent(contact::setReferenceNumber);
+                .ifPresent(contact::setAddress);
 
-        partsinformasjon
+        ofNullable(part.getAdresse())
+                .map(AdresseResource::getPostnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setZipCode);
+
+        ofNullable(part.getAdresse())
+                .map(AdresseResource::getPoststed)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setZipPlace);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getEpostadresse)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setEmail);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getMobiltelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setMobilePhone);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getTelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(contact::setPhone);
+
+
+        contact.setContactName(part.getKontaktperson());
+        contact.setContactCompanyName(part.getPartNavn());
+
+        part
                 .getPartRolle()
                 .stream()
                 .map(Link::getHref)

@@ -6,9 +6,9 @@ import no.fint.event.model.Event;
 import no.fint.event.model.Operation;
 import no.fint.event.model.Problem;
 import no.fint.event.model.ResponseStatus;
-import no.fint.model.administrasjon.arkiv.ArkivActions;
+import no.fint.model.arkiv.noark.NoarkActions;
 import no.fint.model.resource.FintLinks;
-import no.fint.model.resource.administrasjon.arkiv.DokumentfilResource;
+import no.fint.model.resource.arkiv.noark.DokumentfilResource;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.repository.InternalRepository;
 import no.fint.p360.service.ValidationService;
@@ -67,7 +67,7 @@ public class CreateDokumentfilHandler implements Handler {
 
     @Override
     public Set<String> actions() {
-        return Collections.singleton(ArkivActions.UPDATE_DOKUMENTFIL.name());
+        return Collections.singleton(NoarkActions.UPDATE_DOKUMENTFIL.name());
     }
 
     @Override

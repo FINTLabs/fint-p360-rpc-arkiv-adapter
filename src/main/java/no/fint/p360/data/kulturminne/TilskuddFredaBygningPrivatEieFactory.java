@@ -3,8 +3,9 @@ package no.fint.p360.data.kulturminne;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.TitleService;
-import no.fint.model.resource.administrasjon.arkiv.JournalpostResource;
-import no.fint.model.resource.kultur.kulturminnevern.TilskuddFredaHusPrivatEieResource;
+import no.fint.model.resource.arkiv.kulturminnevern.TilskuddFredaBygningPrivatEieResource;
+import no.fint.model.resource.arkiv.noark.JournalpostResource;
+import no.fint.model.resource.felles.kompleksedatatyper.MatrikkelnummerResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.exception.NotTilskuddFredaHusPrivatEieException;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class TilskuddFredaHusPrivatEieFactory {
+public class TilskuddFredaBygningPrivatEieFactory {
 
     @Autowired
     private NoarkFactory noarkFactory;
@@ -35,31 +36,32 @@ public class TilskuddFredaHusPrivatEieFactory {
     @Autowired
     AdditionalFieldService additionalFieldService;
 
-    public TilskuddFredaHusPrivatEieResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddFredaHusPrivatEieException {
+    public TilskuddFredaBygningPrivatEieResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddFredaHusPrivatEieException {
         if (!isTilskuddFredaHusPrivatEie(caseResult)) {
             throw new NotTilskuddFredaHusPrivatEieException(caseResult.getCaseNumber());
         }
 
-        TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEie = new TilskuddFredaHusPrivatEieResource();
-        tilskuddFredaHusPrivatEie.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
-        noarkFactory.getSaksmappe(caseResult, tilskuddFredaHusPrivatEie);
+        TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEie = new TilskuddFredaBygningPrivatEieResource();
+        tilskuddFredaBygningPrivatEie.setMatrikkelnummer(new MatrikkelnummerResource());
+        tilskuddFredaBygningPrivatEie.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
+        noarkFactory.getSaksmappe(caseResult, tilskuddFredaBygningPrivatEie);
 
         /*
         String caseNumber = caseResult.getCaseNumber();
         String caseYear = NOARKUtils.getCaseYear(caseNumber);
         String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
-        tilskuddFredaHusPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "mappeid", caseYear, sequenceNumber));
-        tilskuddFredaHusPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "systemid", caseResult.getRecno().toString()));
-        tilskuddFredaHusPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "soknadsnummer", caseResult.getExternalId().getId()));
+        tilskuddFredaBygningPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "mappeid", caseYear, sequenceNumber));
+        tilskuddFredaBygningPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "systemid", caseResult.getRecno().toString()));
+        tilskuddFredaBygningPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "soknadsnummer", caseResult.getExternalId().getId()));
          */
 
-        return tilskuddFredaHusPrivatEie;
+        return tilskuddFredaBygningPrivatEie;
     }
 
 
-    public CreateCaseArgs convertToCreateCase(TilskuddFredaHusPrivatEieResource tilskuddFredaHusPrivatEie) {
-        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(tilskuddFredaHusPrivatEie);
-        createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFredaHusPrivatEie.getSoknadsnummer()));
+    public CreateCaseArgs convertToCreateCase(TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEieResource) {
+        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(tilskuddFredaBygningPrivatEieResource);
+        createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFredaBygningPrivatEieResource.getSoknadsnummer()));
         return createCaseArgs;
     }
 

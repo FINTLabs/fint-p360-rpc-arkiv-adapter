@@ -8,6 +8,7 @@ import no.fint.model.felles.kompleksedatatyper.Periode;
 import no.fint.model.felles.kompleksedatatyper.Personnavn;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
+import no.p360.model.CaseService.Address;
 import no.p360.model.ContactService.*;
 import no.p360.model.DocumentService.Contact__1;
 import org.apache.commons.lang3.StringUtils;
@@ -118,6 +119,15 @@ public enum FintUtils {
         adresseResource.setPoststed(address.getZipPlace());
         adresseResource.setPostnummer(address.getZipCode());
 
+        return adresseResource;
+    }
+
+    public static AdresseResource createAdresseResource(Address address) {
+        AdresseResource adresseResource = new AdresseResource();
+        adresseResource.setAdresselinje(Collections.singletonList(address.getStreetAddress()));
+        adresseResource.setPoststed(address.getZipPlace());
+        adresseResource.setPostnummer(address.getZipPlace());
+        adresseResource.addLand(Link.with(Landkode.class, "systemid", address.getCountry()));
         return adresseResource;
     }
 

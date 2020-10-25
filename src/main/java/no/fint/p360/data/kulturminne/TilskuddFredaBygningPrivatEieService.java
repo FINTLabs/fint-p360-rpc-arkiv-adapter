@@ -12,18 +12,18 @@ import java.util.LinkedList;
 
 @Slf4j
 @Service
-public class TilskuddFredaHusPrivatEieService {
+public class TilskuddFredaBygningPrivatEieService {
 
     @Autowired
-    private TilskuddFredaHusPrivatEieFactory tilskuddFredaHusPrivatEieFactory;
+    private TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory;
 
     @Autowired
     private CaseQueryService caseQueryService;
 
 
-    public void getTilskuddFredaHusPrivatEieForQuery(String query, Event<FintLinks> response) {
+    public void getTilskuddFredaBygningPrivatEieForQuery(String query, Event<FintLinks> response) {
         response.setData(new LinkedList<>());
-        caseQueryService.query(query).map(tilskuddFredaHusPrivatEieFactory::toFintResource).forEach(response::addData);
+        caseQueryService.query(query).map(tilskuddFredaBygningPrivatEieFactory::toFintResource).forEach(response::addData);
         response.setResponseStatus(ResponseStatus.ACCEPTED);
     }
 }

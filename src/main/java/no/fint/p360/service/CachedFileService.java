@@ -3,7 +3,7 @@ package no.fint.p360.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.*;
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.resource.administrasjon.arkiv.DokumentfilResource;
+import no.fint.model.resource.arkiv.noark.DokumentfilResource;
 import no.fint.p360.AdapterProps;
 import no.fint.p360.data.exception.FileNotFound;
 import no.fint.p360.data.p360.FileService;

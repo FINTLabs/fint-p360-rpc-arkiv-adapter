@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import no.fint.model.administrasjon.personal.Personalressurs
 import no.fint.model.felles.kompleksedatatyper.Identifikator
 import no.fint.model.resource.Link
-import no.fint.model.resource.administrasjon.arkiv.ArkivressursResource
+import no.fint.model.resource.arkiv.noark.ArkivressursResource
 import spock.lang.Specification
 
 class ArkivressursSpec extends Specification {

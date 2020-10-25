@@ -3,13 +3,13 @@ package no.fint.p360.handler.kulturminne;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
-import no.fint.model.kultur.kulturminnevern.KulturminnevernActions;
+import no.fint.model.arkiv.kulturminnevern.KulturminnevernActions;
 import no.fint.model.resource.FintLinks;
 import no.fint.p360.data.exception.CaseNotFound;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.exception.NotTilskuddFredaHusPrivatEieException;
-import no.fint.p360.data.kulturminne.TilskuddFredaHusPrivatEieService;
+import no.fint.p360.data.kulturminne.TilskuddFredaBygningPrivatEieService;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.service.CaseQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.Set;
 @Slf4j
 public class GetTilskuddFredaHusPrivatEieHandler implements Handler {
     @Autowired
-    private TilskuddFredaHusPrivatEieService tilskuddFredaHusPrivatEieService;
+    private TilskuddFredaBygningPrivatEieService tilskuddFredaBygningPrivatEieService;
 
     @Autowired
     private CaseQueryService caseQueryService;
@@ -37,7 +37,7 @@ public class GetTilskuddFredaHusPrivatEieHandler implements Handler {
             return;
         }
         try {
-            tilskuddFredaHusPrivatEieService.getTilskuddFredaHusPrivatEieForQuery(query, response);
+            tilskuddFredaBygningPrivatEieService.getTilskuddFredaBygningPrivatEieForQuery(query, response);
         } catch (CaseNotFound e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode("NOT_FOUND");
@@ -55,7 +55,7 @@ public class GetTilskuddFredaHusPrivatEieHandler implements Handler {
 
     @Override
     public Set<String> actions() {
-        return Collections.singleton(KulturminnevernActions.GET_TILSKUDDFREDAHUSPRIVATEIE.name());
+        return Collections.singleton(KulturminnevernActions.GET_TILSKUDDFREDABYGNINGPRIVATEIE.name());
     }
 
 }

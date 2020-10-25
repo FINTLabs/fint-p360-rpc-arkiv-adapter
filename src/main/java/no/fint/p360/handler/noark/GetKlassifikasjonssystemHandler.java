@@ -5,7 +5,7 @@ import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.arkiv.noark.NoarkActions;
 import no.fint.model.resource.FintLinks;
-import no.fint.p360.data.noark.administrativenhet.AdministrativEnhetService;
+import no.fint.p360.data.noark.codes.klassifikasjonssystem.KlassifikasjonssystemService;
 import no.fint.p360.handler.Handler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,19 +15,19 @@ import java.util.Set;
 
 @Slf4j
 @Service
-public class GetAdministrativEnhetHandler implements Handler {
+public class GetKlassifikasjonssystemHandler implements Handler {
   @Autowired
-  private AdministrativEnhetService administrativEnhetService;
+  private KlassifikasjonssystemService klassifikasjonssystemService;
 
   @Override
   public void accept(Event<FintLinks> response) {
-    administrativEnhetService.getAdministrativEnhet().forEach(response::addData);
+    klassifikasjonssystemService.getKlassifikasjonssystem().forEach(response::addData);
     response.setResponseStatus(ResponseStatus.ACCEPTED);
   }
 
   @Override
   public Set<String> actions() {
-    return Collections.singleton(NoarkActions.GET_ALL_ADMINISTRATIVENHET.name());
+    return Collections.singleton(NoarkActions.GET_ALL_KLASSIFIKASJONSSYSTEM.name());
   }
 
 }
