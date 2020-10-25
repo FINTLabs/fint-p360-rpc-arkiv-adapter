@@ -25,8 +25,8 @@ public abstract class P360Service {
     protected <T> T call(String uri, Object args, Class<T> responseType) {
         log.trace("POST {} {}", uri, args);
         return p360Client.post().uri(uri)
-                .header(HttpHeaders.AUTHORIZATION, "authkey " + adapterProps.getP360Password())
-                .header("clientid", adapterProps.getP360User())
+                .header(HttpHeaders.AUTHORIZATION, "authkey " + adapterProps.getP360AuthKey())
+                .header("clientid", adapterProps.getP360AuthKey())
                 .bodyValue(Collections.singletonMap("parameter", args))
                 .retrieve()
                 .bodyToMono(responseType)
@@ -36,8 +36,8 @@ public abstract class P360Service {
 
     public boolean getHealth(String url) {
         return p360Client.post().uri(url)
-                .header(HttpHeaders.AUTHORIZATION, "authkey " + adapterProps.getP360Password())
-                .header("clientid", adapterProps.getP360User())
+                .header(HttpHeaders.AUTHORIZATION, "authkey " + adapterProps.getP360AuthKey())
+                .header("clientid", adapterProps.getP360AuthKey())
                 .retrieve()
                 .toBodilessEntity()
                 .blockOptional()

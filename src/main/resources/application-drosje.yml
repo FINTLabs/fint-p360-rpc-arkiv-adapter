@@ -1,0 +1,54 @@
+server:
+  port: 8091
+
+springfox:
+  title: 'FINT SSE Adapter Skeleton'
+  version: '@version@'
+
+fint:
+  case:
+    formats:
+      title:
+        drosjeloyve: "Løyve drosje - ${tittel} - ${organisasjonsnummer}"
+    defaults:
+      drosjeloyve:
+        klassifikasjon:
+        administrativEnhet: 179
+        arkivdel: DLØYVE
+        noekkelord:
+        saksstatus: B
+        korrespondansepartType:
+        journalpostType:
+        journalstatus:
+        dokumentstatus:
+        dokumentType:
+        tilknyttetRegistreringSom:
+        kKodeFagklasse: N12
+        kKodeTilleggskode: "&18"
+        primarklassifikasjon: ORGNR
+        journalenhet: VFRÅD
+  adapter:
+    endpoints:
+      sse: /sse/%s
+      status: /status
+      response: /response
+      providers:
+        noark: https://alpha.felleskomponent.no/arkiv/noark/provider
+        kodeverk: https://alpha.felleskomponent.no/arkiv/noark/provider
+        #personal: https://alpha.felleskomponent.no/administrasjon/personal/provider
+        #kulturminne: https://beta.felleskomponent.no/kultur/kulturminnevern/provider
+        samferdsel: https://alpha.felleskomponent.no/arkiv/samferdsel/provider
+    organizations: frode.fintlabs.no
+
+  oauth:
+    enabled: true
+  #    username:
+  #    password:
+  #    client-id:
+  #    client-secret:
+  #    access-token-uri:
+  #    scope:
+
+security:
+  basic:
+    enabled: false

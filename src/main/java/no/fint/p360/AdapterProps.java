@@ -10,11 +10,11 @@ import java.nio.file.Path;
 @Component
 public class AdapterProps {
 
-    @Value("${fint.p360.user}")
-    private String p360User;
+//    @Value("${fint.p360.user}")
+//    private String p360User;
 
-    @Value("${fint.p360.password}")
-    private String p360Password;
+    @Value("${fint.p360.authKey}")
+    private String p360AuthKey;
 
     @Value("${fint.p360.endpoint-base-url}")
     private String endpointBaseUrl;
