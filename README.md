@@ -14,8 +14,8 @@ The adapter uses the following services:
 
 | Properties                                            | Default                                  | Description   |
 | :---------------------------------------------------- | :----------------------------------------| :------------ |
-| fint.p360.user                                        |                                          |               |
-| fint.p360.password                                    |                                          |               |
+| fint.p360.clientid                                    |                                          |               |
+| fint.p360.authkey                                     |                                          |               |
 | fint.p360.endpoint-base-url                           |                                          |               |
 | fint.file-repository.cache-directory                  | file-cache                               |               |
 | fint.file-repository.cache-spec                       | expireAfterAccess=5m,expireAfterWrite=7m |               |
