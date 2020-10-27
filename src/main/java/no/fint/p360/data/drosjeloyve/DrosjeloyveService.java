@@ -12,16 +12,14 @@ import java.util.LinkedList;
 
 @Slf4j
 @Service
-public class DrosjeloyveServices {
+public class DrosjeloyveService {
 
-    private final DrosjeloyveFactory drosjeloyveFactory;
+    @Autowired
+    private DrosjeloyveFactory drosjeloyveFactory;
 
-    private final CaseQueryService caseQueryService;
+    @Autowired
+    private CaseQueryService caseQueryService;
 
-    public DrosjeloyveServices(DrosjeloyveFactory drosjeloyveFactory, CaseQueryService caseQueryService) {
-        this.drosjeloyveFactory = drosjeloyveFactory;
-        this.caseQueryService = caseQueryService;
-    }
 
     public void getDrosjeloyveForQuery(String query, Event<FintLinks> response) {
         response.setData(new LinkedList<>());
