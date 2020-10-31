@@ -19,12 +19,15 @@ import no.fint.p360.handler.Handler;
 import no.fint.p360.service.CaseQueryService;
 import no.fint.p360.service.P360CaseDefaultsService;
 import no.fint.p360.service.ValidationService;
+import no.p360.model.CaseService.ArchiveCode;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 
@@ -57,6 +60,15 @@ public class UpdateDrosjeloyveHandler implements Handler {
 
     @Autowired
     private DocumentService documentService;
+
+    @Value("${fint.case.defaults.drosjeloyve.primarklassifikasjon}")
+    String primarklassifikasjon;
+
+    @Value("${fint.case.defaults.drosjeloyve.kKodeFagklasse}")
+    String kKodeFagklasse;
+
+    @Value("${fint.case.defaults.drosjeloyve.kKodeTilleggskode}")
+    String kKodeTilleggskode;
 
     @Override
     public void accept(Event<FintLinks> response) {
@@ -120,6 +132,32 @@ public class UpdateDrosjeloyveHandler implements Handler {
                                     caseDefaults.getDrosjeloyve(),
                                     drosjeloyveFactory.convertToCreateCase(
                                             drosjeloyveResource));
+
+            // TODO: Move to Asgeir
+            ArchiveCode primaryArchiveCode = new ArchiveCode();
+            primaryArchiveCode.setSort(1);
+            primaryArchiveCode.setArchiveType(primarklassifikasjon);
+            primaryArchiveCode.setArchiveCode(drosjeloyveResource.getOrganisasjonsnummer());
+            primaryArchiveCode.setIsManualText(true);
+
+            ArchiveCode secondaryArchiveCode = new ArchiveCode();
+            secondaryArchiveCode.setIsManualText(false);
+            secondaryArchiveCode.setSort(2);
+            secondaryArchiveCode.setArchiveType("FAGKLASSE PRINSIPP");
+            secondaryArchiveCode.setArchiveCode(kKodeFagklasse);
+
+            ArchiveCode additinalCode = new ArchiveCode();
+            additinalCode.setIsManualText(false);
+            additinalCode.setArchiveType("TILLEGGSKODE PRINSIPP");
+            additinalCode.setSort(3);
+            additinalCode.setArchiveCode(kKodeTilleggskode);
+
+            createCaseArgs.setArchiveCodes(Arrays.asList(
+                    primaryArchiveCode,
+                    secondaryArchiveCode,
+                    additinalCode)
+            );
+
             String caseNumber = caseService.createCase(createCaseArgs);
             createDocumentsForCase(drosjeloyveResource, caseNumber);
             drosjeloyveService.getDrosjeloyveForQuery("mappeid/" + caseNumber, response);
@@ -131,11 +169,13 @@ public class UpdateDrosjeloyveHandler implements Handler {
     }
 
     private void createDocumentsForCase(DrosjeloyveResource drosjeloyveResource, String caseNumber) {
-        drosjeloyveResource
-                .getJournalpost()
-                .stream()
-                .map(it -> drosjeloyveFactory.convertToCreateDocument(it, caseNumber))
-                .forEach(documentService::createDocument);
+        if (drosjeloyveResource.getJournalpost() != null) {
+            drosjeloyveResource
+                    .getJournalpost()
+                    .stream()
+                    .map(it -> drosjeloyveFactory.convertToCreateDocument(it, caseNumber))
+                    .forEach(documentService::createDocument);
+        }
     }
 
     @Override

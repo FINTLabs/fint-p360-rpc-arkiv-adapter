@@ -7,6 +7,7 @@ import no.fint.model.arkiv.kodeverk.JournalpostType;
 import no.fint.model.arkiv.kodeverk.KorrespondansepartType;
 import no.fint.model.arkiv.kodeverk.Merknadstype;
 import no.fint.model.arkiv.noark.AdministrativEnhet;
+import no.fint.model.felles.basisklasser.Begrep;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
@@ -24,6 +25,7 @@ import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.DocumentService.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -46,6 +48,9 @@ public class JournalpostFactory {
 
     @Autowired
     private DokumentbeskrivelseFactory dokumentbeskrivelseFactory;
+
+    @Value("${fint.case.defaults.drosjeloyve.journalpost.tilgangsgruppe}")
+    private String journalpostTilgangsgruppe;
 
     public JournalpostResource toFintResource(Document__1 documentResult) {
         JournalpostResource journalpost = new JournalpostResource();
@@ -190,6 +195,10 @@ public class JournalpostFactory {
         CreateDocumentArgs createDocumentArgs = new CreateDocumentArgs();
 //        createDocumentParameter.setADContextUser(objectFactory.createDocumentParameterBaseADContextUser(adapterProps.getP360User()));
 
+        if (StringUtils.isNotBlank(journalpostTilgangsgruppe)) {
+            createDocumentArgs.setAccessGroup(journalpostTilgangsgruppe);
+        }
+
         createDocumentArgs.setTitle(journalpostResource.getOffentligTittel());
         createDocumentArgs.setUnofficialTitle(journalpostResource.getTittel());
         createDocumentArgs.setCaseNumber(caseNumber);
@@ -201,6 +210,11 @@ public class JournalpostFactory {
 
             applyParameterFromLink(
                     journalpostResource.getSkjerming().getSkjermingshjemmel(),
+                    code -> kodeverkRepository.getSkjermingshjemmel().stream()
+                            .filter(it -> it.getSystemId().getIdentifikatorverdi().equals(code))
+                            .map(Begrep::getKode)
+                            .findFirst()
+                            .orElse(null),
                     createDocumentArgs::setParagraph);
 
             // TODO createDocumentParameter.setAccessGroup();

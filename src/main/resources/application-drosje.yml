@@ -34,11 +34,10 @@ fint:
       response: /response
       providers:
         noark: https://alpha.felleskomponent.no/arkiv/noark/provider
-        kodeverk: https://alpha.felleskomponent.no/arkiv/noark/provider
+        kodeverk: https://alpha.felleskomponent.no/arkiv/kodeverk/provider
         #personal: https://alpha.felleskomponent.no/administrasjon/personal/provider
         #kulturminne: https://beta.felleskomponent.no/kultur/kulturminnevern/provider
         samferdsel: https://alpha.felleskomponent.no/arkiv/samferdsel/provider
-    organizations: frode.fintlabs.no
 
   oauth:
     enabled: true

@@ -19,3 +19,4 @@ generated-sources
 /.vscode/
 /src/main/resources/application-*.properties
 /temp/
+/files/
