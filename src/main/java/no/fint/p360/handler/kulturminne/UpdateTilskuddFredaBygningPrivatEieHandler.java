@@ -131,11 +131,13 @@ public class UpdateTilskuddFredaBygningPrivatEieHandler implements Handler {
     }
 
     private void createDocumentsForCase(TilskuddFredaBygningPrivatEieResource tilskuddFredaHusPrivatEieResource, String caseNumber) {
-        tilskuddFredaHusPrivatEieResource
-                .getJournalpost()
-                .stream()
-                .map(it -> tilskuddFredaBygningPrivatEieFactory.convertToCreateDocument(it, caseNumber))
-                .forEach(documentService::createDocument);
+        if (tilskuddFredaHusPrivatEieResource.getJournalpost() != null) {
+            tilskuddFredaHusPrivatEieResource
+                    .getJournalpost()
+                    .stream()
+                    .map(it -> tilskuddFredaBygningPrivatEieFactory.convertToCreateDocument(it, caseNumber))
+                    .forEach(documentService::createDocument);
+        }
     }
 
     @Override
