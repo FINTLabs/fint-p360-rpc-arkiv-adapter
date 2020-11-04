@@ -108,7 +108,7 @@ public class JournalpostFactory {
 
         String[] split = optionalValue(documentResult.getDocumentNumber()).orElse("").split("-");
         if (split.length == 2 && StringUtils.isNumeric(split[1])) {
-            journalpost.setJournalSekvensnummer(Long.parseLong(split[1]));
+            journalpost.setJournalPostnummer(Long.parseLong(split[1]));
         }
 
         optionalValue(documentResult.getResponsiblePerson())
