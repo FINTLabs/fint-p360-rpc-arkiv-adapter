@@ -12,21 +12,9 @@ fint:
         drosjeloyve: "Løyve drosje - ${tittel} - ${organisasjonsnummer}"
     defaults:
       drosjeloyve:
-        klassifikasjon:
-        administrativEnhet: 179
-        arkivdel: DLØYVE
-        noekkelord:
-        saksstatus: B
-        korrespondansepartType:
         journalpostType:
-        journalstatus:
-        dokumentstatus:
         dokumentType:
         tilknyttetRegistreringSom:
-        kKodeFagklasse: N12
-        kKodeTilleggskode: "&18"
-        primarklassifikasjon: ORGNR
-        journalenhet: VFRÅD
   adapter:
     endpoints:
       sse: /sse/%s
