@@ -17,7 +17,7 @@ public class P360CaseDefaultsService extends CaseDefaultsService {
 
         createCaseArgs.setKeywords(Arrays.asList(properties.getNoekkelord()));
         createCaseArgs.setFiledOnPaper(false);
-        createCaseArgs.setCaseType(Constants.CASE_TYPE_NOARK);
+        createCaseArgs.setCaseType(properties.getSaksmappeType());
 
         return createCaseArgs;
     }
