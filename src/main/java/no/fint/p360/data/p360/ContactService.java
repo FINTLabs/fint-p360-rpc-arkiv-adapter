@@ -1,91 +1,82 @@
 package no.fint.p360.data.p360;
 
 import lombok.extern.slf4j.Slf4j;
+import no.fint.p360.data.exception.CreateContactException;
+import no.fint.p360.data.exception.CreateEnterpriseException;
+import no.fint.p360.data.exception.EnterpriseNotFound;
+import no.fint.p360.data.exception.PrivatePersonNotFound;
 import no.p360.model.ContactService.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Service
 @Slf4j
 public class ContactService extends P360Service {
 
-    public PrivatePerson getPrivatePersonByRecno(int recno) {
+    public PrivatePerson getPrivatePersonByPersonalIdNumber(String personalIdNumber) throws PrivatePersonNotFound {
         GetPrivatePersonsArgs getPrivatePersonsArgs = new GetPrivatePersonsArgs();
-        getPrivatePersonsArgs.setRecno(recno);
         getPrivatePersonsArgs.setIncludeCustomFields(true);
+        getPrivatePersonsArgs.setPersonalIdNumber(personalIdNumber);
+
         GetPrivatePersonsResponse getPrivatePersonsResponse = call("ContactService/GetPrivatePersons", getPrivatePersonsArgs, GetPrivatePersonsResponse.class);
         log.info("PrivatePersonsResult: {}", getPrivatePersonsResponse);
+
         if (getPrivatePersonsResponse.getSuccessful() && getPrivatePersonsResponse.getTotalPageCount() == 1) {
             return getPrivatePersonsResponse.getPrivatePersons().get(0);
         }
-        return null;
+
+        throw new PrivatePersonNotFound(getPrivatePersonsResponse.getErrorMessage());
+
     }
 
-    public ContactPerson getContactPersonByRecno(int recNo) {
-        GetContactPersonsArgs getContactPersonsArgs = new GetContactPersonsArgs();
-        getContactPersonsArgs.setIncludeCustomFields(true);
-        getContactPersonsArgs.setRecno(recNo);
-
-        GetContactPersonsResponse getContactPersonsResponse = call("ContactService/GetContactPersons", getContactPersonsArgs, GetContactPersonsResponse.class);
-        log.info("ContactPersonsResult: {}", getContactPersonsResponse);
-
-        if (getContactPersonsResponse.getSuccessful() && getContactPersonsResponse.getTotalPageCount() == 1) {
-            return getContactPersonsResponse.getContactPersons().get(0);
-        }
-        return null;
+    public List<Enterprise> getEnterprisesByCategory(String... categories) throws EnterpriseNotFound {
+        return getEnterprises(a -> a.setCategories(Arrays.asList(categories)));
     }
 
-    public Enterprise getEnterpriseByRecno(int recNo) {
+    public List<Enterprise> getEnterprisesByName(String name) throws EnterpriseNotFound {
+        return getEnterprises(a -> a.setName(name));
+    }
 
+    public Enterprise getEnterpriseByEnterpriseNumber(String enterpriseNumber) throws EnterpriseNotFound {
+        return getEnterprises(a -> a.setEnterpriseNumber(enterpriseNumber)).get(0);
+    }
+
+    private List<Enterprise> getEnterprises(Consumer<GetEnterprisesArgs> argsConsumer) throws EnterpriseNotFound {
         GetEnterprisesArgs getEnterprisesArgs = new GetEnterprisesArgs();
         getEnterprisesArgs.setIncludeCustomFields(true);
-        getEnterprisesArgs.setRecno(recNo);
+        argsConsumer.accept(getEnterprisesArgs);
 
         GetEnterprisesResponse getEnterprisesResponse = call("ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
 
         log.info("EnterpriseResult: {}", getEnterprisesResponse);
 
         if (getEnterprisesResponse.getSuccessful() && getEnterprisesResponse.getTotalPageCount() == 1) {
-            return getEnterprisesResponse.getEnterprises().get(0);
-        }
-
-        return null;
-    }
-
-    public List<Enterprise> getEnterprisesByCategory(String category) {
-        GetEnterprisesArgs getEnterprisesArgs = new GetEnterprisesArgs();
-        getEnterprisesArgs.setCategories(Collections.singletonList(category));
-        getEnterprisesArgs.setIncludeCustomFields(true);
-        GetEnterprisesResponse getEnterprisesResponse = call("ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
-
-        log.info("EnterpriseResult: {}", getEnterprisesResponse);
-
-        if (getEnterprisesResponse.getSuccessful()) {
             return getEnterprisesResponse.getEnterprises();
-        } else {
-            log.warn(getEnterprisesResponse.getErrorMessage());
         }
 
-        return null;
+        throw new EnterpriseNotFound(getEnterprisesResponse.getErrorMessage());
     }
 
-    public List<Enterprise> getEnterprisesByName(String name) {
-        GetEnterprisesArgs getEnterprisesArgs = new GetEnterprisesArgs();
-        getEnterprisesArgs.setName(name);
-        getEnterprisesArgs.setIncludeCustomFields(true);
-        GetEnterprisesResponse getEnterprisesResponse = call("ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
-
-        log.info("EnterpriseResult: {}", getEnterprisesResponse);
-
-        if (getEnterprisesResponse.getSuccessful()) {
-            return getEnterprisesResponse.getEnterprises();
-        } else {
-            log.warn(getEnterprisesResponse.getErrorMessage());
+    public Integer synchronizePrivatePerson(SynchronizePrivatePersonArgs privatePerson) throws CreateContactException {
+        log.info("Create Private Person: {}", privatePerson);
+        SynchronizePrivatePersonResponse synchronizePrivatePersonResponse = call("ContactService/SynchronizePrivatePerson", privatePerson, SynchronizePrivatePersonResponse.class);
+        log.info("Private Person Result: {}", synchronizePrivatePersonResponse);
+        if (synchronizePrivatePersonResponse.getSuccessful()) {
+            return synchronizePrivatePersonResponse.getRecno();
         }
-
-        return null;
+        throw new CreateContactException(synchronizePrivatePersonResponse.getErrorMessage());
     }
 
+    public Integer synchronizeEnterprise(SynchronizeEnterpriseArgs enterprise) throws CreateEnterpriseException {
+        log.info("Create Enterprise: {}", enterprise);
+        SynchronizeEnterpriseResponse synchronizeEnterpriseResponse = call("ContactService/SynchronizeEnterprise", enterprise, SynchronizeEnterpriseResponse.class);
+        log.info("Enterprise Result: {}", synchronizeEnterpriseResponse);
+        if (synchronizeEnterpriseResponse.getSuccessful()) {
+            return synchronizeEnterpriseResponse.getRecno();
+        }
+        throw new CreateEnterpriseException(synchronizeEnterpriseResponse.getErrorMessage());
+    }
 }

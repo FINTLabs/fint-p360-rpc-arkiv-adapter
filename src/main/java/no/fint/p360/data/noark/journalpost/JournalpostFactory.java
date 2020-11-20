@@ -4,28 +4,24 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.arkiv.kodeverk.JournalStatus;
 import no.fint.model.arkiv.kodeverk.JournalpostType;
-import no.fint.model.arkiv.kodeverk.KorrespondansepartType;
 import no.fint.model.arkiv.kodeverk.Merknadstype;
 import no.fint.model.arkiv.noark.AdministrativEnhet;
-import no.fint.model.felles.basisklasser.Begrep;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.arkiv.kodeverk.JournalStatusResource;
-import no.fint.model.resource.arkiv.kodeverk.KorrespondansepartTypeResource;
 import no.fint.model.resource.arkiv.kodeverk.MerknadstypeResource;
 import no.fint.model.resource.arkiv.noark.DokumentbeskrivelseResource;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
-import no.fint.model.resource.arkiv.noark.KorrespondansepartResource;
 import no.fint.model.resource.arkiv.noark.MerknadResource;
-import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.data.noark.dokument.DokumentbeskrivelseFactory;
+import no.fint.p360.data.noark.korrespondansepart.KorrespondansepartFactory;
+import no.fint.p360.data.noark.korrespondansepart.KorrespondansepartService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.DocumentService.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -49,8 +45,11 @@ public class JournalpostFactory {
     @Autowired
     private DokumentbeskrivelseFactory dokumentbeskrivelseFactory;
 
-    @Value("${fint.case.defaults.drosjeloyve.journalpost.tilgangsgruppe}")
-    private String journalpostTilgangsgruppe;
+    @Autowired
+    private KorrespondansepartService korrespondansepartService;
+
+    @Autowired
+    private KorrespondansepartFactory korrespondansepartFactory;
 
     public JournalpostResource toFintResource(Document__1 documentResult) {
         JournalpostResource journalpost = new JournalpostResource();
@@ -91,23 +90,7 @@ public class JournalpostFactory {
                 optionalValue(documentResult.getContacts())
                         .map(Collection::stream)
                         .orElse(Stream.empty())
-                        .map(it -> {
-                            KorrespondansepartResource result = new KorrespondansepartResource();
-                            result.setAdresse(FintUtils.createAdresseResource(it));
-                            result.setKontaktinformasjon(FintUtils.createKontaktinformasjon(it));
-                            optionalValue(it.getRole())
-                                    .flatMap(role ->
-                                            kodeverkRepository
-                                                    .getKorrespondansepartType()
-                                                    .stream()
-                                                    .filter(v -> StringUtils.equalsIgnoreCase(role, v.getKode()))
-                                                    .findAny())
-                                    .map(KorrespondansepartTypeResource::getSystemId)
-                                    .map(Identifikator::getIdentifikatorverdi)
-                                    .map(Link.apply(KorrespondansepartType.class, "systemid"))
-                                    .ifPresent(result::addKorrespondanseparttype);
-                            return result;
-                        })
+                        .map(korrespondansepartFactory::toFintResource)
                         .collect(Collectors.toList()));
 
 
@@ -195,10 +178,6 @@ public class JournalpostFactory {
         CreateDocumentArgs createDocumentArgs = new CreateDocumentArgs();
 //        createDocumentParameter.setADContextUser(objectFactory.createDocumentParameterBaseADContextUser(adapterProps.getP360User()));
 
-        if (StringUtils.isNotBlank(journalpostTilgangsgruppe)) {
-            createDocumentArgs.setAccessGroup(journalpostTilgangsgruppe);
-        }
-
         createDocumentArgs.setTitle(journalpostResource.getOffentligTittel());
         createDocumentArgs.setUnofficialTitle(journalpostResource.getTittel());
         createDocumentArgs.setCaseNumber(caseNumber);
@@ -210,11 +189,6 @@ public class JournalpostFactory {
 
             applyParameterFromLink(
                     journalpostResource.getSkjerming().getSkjermingshjemmel(),
-                    code -> kodeverkRepository.getSkjermingshjemmel().stream()
-                            .filter(it -> it.getSystemId().getIdentifikatorverdi().equals(code))
-                            .map(Begrep::getKode)
-                            .findFirst()
-                            .orElse(null),
                     createDocumentArgs::setParagraph);
 
             // TODO createDocumentParameter.setAccessGroup();
@@ -236,12 +210,12 @@ public class JournalpostFactory {
                 journalpostResource.getJournalstatus(),
                 createDocumentArgs::setStatus);
 
-        createDocumentArgs.setUnregisteredContacts(
-                ofNullable(journalpostResource.getKorrespondansepart())
-                        .map(List::stream)
-                        .orElseGet(Stream::empty)
-                        .map(this::createDocumentContact)
-                        .collect(Collectors.toList()));
+//        createDocumentArgs.setUnregisteredContacts(
+//                ofNullable(journalpostResource.getKorrespondansepart())
+//                        .map(List::stream)
+//                        .orElseGet(Stream::empty)
+//                        .map(this::createDocumentContact)
+//                        .collect(Collectors.toList()));
 
 
         createDocumentArgs.setFiles(
@@ -278,46 +252,6 @@ public class JournalpostFactory {
         return remark;
     }
 
-
-    private UnregisteredContact createDocumentContact(KorrespondansepartResource korrespondansepart) {
-        UnregisteredContact contact = new UnregisteredContact();
-
-        if (StringUtils.isNotBlank(korrespondansepart.getOrganisasjonsnummer())) {
-            contact.setReferenceNumber(korrespondansepart.getOrganisasjonsnummer());
-        } else if (StringUtils.isNotBlank(korrespondansepart.getFodselsnummer())) {
-            contact.setReferenceNumber(korrespondansepart.getFodselsnummer());
-        }
-        contact.setContactName(korrespondansepart.getKorrespondansepartNavn());
-
-        setAddress(contact, korrespondansepart.getAdresse());
-        setPhones(contact, korrespondansepart.getKontaktinformasjon());
-
-        applyParameterFromLink(
-                korrespondansepart.getKorrespondanseparttype(),
-                contact::setRole);
-
-        return contact;
-    }
-
-    private void setPhones(UnregisteredContact contact, Kontaktinformasjon kontaktinformasjon) {
-        if (kontaktinformasjon == null)
-            return;
-
-        contact.setMobilePhone(kontaktinformasjon.getMobiltelefonnummer());
-        contact.setPhone(kontaktinformasjon.getTelefonnummer());
-        contact.setEmail(kontaktinformasjon.getEpostadresse());
-    }
-
-    private void setAddress(UnregisteredContact contact, AdresseResource adresse) {
-        if (adresse == null)
-            return;
-
-        contact.setZipCode(adresse.getPostnummer());
-        contact.setZipPlace(adresse.getPoststed());
-        contact.setAddress(String.join("\n", adresse.getAdresselinje()));
-
-        applyParameterFromLink(adresse.getLand(), contact::setCountry);
-    }
 
     private Stream<File> createFiles(DokumentbeskrivelseResource dokumentbeskrivelse) {
         return dokumentbeskrivelse
