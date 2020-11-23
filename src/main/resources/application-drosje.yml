@@ -15,6 +15,7 @@ fint:
         journalpostType:
         dokumentType:
         tilknyttetRegistreringSom:
+        noekkelord:
   adapter:
     endpoints:
       sse: /sse/%s

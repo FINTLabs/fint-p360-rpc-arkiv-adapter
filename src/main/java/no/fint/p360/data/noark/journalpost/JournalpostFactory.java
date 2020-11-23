@@ -210,13 +210,10 @@ public class JournalpostFactory {
                 journalpostResource.getJournalstatus(),
                 createDocumentArgs::setStatus);
 
-//        createDocumentArgs.setUnregisteredContacts(
-//                ofNullable(journalpostResource.getKorrespondansepart())
-//                        .map(List::stream)
-//                        .orElseGet(Stream::empty)
-//                        .map(this::createDocumentContact)
-//                        .collect(Collectors.toList()));
+        final Pair<List<Contact>, List<UnregisteredContact>> contacts = korrespondansepartService.getContactsFromKorrespondansepart(journalpostResource.getKorrespondansepart());
 
+        createDocumentArgs.setContacts(contacts.getLeft());
+        createDocumentArgs.setUnregisteredContacts(contacts.getRight());
 
         createDocumentArgs.setFiles(
                 ofNullable(journalpostResource.getDokumentbeskrivelse())
