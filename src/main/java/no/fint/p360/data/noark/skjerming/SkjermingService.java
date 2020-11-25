@@ -73,7 +73,7 @@ public class SkjermingService {
                                                     // Third, try finding in Noark Tilgangsrestriksjon
                                                     .flatMap(acc -> noarkMetadataService.getTilgangsrestriksjon().filter(it -> it.getKode().equals(acc)))
                                     ))
-                            .map(Begrep::getNavn)
+                            .map(Begrep::getKode)
                             .filter(StringUtils::isNotBlank)
                             .findFirst()
                             .ifPresent(pursuantConsumer);
