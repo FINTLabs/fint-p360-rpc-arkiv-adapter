@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public enum P360Utils {
     ;
@@ -54,6 +55,13 @@ public enum P360Utils {
             return objectFactory.createCaseParameterBaseArchiveCodes(arrayOfClassCodeParameter);
         }
     */
+
+    public static Stream<String> getLinkTargets(List<Link> links) {
+        return links.stream()
+                .map(Link::getHref)
+                .filter(StringUtils::isNotBlank)
+                .map(s -> StringUtils.substringAfterLast(s, "/"));
+    }
 
     public static void applyParameterFromLink(List<Link> links, Consumer<String> consumer) {
         links.stream()

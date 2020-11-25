@@ -19,6 +19,7 @@ import no.fint.model.resource.arkiv.noark.KorrespondansepartResource;
 import no.fint.model.resource.arkiv.noark.MerknadResource;
 import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.data.noark.dokument.DokumentbeskrivelseFactory;
+import no.fint.p360.data.noark.skjerming.SkjermingService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.DocumentService.*;
@@ -46,6 +47,9 @@ public class JournalpostFactory {
 
     @Autowired
     private DokumentbeskrivelseFactory dokumentbeskrivelseFactory;
+
+    @Autowired
+    private SkjermingService skjermingService;
 
     public JournalpostResource toFintResource(Document__1 documentResult) {
         JournalpostResource journalpost = new JournalpostResource();
@@ -194,17 +198,20 @@ public class JournalpostFactory {
         createDocumentArgs.setUnofficialTitle(journalpostResource.getTittel());
         createDocumentArgs.setCaseNumber(caseNumber);
 
-        if (journalpostResource.getSkjerming() != null) {
-            applyParameterFromLink(
-                    journalpostResource.getSkjerming().getTilgangsrestriksjon(),
-                    createDocumentArgs::setAccessCode);
+//        if (journalpostResource.getSkjerming() != null) {
+//            applyParameterFromLink(
+//                    journalpostResource.getSkjerming().getTilgangsrestriksjon(),
+//                    createDocumentArgs::setAccessCode);
+//
+//            applyParameterFromLink(
+//                    journalpostResource.getSkjerming().getSkjermingshjemmel(),
+//                    createDocumentArgs::setParagraph);
+//
+//            // TODO createDocumentParameter.setAccessGroup();
+//        }
 
-            applyParameterFromLink(
-                    journalpostResource.getSkjerming().getSkjermingshjemmel(),
-                    createDocumentArgs::setParagraph);
+        skjermingService.applyAccessCodeAndPursuant(journalpostResource.getSkjerming(), createDocumentArgs::setAccessCode, createDocumentArgs::setParagraph);
 
-            // TODO createDocumentParameter.setAccessGroup();
-        }
 
         applyParameterFromLink(
                 journalpostResource.getAdministrativEnhet(),
