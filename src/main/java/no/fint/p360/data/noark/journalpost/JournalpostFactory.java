@@ -16,6 +16,7 @@ import no.fint.model.resource.arkiv.noark.MerknadResource;
 import no.fint.p360.data.noark.dokument.DokumentbeskrivelseFactory;
 import no.fint.p360.data.noark.korrespondansepart.KorrespondansepartFactory;
 import no.fint.p360.data.noark.korrespondansepart.KorrespondansepartService;
+import no.fint.p360.data.noark.skjerming.SkjermingService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.DocumentService.*;
@@ -51,9 +52,11 @@ public class JournalpostFactory {
     @Autowired
     private KorrespondansepartFactory korrespondansepartFactory;
 
+    @Autowired
+    private SkjermingService skjermingService;
+
     public JournalpostResource toFintResource(Document__1 documentResult) {
         JournalpostResource journalpost = new JournalpostResource();
-
 
         optionalValue(documentResult.getFiles())
                 .map(List::size)
@@ -182,17 +185,21 @@ public class JournalpostFactory {
         createDocumentArgs.setUnofficialTitle(journalpostResource.getTittel());
         createDocumentArgs.setCaseNumber(caseNumber);
 
-        if (journalpostResource.getSkjerming() != null) {
-            applyParameterFromLink(
-                    journalpostResource.getSkjerming().getTilgangsrestriksjon(),
-                    createDocumentArgs::setAccessCode);
+//        if (journalpostResource.getSkjerming() != null) {
+//            applyParameterFromLink(
+//                    journalpostResource.getSkjerming().getTilgangsrestriksjon(),
+//                    createDocumentArgs::setAccessCode);
+//
+//            applyParameterFromLink(
+//                    journalpostResource.getSkjerming().getSkjermingshjemmel(),
+//                    createDocumentArgs::setParagraph);
+//
+//        }
 
-            applyParameterFromLink(
-                    journalpostResource.getSkjerming().getSkjermingshjemmel(),
-                    createDocumentArgs::setParagraph);
+        skjermingService.applyAccessCodeAndPursuant(journalpostResource.getSkjerming(), createDocumentArgs::setAccessCode, createDocumentArgs::setParagraph);
 
-            // TODO createDocumentParameter.setAccessGroup();
-        }
+        // TODO createDocumentParameter.setAccessGroup();
+
 
         applyParameterFromLink(
                 journalpostResource.getAdministrativEnhet(),
