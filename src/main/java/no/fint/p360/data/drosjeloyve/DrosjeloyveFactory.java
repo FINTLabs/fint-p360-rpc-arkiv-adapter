@@ -13,12 +13,17 @@ import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import no.p360.model.DocumentService.CreateDocumentArgs;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class DrosjeloyveFactory {
+
+    @Value("${fint.case.defaults.drosjeloyve.journalpost.tilgangsgruppe:Drosjeløyver}")
+    private String journalpostTilgangsgruppe;
 
     @Autowired
     private NoarkFactory noarkFactory;
@@ -44,7 +49,15 @@ public class DrosjeloyveFactory {
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
-        return journalpostFactory.toP360(journalpostResource, caseNumber);
+        CreateDocumentArgs createDocumentArgs = journalpostFactory.toP360(journalpostResource, caseNumber);
+
+        if(StringUtils.isNotBlank(journalpostTilgangsgruppe)) {
+            createDocumentArgs.setAccessGroup(journalpostTilgangsgruppe);
+        } else {
+            log.warn("The drosjeloyve.journalpost.tilgangsgruppe is blank for case {}, you're hereby warned!", caseNumber);
+        }
+
+        return createDocumentArgs;
     }
 
 }
