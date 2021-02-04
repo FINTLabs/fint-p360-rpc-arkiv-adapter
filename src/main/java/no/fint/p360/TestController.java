@@ -2,6 +2,7 @@ package no.fint.p360;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import no.fint.p360.data.exception.EnterpriseNotFound;
 import no.fint.p360.data.p360.AccessGroupService;
 import no.fint.p360.data.p360.ContactService;
 import no.fint.p360.data.p360.SupportService;
@@ -41,7 +42,7 @@ public class TestController {
     }
 
     @GetMapping(path = "contact", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getContact(@RequestParam String name) throws JsonProcessingException {
+    public String getContact(@RequestParam String name) throws JsonProcessingException, EnterpriseNotFound {
         return new ObjectMapper().writeValueAsString(contactService.getEnterprisesByName(name));
     }
 }
