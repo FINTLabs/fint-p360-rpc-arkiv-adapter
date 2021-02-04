@@ -65,7 +65,7 @@ public class NoarkFactory {
     @Autowired
     private KlasseFactory klasseFactory;
 
-    public void getSaksmappe(CaseProperties caseProperties, Case caseResult, SaksmappeResource saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
+    public <T extends SaksmappeResource> T getSaksmappe(CaseProperties caseProperties, Case caseResult, T saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
         String caseNumber = caseResult.getCaseNumber();
         String caseYear = NOARKUtils.getCaseYear(caseNumber);
         String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
@@ -149,6 +149,8 @@ public class NoarkFactory {
                         .stream()
                         .map(f -> new AdditionalFieldService.Field(f.getName(), StringUtils.trimToEmpty(f.getValue())))
                         .collect(Collectors.toList()));
+
+        return saksmappeResource;
     }
 
 
