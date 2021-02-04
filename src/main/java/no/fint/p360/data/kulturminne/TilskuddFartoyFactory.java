@@ -46,7 +46,7 @@ public class TilskuddFartoyFactory {
 
         TilskuddFartoyResource tilskuddFartoy = new TilskuddFartoyResource();
         tilskuddFartoy.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
-        noarkFactory.getSaksmappe(caseDefaults.getTilskuddfartoy(), caseResult, tilskuddFartoy);
+        return noarkFactory.getSaksmappe(caseDefaults.getTilskuddfartoy(), caseResult, tilskuddFartoy);
 
         /*
         String caseNumber = caseResult.getCaseNumber();
@@ -57,7 +57,6 @@ public class TilskuddFartoyFactory {
         tilskuddFartoy.addSelf(Link.with(TilskuddFartoy.class, "soknadsnummer", caseResult.getExternalId().getId()));
          */
 
-        return tilskuddFartoy;
     }
 
 
