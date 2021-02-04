@@ -3,7 +3,6 @@ package no.fint.p360.service;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.CaseDefaultsService;
 import no.fint.arkiv.CaseProperties;
-import no.fint.p360.data.utilities.Constants;
 import no.p360.model.CaseService.CreateCaseArgs;
 import org.springframework.stereotype.Service;
 
