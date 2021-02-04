@@ -1,6 +1,7 @@
 package no.fint.p360.data.noark.common;
 
 import no.fint.arkiv.AdditionalFieldService;
+import no.fint.arkiv.CaseProperties;
 import no.fint.arkiv.TitleService;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.arkiv.kodeverk.Saksstatus;
@@ -64,7 +65,7 @@ public class NoarkFactory {
     @Autowired
     private KlasseFactory klasseFactory;
 
-    public void getSaksmappe(Case caseResult, SaksmappeResource saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
+    public void getSaksmappe(CaseProperties caseProperties, Case caseResult, SaksmappeResource saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
         String caseNumber = caseResult.getCaseNumber();
         String caseYear = NOARKUtils.getCaseYear(caseNumber);
         String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
@@ -141,9 +142,9 @@ public class NoarkFactory {
                         .map(klasseFactory::toFintResource)
                         .collect(Collectors.toList()));
 
-        titleService.parseTitle(saksmappeResource, saksmappeResource.getTittel());
+        titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
 
-        additionalFieldService.setFieldsForResource(saksmappeResource,
+        additionalFieldService.setFieldsForResource(caseProperties.getField(), saksmappeResource,
                 caseResult.getCustomFields()
                         .stream()
                         .map(f -> new AdditionalFieldService.Field(f.getName(), StringUtils.trimToEmpty(f.getValue())))
@@ -151,12 +152,12 @@ public class NoarkFactory {
     }
 
 
-    public CreateCaseArgs createCaseArgs(SaksmappeResource saksmappeResource) {
+    public CreateCaseArgs createCaseArgs(CaseProperties caseProperties, SaksmappeResource saksmappeResource) {
         CreateCaseArgs createCaseArgs = new CreateCaseArgs();
 
-        createCaseArgs.setTitle(titleService.getTitle(saksmappeResource));
+        createCaseArgs.setTitle(titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource));
         createCaseArgs.setAdditionalFields(
-                additionalFieldService.getFieldsForResource(saksmappeResource)
+                additionalFieldService.getFieldsForResource(caseProperties.getField(), saksmappeResource)
                         .map(it -> {
                             AdditionalField additionalField = new AdditionalField();
                             additionalField.setName(it.getName());

@@ -1,5 +1,6 @@
 package no.fint.p360.data.noark.sak;
 
+import no.fint.arkiv.CaseProperties;
 import no.fint.model.arkiv.kodeverk.Saksstatus;
 import no.fint.model.arkiv.kulturminnevern.TilskuddFartoy;
 import no.fint.model.resource.Link;
@@ -29,7 +30,8 @@ public class SakFactory {
         String caseYear = NOARKUtils.getCaseYear(caseNumber);
         String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
 
-        noarkFactory.getSaksmappe(caseResult, sakResource);
+        // TODO This might not work
+        noarkFactory.getSaksmappe(new CaseProperties(), caseResult, sakResource);
 
         sakResource.addSaksstatus(Link.with(Saksstatus.class, "systemid", caseResult.getStatus()));
         sakResource.addSelf(Link.with(TilskuddFartoy.class, "mappeid", caseYear, sequenceNumber));
