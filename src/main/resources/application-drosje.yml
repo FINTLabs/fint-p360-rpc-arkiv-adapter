@@ -9,7 +9,7 @@ fint:
   case:
     formats:
       title:
-        drosjeloyve: "Løyve drosje - ${tittel} - ${organisasjonsnummer}"
+        drosjeloyve: "Drosje - ${tittel} - ${organisasjonsnummer}"
     defaults:
       drosjeloyve:
         journalpostType:

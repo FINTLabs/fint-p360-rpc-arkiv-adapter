@@ -58,9 +58,9 @@ public class CaseService extends P360Service {
 
         if (caseResult.size() == 1) {
             return caseResult.get(0);
-        } else if (caseResult.size() == 0){
+        } else if (caseResult.size() == 0) {
             throw new CaseNotFound("Zero cases found");
-        }else {
+        } else {
             throw new CaseNotFound("More than one case found");
         }
     }
@@ -88,7 +88,7 @@ public class CaseService extends P360Service {
         return response.getCaseNumber();
     }
 
-    public boolean ping()  {
+    public boolean ping() {
         return getHealth("CaseService/Ping");
     }
 }

@@ -110,7 +110,7 @@ public class EventHandlerService {
     }
 
 
-    private boolean healthCheck()  {
+    private boolean healthCheck() {
         return handlers.stream().allMatch(Handler::health)
                 && supportService.ping();
     }

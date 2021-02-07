@@ -155,7 +155,8 @@ public class UpdateDrosjeloyveHandler implements Handler {
             createCaseArgs.setArchiveCodes(Arrays.asList(
                     primaryArchiveCode,
                     secondaryArchiveCode,
-                    additinalCode)
+                    additinalCode
+                    )
             );
 
             String caseNumber = caseService.createCase(createCaseArgs);
