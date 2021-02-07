@@ -30,7 +30,7 @@ public class P360Configuration {
     @Bean
     @ConditionalOnProperty(name = FINT_PROXY_ENABLED, havingValue = "false", matchIfMissing = true)
     public WebClient p360Client() {
-        log.info("Running with no proxy.");
+        log.debug("Running with no proxy.");
         return getWebClientBuilder()
                 .clientConnector(new ReactorClientHttpConnector(getHttpClient()))
                 .build();
