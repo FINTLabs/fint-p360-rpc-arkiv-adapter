@@ -16,6 +16,8 @@ import reactor.netty.tcp.ProxyProvider;
 @Configuration
 public class P360Configuration {
 
+    private static final String FINT_PROXY_ENABLED = "fint.proxy.enabled";
+
     @Value("${fint.p360.endpoint-base-url}")
     private String endpointBaseUrl;
 
@@ -26,7 +28,7 @@ public class P360Configuration {
     private int proxyPort;
 
     @Bean
-    @ConditionalOnProperty(name = "fint.proxy.enabled", havingValue = "false", matchIfMissing = true)
+    @ConditionalOnProperty(name = FINT_PROXY_ENABLED, havingValue = "false", matchIfMissing = true)
     public WebClient p360Client() {
         log.info("Running with no proxy.");
         return getWebClientBuilder()
@@ -35,7 +37,7 @@ public class P360Configuration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "fint.proxy.enabled", havingValue = "true")
+    @ConditionalOnProperty(name = FINT_PROXY_ENABLED, havingValue = "true")
     public WebClient p360ClientWithProxy() {
         log.info("Running with proxy configuration: proxyHost: {}, proxyPort: {}", proxyHost, proxyPort);
         return getWebClientBuilder()
