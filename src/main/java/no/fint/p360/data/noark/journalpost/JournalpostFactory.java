@@ -143,6 +143,12 @@ public class JournalpostFactory {
                 .map(dokumentbeskrivelseFactory::toFintResource)
                 .collect(Collectors.toList()));
 
+        optionalValue(
+                skjermingService.getSkjermingResource(
+                        documentResult::getAccessCodeCode,
+                        documentResult::getParagraph
+                )).ifPresent(journalpost::setSkjerming);
+
         return journalpost;
     }
 
