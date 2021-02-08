@@ -1,0 +1,42 @@
+server:
+  port: 8091
+
+springfox:
+  title: 'FINT SSE Adapter Skeleton'
+  version: '@version@'
+
+fint:
+  case:
+    formats:
+      title:
+        drosjeloyve: "Drosje - ${tittel} - ${organisasjonsnummer}"
+    defaults:
+      drosjeloyve:
+        journalpostType:
+        dokumentType:
+        tilknyttetRegistreringSom:
+        noekkelord:
+  adapter:
+    endpoints:
+      sse: /sse/%s
+      status: /status
+      response: /response
+      providers:
+        noark: https://alpha.felleskomponent.no/arkiv/noark/provider
+        kodeverk: https://alpha.felleskomponent.no/arkiv/kodeverk/provider
+        #personal: https://alpha.felleskomponent.no/administrasjon/personal/provider
+        #kulturminne: https://beta.felleskomponent.no/kultur/kulturminnevern/provider
+        samferdsel: https://alpha.felleskomponent.no/arkiv/samferdsel/provider
+
+  oauth:
+    enabled: true
+  #    username:
+  #    password:
+  #    client-id:
+  #    client-secret:
+  #    access-token-uri:
+  #    scope:
+
+security:
+  basic:
+    enabled: false

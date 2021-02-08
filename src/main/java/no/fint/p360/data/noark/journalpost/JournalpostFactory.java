@@ -58,7 +58,6 @@ public class JournalpostFactory {
     public JournalpostResource toFintResource(Document__1 documentResult) {
         JournalpostResource journalpost = new JournalpostResource();
 
-
         optionalValue(documentResult.getFiles())
                 .map(List::size)
                 .map(Integer::longValue)
@@ -215,16 +214,6 @@ public class JournalpostFactory {
 
         createDocumentArgs.setContacts(contacts.getLeft());
         createDocumentArgs.setUnregisteredContacts(contacts.getRight());
-
-        /* createDocumentArgs.setUnregisteredContacts(
-                ofNullable(journalpostResource.getKorrespondansepart())
-                        .map(List::stream)
-                        .orElseGet(Stream::empty)
-                        .map(this::createDocumentContact)
-                        .collect(Collectors.toList()));
-
-         */
-
 
         createDocumentArgs.setFiles(
                 ofNullable(journalpostResource.getDokumentbeskrivelse())

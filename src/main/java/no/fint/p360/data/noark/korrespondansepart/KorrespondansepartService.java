@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.model.resource.arkiv.noark.KorrespondansepartResource;
 import no.fint.p360.data.exception.CreateContactException;
 import no.fint.p360.data.exception.CreateEnterpriseException;
+import no.fint.p360.data.exception.EnterpriseNotFound;
 import no.fint.p360.data.p360.ContactService;
+import no.p360.model.ContactService.Enterprise;
 import no.p360.model.ContactService.SynchronizeEnterpriseArgs;
 import no.p360.model.ContactService.SynchronizePrivatePersonArgs;
 import no.p360.model.DocumentService.Contact;
@@ -56,6 +58,14 @@ public class KorrespondansepartService {
         }
 
         return new ImmutablePair<>(contacts, unregisteredContacts);
+    }
+
+    private Enterprise getEnterpriseByEnterpriseNumber(String organisasjonsnummer) {
+        try {
+            return contactService.getEnterpriseByEnterpriseNumber(organisasjonsnummer);
+        } catch (EnterpriseNotFound enterpriseNotFound) {
+            return new Enterprise();
+        }
     }
 
 }
