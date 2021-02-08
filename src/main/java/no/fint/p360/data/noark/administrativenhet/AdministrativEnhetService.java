@@ -2,6 +2,7 @@ package no.fint.p360.data.noark.administrativenhet;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fint.model.resource.arkiv.noark.AdministrativEnhetResource;
+import no.fint.p360.data.exception.EnterpriseNotFound;
 import no.fint.p360.data.p360.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class AdministrativEnhetService {
     @Autowired
     private AdministrativEnhetFactory administrativEnhetFactory;
 
-    public Stream<AdministrativEnhetResource> getAdministrativEnhet() {
+    public Stream<AdministrativEnhetResource> getAdministrativEnhet() throws EnterpriseNotFound {
         return contactService
                 .getEnterprisesByCategory("recno:1")
                 .stream()

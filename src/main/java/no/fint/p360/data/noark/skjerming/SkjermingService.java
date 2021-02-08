@@ -56,7 +56,7 @@ public class SkjermingService {
         return null;
     }
 
-    public void applyAccessCodeAndPursuant(SkjermingResource skjerming, Consumer<String> accessCodeConsumer, Consumer<String> pursuantConsumer) {
+    public void applyAccessCodeAndParagraph(SkjermingResource skjerming, Consumer<String> accessCodeConsumer, Consumer<String> pursuantConsumer) {
         optionalValue(skjerming)
                 .ifPresent(s -> {
                     applyParameterFromLink(s.getTilgangsrestriksjon(), accessCodeConsumer);

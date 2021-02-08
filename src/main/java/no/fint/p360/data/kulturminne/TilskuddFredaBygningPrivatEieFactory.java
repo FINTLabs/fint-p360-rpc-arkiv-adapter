@@ -2,6 +2,7 @@ package no.fint.p360.data.kulturminne;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.AdditionalFieldService;
+import no.fint.arkiv.CaseDefaults;
 import no.fint.arkiv.TitleService;
 import no.fint.model.resource.arkiv.kulturminnevern.TilskuddFredaBygningPrivatEieResource;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
@@ -36,6 +37,9 @@ public class TilskuddFredaBygningPrivatEieFactory {
     @Autowired
     AdditionalFieldService additionalFieldService;
 
+    @Autowired
+    CaseDefaults caseDefaults;
+
     public TilskuddFredaBygningPrivatEieResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddFredaHusPrivatEieException {
         if (!isTilskuddFredaHusPrivatEie(caseResult)) {
             throw new NotTilskuddFredaHusPrivatEieException(caseResult.getCaseNumber());
@@ -44,7 +48,7 @@ public class TilskuddFredaBygningPrivatEieFactory {
         TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEie = new TilskuddFredaBygningPrivatEieResource();
         tilskuddFredaBygningPrivatEie.setMatrikkelnummer(new MatrikkelnummerResource());
         tilskuddFredaBygningPrivatEie.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
-        noarkFactory.getSaksmappe(caseResult, tilskuddFredaBygningPrivatEie);
+        return noarkFactory.getSaksmappe(caseDefaults.getTilskuddfredabygningprivateie(), caseResult, tilskuddFredaBygningPrivatEie);
 
         /*
         String caseNumber = caseResult.getCaseNumber();
@@ -55,12 +59,11 @@ public class TilskuddFredaBygningPrivatEieFactory {
         tilskuddFredaBygningPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "soknadsnummer", caseResult.getExternalId().getId()));
          */
 
-        return tilskuddFredaBygningPrivatEie;
     }
 
 
     public CreateCaseArgs convertToCreateCase(TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEieResource) {
-        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(tilskuddFredaBygningPrivatEieResource);
+        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(caseDefaults.getTilskuddfredabygningprivateie(), tilskuddFredaBygningPrivatEieResource);
         createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFredaBygningPrivatEieResource.getSoknadsnummer()));
         return createCaseArgs;
     }
