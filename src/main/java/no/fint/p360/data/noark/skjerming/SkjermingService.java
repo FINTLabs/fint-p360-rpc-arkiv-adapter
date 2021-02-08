@@ -34,12 +34,12 @@ public class SkjermingService {
     }
 
 
-    public SkjermingResource getSkjermingResource(Supplier<String> accessCodeSupplier, Supplier<String> pursuantSupplier) {
+    public SkjermingResource getSkjermingResource(Supplier<String> accessCodeSupplier, Supplier<String> paragraphSupplier) {
         SkjermingResource skjerming = new SkjermingResource();
         optionalValue(accessCodeSupplier.get())
                 .map(Link.apply(Tilgangsrestriksjon.class, "systemid"))
                 .ifPresent(skjerming::addTilgangsrestriksjon);
-        optionalValue(pursuantSupplier.get())
+        optionalValue(paragraphSupplier.get())
                 .flatMap(pursuant ->
                         kodeverkRepository.getSkjermingshjemmel()
                                 .stream()
@@ -56,7 +56,7 @@ public class SkjermingService {
         return null;
     }
 
-    public void applyAccessCodeAndPursuant(SkjermingResource skjerming, Consumer<String> accessCodeConsumer, Consumer<String> pursuantConsumer) {
+    public void applyAccessCodeAndParagraph(SkjermingResource skjerming, Consumer<String> accessCodeConsumer, Consumer<String> paragraphConsumer) {
         optionalValue(skjerming)
                 .ifPresent(s -> {
                     applyParameterFromLink(s.getTilgangsrestriksjon(), accessCodeConsumer);
@@ -76,7 +76,7 @@ public class SkjermingService {
                             .map(Begrep::getKode)
                             .filter(StringUtils::isNotBlank)
                             .findFirst()
-                            .ifPresent(pursuantConsumer);
+                            .ifPresent(paragraphConsumer);
                 });
     }
 

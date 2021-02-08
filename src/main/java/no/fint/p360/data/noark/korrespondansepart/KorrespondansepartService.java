@@ -36,16 +36,15 @@ public class KorrespondansepartService {
 
         for (KorrespondansepartResource resource : korrespondansepart) {
             try {
-                if (StringUtils.isNotBlank(resource.getFodselsnummer())) {
+                if (isNotBlank(resource.getFodselsnummer())) {
                     final SynchronizePrivatePersonArgs synchronizePrivatePerson = korrespondansepartFactory.toPrivatePerson(resource);
-                    log.info("Updating private person {}", resource.getFodselsnummer());
                     final Integer recno = contactService.synchronizePrivatePerson(synchronizePrivatePerson);
                     log.info("Private person recno = {}", recno);
                     contacts.add(korrespondansepartFactory.createDocumentContact(recno, resource));
-                } else if (StringUtils.isNotBlank(resource.getOrganisasjonsnummer())) {
+                } else if (isNotBlank(resource.getOrganisasjonsnummer())) {
                     final SynchronizeEnterpriseArgs synchronizeEnterprise = korrespondansepartFactory.toEnterprise(resource);
-                    log.info("Updating enterprise {}", resource.getOrganisasjonsnummer());
                     final Integer recno = contactService.synchronizeEnterprise(synchronizeEnterprise);
+                    log.info("Enterprise recno = {}", recno);
                     contacts.add(korrespondansepartFactory.createDocumentContact(recno, resource));
                 } else {
                     log.info("Adding unregistered contact {}", resource.getKorrespondansepartNavn());

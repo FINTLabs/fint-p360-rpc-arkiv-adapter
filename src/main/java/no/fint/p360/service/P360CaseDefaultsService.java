@@ -14,25 +14,11 @@ import java.util.Arrays;
 @Slf4j
 public class P360CaseDefaultsService extends CaseDefaultsService {
 
-    @Value("${fint.case.defaults.drosjeloyve.saksmappeType:Case}")
-    private String saksmappeType;
-
-    @Value("${fint.case.defaults.drosjeloyve.tilgangsgruppe:Alle}")
-    private String tilgangsgruppe;
-
     public CreateCaseArgs applyDefaultsToCreateCaseParameter(CaseProperties properties, CreateCaseArgs createCaseArgs) {
 
         createCaseArgs.setKeywords(Arrays.asList(properties.getNoekkelord()));
         createCaseArgs.setFiledOnPaper(false);
         createCaseArgs.setCaseType(properties.getSaksmappeType());
-        if (StringUtils.isNotBlank(saksmappeType)) {
-            createCaseArgs.setCaseType(saksmappeType);
-        }
-
-        if (StringUtils.isNotBlank(tilgangsgruppe)) {
-            createCaseArgs.setAccessGroup(tilgangsgruppe);
-        }
-
         return createCaseArgs;
     }
 

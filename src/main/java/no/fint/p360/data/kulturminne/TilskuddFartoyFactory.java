@@ -2,9 +2,10 @@ package no.fint.p360.data.kulturminne;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.AdditionalFieldService;
+import no.fint.arkiv.CaseDefaults;
 import no.fint.arkiv.TitleService;
-import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.model.resource.arkiv.kulturminnevern.TilskuddFartoyResource;
+import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.exception.NotTilskuddfartoyException;
@@ -35,6 +36,9 @@ public class TilskuddFartoyFactory {
     @Autowired
     AdditionalFieldService additionalFieldService;
 
+    @Autowired
+    CaseDefaults caseDefaults;
+
     public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddfartoyException {
         if (!isTilskuddFartoy(caseResult)) {
             throw new NotTilskuddfartoyException(caseResult.getCaseNumber());
@@ -42,7 +46,7 @@ public class TilskuddFartoyFactory {
 
         TilskuddFartoyResource tilskuddFartoy = new TilskuddFartoyResource();
         tilskuddFartoy.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
-        noarkFactory.getSaksmappe(caseResult, tilskuddFartoy);
+        return noarkFactory.getSaksmappe(caseDefaults.getTilskuddfartoy(), caseResult, tilskuddFartoy);
 
         /*
         String caseNumber = caseResult.getCaseNumber();
@@ -53,12 +57,11 @@ public class TilskuddFartoyFactory {
         tilskuddFartoy.addSelf(Link.with(TilskuddFartoy.class, "soknadsnummer", caseResult.getExternalId().getId()));
          */
 
-        return tilskuddFartoy;
     }
 
 
     public CreateCaseArgs convertToCreateCase(TilskuddFartoyResource tilskuddFartoy) {
-        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(tilskuddFartoy);
+        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(caseDefaults.getTilskuddfartoy(), tilskuddFartoy);
         createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFartoy.getSoknadsnummer()));
         return createCaseArgs;
     }

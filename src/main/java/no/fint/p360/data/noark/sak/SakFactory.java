@@ -1,13 +1,10 @@
 package no.fint.p360.data.noark.sak;
 
-import no.fint.model.arkiv.kodeverk.Saksstatus;
-import no.fint.model.arkiv.kulturminnevern.TilskuddFartoy;
-import no.fint.model.resource.Link;
+import no.fint.arkiv.CaseProperties;
 import no.fint.model.resource.arkiv.noark.SakResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.common.NoarkFactory;
-import no.fint.p360.data.utilities.NOARKUtils;
 import no.p360.model.CaseService.Case;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,20 +19,8 @@ public class SakFactory {
     private NoarkFactory noarkFactory;
 
     public SakResource toFintResource(Case caseResult) throws IllegalCaseNumberFormat, GetDocumentException {
-
-        SakResource sakResource = new SakResource();
-        String caseNumber = caseResult.getCaseNumber();
-
-        String caseYear = NOARKUtils.getCaseYear(caseNumber);
-        String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
-
-        noarkFactory.getSaksmappe(caseResult, sakResource);
-
-        sakResource.addSaksstatus(Link.with(Saksstatus.class, "systemid", caseResult.getStatus()));
-        sakResource.addSelf(Link.with(TilskuddFartoy.class, "mappeid", caseYear, sequenceNumber));
-        sakResource.addSelf(Link.with(TilskuddFartoy.class, "systemid", caseResult.getRecno().toString()));
-
-        return sakResource;
+        // TODO This might not work
+        return noarkFactory.getSaksmappe(new CaseProperties(), caseResult, new SakResource());
     }
 
     public List<SakResource> toFintResourceList(List<Case> caseResults) throws IllegalCaseNumberFormat, GetDocumentException {

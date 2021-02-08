@@ -47,13 +47,13 @@ public class JournalpostFactory {
     private DokumentbeskrivelseFactory dokumentbeskrivelseFactory;
 
     @Autowired
+    private SkjermingService skjermingService;
+
+    @Autowired
     private KorrespondansepartService korrespondansepartService;
 
     @Autowired
     private KorrespondansepartFactory korrespondansepartFactory;
-
-    @Autowired
-    private SkjermingService skjermingService;
 
     public JournalpostResource toFintResource(Document__1 documentResult) {
         JournalpostResource journalpost = new JournalpostResource();
@@ -142,6 +142,12 @@ public class JournalpostFactory {
                 .map(dokumentbeskrivelseFactory::toFintResource)
                 .collect(Collectors.toList()));
 
+        optionalValue(
+                skjermingService.getSkjermingResource(
+                        documentResult::getAccessCodeCode,
+                        documentResult::getParagraph
+                )).ifPresent(journalpost::setSkjerming);
+
         return journalpost;
     }
 
@@ -185,20 +191,7 @@ public class JournalpostFactory {
         createDocumentArgs.setUnofficialTitle(journalpostResource.getTittel());
         createDocumentArgs.setCaseNumber(caseNumber);
 
-//        if (journalpostResource.getSkjerming() != null) {
-//            applyParameterFromLink(
-//                    journalpostResource.getSkjerming().getTilgangsrestriksjon(),
-//                    createDocumentArgs::setAccessCode);
-//
-//            applyParameterFromLink(
-//                    journalpostResource.getSkjerming().getSkjermingshjemmel(),
-//                    createDocumentArgs::setParagraph);
-//
-//        }
-
-        skjermingService.applyAccessCodeAndPursuant(journalpostResource.getSkjerming(), createDocumentArgs::setAccessCode, createDocumentArgs::setParagraph);
-
-        // TODO createDocumentParameter.setAccessGroup();
+        skjermingService.applyAccessCodeAndParagraph(journalpostResource.getSkjerming(), createDocumentArgs::setAccessCode, createDocumentArgs::setParagraph);
 
 
         applyParameterFromLink(
