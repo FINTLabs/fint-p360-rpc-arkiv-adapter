@@ -1,10 +1,11 @@
-package no.fint.p360.data.drosjeloyve;
+package no.fint.p360.data.samferdsel;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.AdditionalFieldService;
+import no.fint.arkiv.CaseDefaults;
 import no.fint.arkiv.TitleService;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
-import no.fint.model.resource.arkiv.samferdsel.DrosjeloyveResource;
+import no.fint.model.resource.arkiv.samferdsel.SoknadDrosjeloyveResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.exception.NotTilskuddFredaHusPrivatEieException;
@@ -20,10 +21,13 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class DrosjeloyveFactory {
+public class SoknadDrosjeloyveFactory {
 
-    @Value("${fint.case.defaults.drosjeloyve.journalpost.tilgangsgruppe:Drosjeløyver}")
+    @Value("${fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost:Drosjeløyver}")
     private String journalpostTilgangsgruppe;
+
+    @Value("${fint.case.defaults.drosjeloyve.tilgangsgruppe.sak:Alle}")
+    private String sakTilgangsgruppe;
 
     @Autowired
     private NoarkFactory noarkFactory;
@@ -37,15 +41,22 @@ public class DrosjeloyveFactory {
     @Autowired
     AdditionalFieldService additionalFieldService;
 
-    public DrosjeloyveResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddFredaHusPrivatEieException {
-        DrosjeloyveResource drosjeloyve = new DrosjeloyveResource();
-        noarkFactory.getSaksmappe(caseResult, drosjeloyve);
+    @Autowired
+    CaseDefaults caseDefaults;
+
+    public SoknadDrosjeloyveResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddFredaHusPrivatEieException {
+        SoknadDrosjeloyveResource drosjeloyve = new SoknadDrosjeloyveResource();
+        noarkFactory.getSaksmappe(caseDefaults.getSoknaddrosjeloyve(), caseResult, drosjeloyve);
         return drosjeloyve;
     }
 
 
-    public CreateCaseArgs convertToCreateCase(DrosjeloyveResource drosjeloyveResource) {
-        return noarkFactory.createCaseArgs(drosjeloyveResource);
+    public CreateCaseArgs convertToCreateCase(SoknadDrosjeloyveResource SoknadDrosjeloyveResource) {
+        final CreateCaseArgs caseArgs = noarkFactory.createCaseArgs(caseDefaults.getSoknaddrosjeloyve(), SoknadDrosjeloyveResource);
+        if (StringUtils.isNotBlank(sakTilgangsgruppe)) {
+            caseArgs.setAccessGroup(sakTilgangsgruppe);
+        }
+        return caseArgs;
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {

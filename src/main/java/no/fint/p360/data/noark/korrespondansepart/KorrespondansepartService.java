@@ -11,7 +11,6 @@ import no.p360.model.ContactService.SynchronizeEnterpriseArgs;
 import no.p360.model.ContactService.SynchronizePrivatePersonArgs;
 import no.p360.model.DocumentService.Contact;
 import no.p360.model.DocumentService.UnregisteredContact;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
 @Service

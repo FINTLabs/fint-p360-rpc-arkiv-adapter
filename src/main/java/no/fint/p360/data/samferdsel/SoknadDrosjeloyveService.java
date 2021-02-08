@@ -1,4 +1,4 @@
-package no.fint.p360.data.drosjeloyve;
+package no.fint.p360.data.samferdsel;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
@@ -12,10 +12,10 @@ import java.util.LinkedList;
 
 @Slf4j
 @Service
-public class DrosjeloyveService {
+public class SoknadDrosjeloyveService {
 
     @Autowired
-    private DrosjeloyveFactory drosjeloyveFactory;
+    private SoknadDrosjeloyveFactory soknadDrosjeloyveFactory;
 
     @Autowired
     private CaseQueryService caseQueryService;
@@ -23,7 +23,7 @@ public class DrosjeloyveService {
 
     public void getDrosjeloyveForQuery(String query, Event<FintLinks> response) {
         response.setData(new LinkedList<>());
-        caseQueryService.query(query).map(drosjeloyveFactory::toFintResource).forEach(response::addData);
+        caseQueryService.query(query).map(soknadDrosjeloyveFactory::toFintResource).forEach(response::addData);
         response.setResponseStatus(ResponseStatus.ACCEPTED);
     }
 }

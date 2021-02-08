@@ -1,4 +1,4 @@
-package no.fint.p360.handler.drosjeloyve;
+package no.fint.p360.handler.samferdsel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -8,12 +8,12 @@ import no.fint.event.model.Operation;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.arkiv.samferdsel.SamferdselActions;
 import no.fint.model.resource.FintLinks;
-import no.fint.model.resource.arkiv.samferdsel.DrosjeloyveResource;
-import no.fint.p360.data.drosjeloyve.DrosjeloyveFactory;
-import no.fint.p360.data.drosjeloyve.DrosjeloyveService;
+import no.fint.model.resource.arkiv.samferdsel.SoknadDrosjeloyveResource;
 import no.fint.p360.data.exception.*;
 import no.fint.p360.data.p360.CaseService;
 import no.fint.p360.data.p360.DocumentService;
+import no.fint.p360.data.samferdsel.SoknadDrosjeloyveFactory;
+import no.fint.p360.data.samferdsel.SoknadDrosjeloyveService;
 import no.fint.p360.data.utilities.QueryUtils;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.service.CaseQueryService;
@@ -33,7 +33,7 @@ import java.util.Set;
 
 @Service
 @Slf4j
-public class UpdateDrosjeloyveHandler implements Handler {
+public class UpdateSoknadDrosjeloyveHandler implements Handler {
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -41,10 +41,10 @@ public class UpdateDrosjeloyveHandler implements Handler {
     private ValidationService validationService;
 
     @Autowired
-    private DrosjeloyveService drosjeloyveService;
+    private SoknadDrosjeloyveService soknadDrosjeloyveService;
 
     @Autowired
-    private DrosjeloyveFactory drosjeloyveFactory;
+    private SoknadDrosjeloyveFactory soknadDrosjeloyveFactory;
 
     @Autowired
     private CaseDefaults caseDefaults;
@@ -80,43 +80,43 @@ public class UpdateDrosjeloyveHandler implements Handler {
 
         Operation operation = response.getOperation();
 
-        DrosjeloyveResource drosjeloyveResource = objectMapper.convertValue(response.getData().get(0), DrosjeloyveResource.class);
+        SoknadDrosjeloyveResource SoknadDrosjeloyveResource = objectMapper.convertValue(response.getData().get(0), SoknadDrosjeloyveResource.class);
 
         if (operation == Operation.CREATE) {
-            caseDefaultsService.applyDefaultsForCreation(caseDefaults.getDrosjeloyve(), drosjeloyveResource);
-            log.info("Case: {}", drosjeloyveResource);
-            if (!validationService.validate(response, drosjeloyveResource)) {
+            caseDefaultsService.applyDefaultsForCreation(caseDefaults.getSoknaddrosjeloyve(), SoknadDrosjeloyveResource);
+            log.info("Case: {}", SoknadDrosjeloyveResource);
+            if (!validationService.validate(response, SoknadDrosjeloyveResource)) {
                 return;
             }
-            createCase(response, drosjeloyveResource);
+            createCase(response, SoknadDrosjeloyveResource);
         } else if (operation == Operation.UPDATE) {
-            caseDefaultsService.applyDefaultsForUpdate(caseDefaults.getDrosjeloyve(), drosjeloyveResource);
-            if (!validationService.validate(response, drosjeloyveResource.getJournalpost())) {
+            caseDefaultsService.applyDefaultsForUpdate(caseDefaults.getSoknaddrosjeloyve(), SoknadDrosjeloyveResource);
+            if (!validationService.validate(response, SoknadDrosjeloyveResource.getJournalpost())) {
                 return;
             }
-            updateCase(response, response.getQuery(), drosjeloyveResource);
+            updateCase(response, response.getQuery(), SoknadDrosjeloyveResource);
         } else {
             throw new IllegalArgumentException("Invalid operation: " + operation);
         }
     }
 
-    private void updateCase(Event<FintLinks> response, String query, DrosjeloyveResource drosjeloyveResource) {
+    private void updateCase(Event<FintLinks> response, String query, SoknadDrosjeloyveResource SoknadDrosjeloyveResource) {
         if (!caseQueryService.isValidQuery(query)) {
             response.setStatusCode("BAD_REQUEST");
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setMessage("Invalid query: " + query);
             return;
         }
-        if (drosjeloyveResource.getJournalpost() == null ||
-                drosjeloyveResource.getJournalpost().isEmpty()) {
+        if (SoknadDrosjeloyveResource.getJournalpost() == null ||
+                SoknadDrosjeloyveResource.getJournalpost().isEmpty()) {
             throw new IllegalArgumentException("Update must contain at least one Journalpost");
         }
-        log.info("Complete document for update: {}", drosjeloyveResource);
+        log.info("Complete document for update: {}", SoknadDrosjeloyveResource);
         try {
             Case theCase = caseQueryService.query(query).collect(QueryUtils.toSingleton());
             String caseNumber = theCase.getCaseNumber();
-            createDocumentsForCase(drosjeloyveResource, caseNumber);
-            drosjeloyveService.getDrosjeloyveForQuery(query, response);
+            createDocumentsForCase(SoknadDrosjeloyveResource, caseNumber);
+            soknadDrosjeloyveService.getDrosjeloyveForQuery(query, response);
         } catch (CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode(HttpStatus.BAD_REQUEST.name());
@@ -124,20 +124,20 @@ public class UpdateDrosjeloyveHandler implements Handler {
         }
     }
 
-    private void createCase(Event<FintLinks> response, DrosjeloyveResource drosjeloyveResource) {
+    private void createCase(Event<FintLinks> response, SoknadDrosjeloyveResource SoknadDrosjeloyveResource) {
         try {
             final CreateCaseArgs createCaseArgs =
                     caseDefaultsService
                             .applyDefaultsToCreateCaseParameter(
-                                    caseDefaults.getDrosjeloyve(),
-                                    drosjeloyveFactory.convertToCreateCase(
-                                            drosjeloyveResource));
+                                    caseDefaults.getSoknaddrosjeloyve(),
+                                    soknadDrosjeloyveFactory.convertToCreateCase(
+                                            SoknadDrosjeloyveResource));
 
-            // TODO: Move to Asgeir
+            // TODO: Move to case-defaults 3.0.0
             ArchiveCode primaryArchiveCode = new ArchiveCode();
             primaryArchiveCode.setSort(1);
             primaryArchiveCode.setArchiveType(primarklassifikasjon);
-            primaryArchiveCode.setArchiveCode(drosjeloyveResource.getOrganisasjonsnummer());
+            primaryArchiveCode.setArchiveCode(SoknadDrosjeloyveResource.getOrganisasjonsnummer());
             primaryArchiveCode.setIsManualText(true);
 
             ArchiveCode secondaryArchiveCode = new ArchiveCode();
@@ -146,22 +146,22 @@ public class UpdateDrosjeloyveHandler implements Handler {
             secondaryArchiveCode.setArchiveType("FAGKLASSE PRINSIPP");
             secondaryArchiveCode.setArchiveCode(kKodeFagklasse);
 
-            ArchiveCode additinalCode = new ArchiveCode();
-            additinalCode.setIsManualText(false);
-            additinalCode.setArchiveType("TILLEGGSKODE PRINSIPP");
-            additinalCode.setSort(3);
-            additinalCode.setArchiveCode(kKodeTilleggskode);
+            ArchiveCode additionalCode = new ArchiveCode();
+            additionalCode.setIsManualText(false);
+            additionalCode.setArchiveType("TILLEGGSKODE PRINSIPP");
+            additionalCode.setSort(3);
+            additionalCode.setArchiveCode(kKodeTilleggskode);
 
             createCaseArgs.setArchiveCodes(Arrays.asList(
                     primaryArchiveCode,
                     secondaryArchiveCode,
-                    additinalCode
+                    additionalCode
                     )
             );
 
             String caseNumber = caseService.createCase(createCaseArgs);
-            createDocumentsForCase(drosjeloyveResource, caseNumber);
-            drosjeloyveService.getDrosjeloyveForQuery("mappeid/" + caseNumber, response);
+            createDocumentsForCase(SoknadDrosjeloyveResource, caseNumber);
+            soknadDrosjeloyveService.getDrosjeloyveForQuery("mappeid/" + caseNumber, response);
         } catch (CreateCaseException | CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode(HttpStatus.BAD_REQUEST.name());
@@ -169,18 +169,18 @@ public class UpdateDrosjeloyveHandler implements Handler {
         }
     }
 
-    private void createDocumentsForCase(DrosjeloyveResource drosjeloyveResource, String caseNumber) {
-        if (drosjeloyveResource.getJournalpost() != null) {
-            drosjeloyveResource
+    private void createDocumentsForCase(SoknadDrosjeloyveResource SoknadDrosjeloyveResource, String caseNumber) {
+        if (SoknadDrosjeloyveResource.getJournalpost() != null) {
+            SoknadDrosjeloyveResource
                     .getJournalpost()
                     .stream()
-                    .map(it -> drosjeloyveFactory.convertToCreateDocument(it, caseNumber))
+                    .map(it -> soknadDrosjeloyveFactory.convertToCreateDocument(it, caseNumber))
                     .forEach(documentService::createDocument);
         }
     }
 
     @Override
     public Set<String> actions() {
-        return Collections.singleton(SamferdselActions.UPDATE_DROSJELOYVE.name());
+        return Collections.singleton(SamferdselActions.UPDATE_SOKNADDROSJELOYVE.name());
     }
 }

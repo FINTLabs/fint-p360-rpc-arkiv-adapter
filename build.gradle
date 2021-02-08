@@ -73,7 +73,7 @@ dependencies {
 
     compile("no.fint:fint-arkiv-resource-model-java:${apiVersion}")
     compile("no.fint:fint-administrasjon-model-java:${apiVersion}")
-    compile('no.fint:fint-arkiv-case-defaults:2.2.0')
+    compile('no.fint:fint-arkiv-case-defaults:2.3.0-rc-1')
 
     compile('org.springframework.boot:spring-boot-starter-web')
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
