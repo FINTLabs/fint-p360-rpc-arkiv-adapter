@@ -1,12 +1,20 @@
 package no.fint.p360.data.noark.dokument;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.arkiv.noark.*;
-import no.fint.model.arkiv.kodeverk.*;
+import no.fint.model.arkiv.kodeverk.DokumentStatus;
+import no.fint.model.arkiv.kodeverk.DokumentType;
+import no.fint.model.arkiv.kodeverk.TilknyttetRegistreringSom;
+import no.fint.model.arkiv.kodeverk.Variantformat;
+import no.fint.model.arkiv.noark.Dokumentfil;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
-import no.fint.model.resource.arkiv.noark.*;
-import no.fint.model.resource.arkiv.kodeverk.*;
+import no.fint.model.resource.arkiv.kodeverk.DokumentStatusResource;
+import no.fint.model.resource.arkiv.kodeverk.DokumentTypeResource;
+import no.fint.model.resource.arkiv.kodeverk.TilknyttetRegistreringSomResource;
+import no.fint.model.resource.arkiv.kodeverk.VariantformatResource;
+import no.fint.model.resource.arkiv.noark.DokumentbeskrivelseResource;
+import no.fint.model.resource.arkiv.noark.DokumentfilResource;
+import no.fint.model.resource.arkiv.noark.DokumentobjektResource;
 import no.fint.p360.data.exception.FileNotFound;
 import no.fint.p360.data.noark.codes.filformat.FilformatResource;
 import no.fint.p360.repository.InternalRepository;
@@ -15,6 +23,7 @@ import no.p360.model.DocumentService.File;
 import no.p360.model.DocumentService.File__1;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -31,6 +40,9 @@ public class DokumentbeskrivelseFactory {
 
     @Autowired
     private InternalRepository internalRepository;
+
+    @Value("${fint.p360.file.format-mapper:false}")
+    private boolean mapFormat;
 
     public DokumentbeskrivelseResource toFintResource(File__1 file) {
         DokumentbeskrivelseResource dokumentbeskrivelseResource = new DokumentbeskrivelseResource();
@@ -102,15 +114,20 @@ public class DokumentbeskrivelseFactory {
         File file = new File();
         file.setTitle(dokumentbeskrivelse.getTittel());
 
-        kodeverkRepository
-                .getFilformat()
-                .stream()
-                .filter(it -> StringUtils.equalsIgnoreCase(it.getKode(), dokumentobjekt.getFormat()))
-                .map(FilformatResource::getSystemId)
-                .map(Identifikator::getIdentifikatorverdi)
-                .min(Comparator.comparingInt(Integer::parseInt))
-                .map(s -> StringUtils.prependIfMissing(s, "recno:"))
-                .ifPresent(file::setFormat);
+        if (mapFormat) {
+            kodeverkRepository
+                    .getFilformat()
+                    .stream()
+                    .filter(it -> StringUtils.equalsIgnoreCase(it.getKode(), dokumentobjekt.getFormat()))
+                    .map(FilformatResource::getSystemId)
+                    .map(Identifikator::getIdentifikatorverdi)
+                    .min(Comparator.comparingInt(Integer::parseInt))
+                    .map(s -> StringUtils.prependIfMissing(s, "recno:"))
+                    .ifPresent(file::setFormat);
+            log.debug("Mapping format {} to {}", dokumentobjekt.getFormat(), file.getFormat());
+        } else {
+            file.setFormat(dokumentobjekt.getFormat());
+        }
 
         //createFileParameter.setFormat(objectFactory.createCreateFileParameterFormat(dokumentobjekt.getFormat()));
 
