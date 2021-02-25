@@ -1,7 +1,7 @@
 # FINT P360 adapter
-This adapter connects Tietos Public 360 to FINT.
+This adapter connects TietoEvry Public 360 to FINT.
 
-It uses the `SIF` webservice. At the moment it supports the `SOAP` version.
+It uses the SIF RPC service.
 
 The adapter uses the following services:
 - CaseService
