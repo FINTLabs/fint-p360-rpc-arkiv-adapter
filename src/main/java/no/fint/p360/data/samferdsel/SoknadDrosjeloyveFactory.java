@@ -51,8 +51,8 @@ public class SoknadDrosjeloyveFactory {
     }
 
 
-    public CreateCaseArgs convertToCreateCase(SoknadDrosjeloyveResource SoknadDrosjeloyveResource) {
-        final CreateCaseArgs caseArgs = noarkFactory.createCaseArgs(caseDefaults.getSoknaddrosjeloyve(), SoknadDrosjeloyveResource);
+    public CreateCaseArgs convertToCreateCase(SoknadDrosjeloyveResource soknadDrosjeloyveResource) {
+        final CreateCaseArgs caseArgs = noarkFactory.createCaseArgs(caseDefaults.getSoknaddrosjeloyve(), soknadDrosjeloyveResource);
         if (StringUtils.isNotBlank(sakTilgangsgruppe)) {
             caseArgs.setAccessGroup(sakTilgangsgruppe);
         }
