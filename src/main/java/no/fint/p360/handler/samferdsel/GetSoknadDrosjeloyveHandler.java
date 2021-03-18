@@ -12,7 +12,6 @@ import no.fint.p360.data.samferdsel.SoknadDrosjeloyveService;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.service.CaseQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -20,7 +19,6 @@ import java.util.Set;
 
 @Service
 @Slf4j
-@ConditionalOnProperty("fint.case.handlers.soknaddrosjeloyve")
 public class GetSoknadDrosjeloyveHandler implements Handler {
     @Autowired
     private SoknadDrosjeloyveService soknadDrosjeloyveService;

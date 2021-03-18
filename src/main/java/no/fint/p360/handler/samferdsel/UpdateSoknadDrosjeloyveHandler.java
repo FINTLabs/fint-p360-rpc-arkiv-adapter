@@ -24,7 +24,6 @@ import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +33,6 @@ import java.util.Set;
 
 @Service
 @Slf4j
-@ConditionalOnProperty("fint.case.handlers.soknaddrosjeloyve")
 public class UpdateSoknadDrosjeloyveHandler implements Handler {
     @Autowired
     private ObjectMapper objectMapper;
