@@ -3,6 +3,7 @@ package no.fint.p360.repository;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.model.resource.arkiv.kodeverk.*;
+import no.fint.model.resource.arkiv.noark.KlasseResource;
 import no.fint.model.resource.arkiv.noark.KlassifikasjonssystemResource;
 import no.fint.p360.data.noark.codes.CaseCategoryService;
 import no.fint.p360.data.noark.codes.dokumentstatus.DokumentstatusService;
@@ -11,6 +12,7 @@ import no.fint.p360.data.noark.codes.filformat.FilformatResource;
 import no.fint.p360.data.noark.codes.filformat.FilformatService;
 import no.fint.p360.data.noark.codes.journalposttype.JournalpostTypeService;
 import no.fint.p360.data.noark.codes.journalstatus.JournalStatusService;
+import no.fint.p360.data.noark.codes.klasse.KlasseService;
 import no.fint.p360.data.noark.codes.klassifikasjonssystem.KlassifikasjonssystemService;
 import no.fint.p360.data.noark.codes.korrespondanseparttype.KorrespondansepartTypeService;
 import no.fint.p360.data.noark.codes.merknadstype.MerknadstypeService;
@@ -74,6 +76,9 @@ public class KodeverkRepository {
     private KlassifikasjonssystemService klassifikasjonssystemService;
 
     @Autowired
+    private KlasseService klasseService;
+
+    @Autowired
     private FilformatService filformatService;
 
     @Getter
@@ -116,6 +121,9 @@ public class KodeverkRepository {
     private List<KlassifikasjonssystemResource> klassifikasjonssystem;
 
     @Getter
+    private List<KlasseResource> klasse;
+
+    @Getter
     private List<FilformatResource> filformat;
 
     private transient boolean healthy = false;
@@ -135,6 +143,7 @@ public class KodeverkRepository {
         skjermingshjemmel = skjermingshjemmelService.getLawTable().collect(Collectors.toList());
         variantformat = variantformatService.getVersionFormatTable().collect(Collectors.toList());
         klassifikasjonssystem = klassifikasjonssystemService.getKlassifikasjonssystem().collect(Collectors.toList());
+        klasse = klasseService.getKlasse().collect(Collectors.toList());
         filformat = filformatService.getFilformatTable().collect(Collectors.toList());
         log.info("Refreshed code lists");
         log.info("Case Category Table: {}", caseCategoryService.getCaseCategoryTable().collect(Collectors.joining(", ")));

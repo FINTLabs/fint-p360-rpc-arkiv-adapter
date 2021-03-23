@@ -247,8 +247,13 @@ public class NoarkFactory {
         applyParameterFromLink(klasseResource.getKlassifikasjonssystem(), archiveCode::setArchiveType);
         archiveCode.setArchiveCode(klasseResource.getKlasseId());
         archiveCode.setSort(klasseResource.getRekkefolge());
-        archiveCode.setIsManualText(false);
-        // TODO Manual text
+
+        // ArchiveCode is assumed to be manual text (i.e. dynamic) if the code does not exist in the code list.
+        final boolean anyMatch = kodeverkRepository
+                .getKlasse()
+                .stream()
+                .anyMatch(it -> StringUtils.equals(it.getKlasseId(), klasseResource.getKlasseId()));
+        archiveCode.setIsManualText(!anyMatch);
         return archiveCode;
     }
 
