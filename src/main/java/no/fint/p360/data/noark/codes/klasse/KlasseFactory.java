@@ -44,8 +44,8 @@ public class KlasseFactory {
     public KlasseResource toFintResource(CodeTableRow row) {
         final KlasseResource klasseResource = new KlasseResource();
 
-        klasseResource.setKlasseId(row.getCode());
-        klasseResource.setTittel(row.getDescription());
+        klasseResource.setKlasseId(String.valueOf(row.getRecno()));
+        klasseResource.setTittel(row.getCode());
 
         return klasseResource;
     }
