@@ -199,8 +199,9 @@ public class JournalpostFactory {
                 Integer::parseInt,
                 createDocumentArgs::setResponsibleEnterpriseRecno);
 
-        // TODO Set from incoming fields
-        //createDocumentParameter.setDocumentDate();
+        ofNullable(journalpostResource.getDokumentetsDato())
+                .map(FintUtils::formatIsoDate)
+                .ifPresent(createDocumentArgs::setDocumentDate);
 
         applyParameterFromLink(
                 journalpostResource.getJournalposttype(),

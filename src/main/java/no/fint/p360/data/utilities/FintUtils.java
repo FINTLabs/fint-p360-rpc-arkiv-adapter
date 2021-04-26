@@ -67,6 +67,10 @@ public enum FintUtils {
         return Date.from(zonedDateTime.toInstant());
     }
 
+    public static String formatIsoDate(Date date) {
+        return formatter.format(date.toInstant());
+    }
+
     public static Kontaktinformasjon createKontaktinformasjon(PrivatePerson result) {
         return getKontaktinformasjon(result.getEmail(), result.getMobilePhone(), result.getPhoneNumber());
     }
@@ -181,4 +185,5 @@ public enum FintUtils {
     public static Kontaktinformasjon createKontaktinformasjon(Contact__1 contact) {
         return getKontaktinformasjon(contact.getEmail(), null, null);
     }
+
 }
