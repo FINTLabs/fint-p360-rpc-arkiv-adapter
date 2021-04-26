@@ -199,6 +199,10 @@ public class JournalpostFactory {
                 Integer::parseInt,
                 createDocumentArgs::setResponsibleEnterpriseRecno);
 
+        applyParameterFromLink(
+                journalpostResource.getArkivdel(),
+                createDocumentArgs::setSubArchive);
+
         ofNullable(journalpostResource.getDokumentetsDato())
                 .map(FintUtils::formatIsoDate)
                 .ifPresent(createDocumentArgs::setDocumentDate);
