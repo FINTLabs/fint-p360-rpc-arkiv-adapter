@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.CaseDefaultsService;
 import no.fint.arkiv.CaseProperties;
 import no.p360.model.CaseService.CreateCaseArgs;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -16,7 +14,9 @@ public class P360CaseDefaultsService extends CaseDefaultsService {
 
     public CreateCaseArgs applyDefaultsToCreateCaseParameter(CaseProperties properties, CreateCaseArgs createCaseArgs) {
 
-        createCaseArgs.setKeywords(Arrays.asList(properties.getNoekkelord()));
+        if (properties.getNoekkelord() != null) {
+            createCaseArgs.setKeywords(Arrays.asList(properties.getNoekkelord()));
+        }
         createCaseArgs.setFiledOnPaper(false);
         createCaseArgs.setCaseType(properties.getSaksmappeType());
         return createCaseArgs;
