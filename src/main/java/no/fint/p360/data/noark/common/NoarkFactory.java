@@ -249,11 +249,13 @@ public class NoarkFactory {
         archiveCode.setSort(klasseResource.getRekkefolge());
 
         // ArchiveCode is assumed to be manual text (i.e. dynamic) if the code does not exist in the code list.
-        final boolean anyMatch = kodeverkRepository
-                .getKlasse()
-                .stream()
-                .anyMatch(it -> StringUtils.equals(it.getKlasseId(), klasseResource.getKlasseId()));
-        archiveCode.setIsManualText(!anyMatch);
+        final boolean codeValue =
+                StringUtils.startsWith(klasseResource.getKlasseId(), "recno:")
+                        || kodeverkRepository
+                        .getKlasse()
+                        .stream()
+                        .anyMatch(it -> StringUtils.equals(it.getKlasseId(), klasseResource.getKlasseId()));
+        archiveCode.setIsManualText(!codeValue);
         return archiveCode;
     }
 
