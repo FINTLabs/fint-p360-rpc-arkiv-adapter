@@ -2,7 +2,7 @@ package no.fint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.springfox.loader.EnableSpringfox;
-import no.fint.sse.oauth.OAuthConfig;
+import no.fint.oauth.OAuthConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
