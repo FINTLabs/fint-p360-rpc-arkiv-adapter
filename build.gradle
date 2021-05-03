@@ -43,11 +43,12 @@ afterEvaluate {
 sourceCompatibility = 1.8
 
 repositories {
-    mavenLocal()
-    jcenter()
     maven {
-        url 'http://dl.bintray.com/fint/maven'
+        url 'https://repo.fintlabs.no/releases'
     }
+    mavenCentral()
+    jcenter()
+    mavenLocal()
 }
 
 dependencies {
@@ -66,14 +67,14 @@ dependencies {
     compile 'org.hibernate.validator:hibernate-validator:6.0.17.Final'
     compile 'org.hibernate.validator:hibernate-validator-annotation-processor:6.0.17.Final'
 
-    compile('no.fint:fint-sse:1.4.0')
-    compile('no.fint:fint-event-model:3.0.0')
-    compile('no.fint:fint-relation-model:1.1.5')
-    compile('no.fint:fint-model-resource:0.3.3')
+    compile('no.fint:fint-sse:2.0.0-rc-2')
+    compile('no.fint:fint-event-model:3.0.1-rc-1')
+    compile('no.fint:fint-relation-model:1.1.6')
+    compile('no.fint:fint-model-resource:0.4.1')
 
+    compile('no.fint:fint-arkiv-case-defaults:3.1.0-rc-1')
     compile("no.fint:fint-arkiv-resource-model-java:${apiVersion}")
     compile("no.fint:fint-administrasjon-model-java:${apiVersion}")
-    compile('no.fint:fint-arkiv-case-defaults:3.0.0')
 
     compile('org.springframework.boot:spring-boot-starter-web')
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
