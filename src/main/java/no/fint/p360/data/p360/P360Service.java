@@ -1,5 +1,9 @@
 package no.fint.p360.data.p360;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.p360.AdapterProps;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Collections;
-import java.util.logging.Level;
 
 @Service
 @Slf4j
@@ -22,15 +25,34 @@ public abstract class P360Service {
     @Autowired
     private AdapterProps adapterProps;
 
+    private static final ObjectWriter WRITER = newWriter();
+
+    private static ObjectWriter newWriter() {
+        return new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writer();
+    }
+
     protected <T> T call(String uri, Object args, Class<T> responseType) {
-        log.trace("POST {} {}", uri, args);
+        if (log.isTraceEnabled()) {
+            try {
+                log.trace("POST {} {}", uri, WRITER.writeValueAsString(args));
+            } catch (JsonProcessingException ignore) {
+            }
+        }
         return p360Client.post().uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "authkey " + adapterProps.getP360AuthKey())
                 .header("clientid", adapterProps.getP360ClientId())
                 .bodyValue(Collections.singletonMap("parameter", args))
                 .retrieve()
                 .bodyToMono(responseType)
-                .log(getClass().getName(), Level.FINEST)
+                .map(it -> {
+                    if (log.isTraceEnabled()) {
+                        try {
+                            log.trace("POST {} response: {}", uri, WRITER.writeValueAsString(it));
+                        } catch (JsonProcessingException ignore) {
+                        }
+                    }
+                    return it;
+                })
                 .block();
     }
 
