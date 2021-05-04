@@ -11,6 +11,7 @@ import no.p360.model.ContactService.SynchronizeEnterpriseArgs;
 import no.p360.model.ContactService.SynchronizePrivatePersonArgs;
 import no.p360.model.DocumentService.Contact;
 import no.p360.model.DocumentService.UnregisteredContact;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 
+import static no.fint.p360.data.utilities.P360Utils.getLinkTargets;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
@@ -36,6 +38,11 @@ public class KorrespondansepartService {
         final LinkedList<UnregisteredContact> unregisteredContacts = new LinkedList<>();
 
         for (KorrespondansepartResource resource : korrespondansepart) {
+            if (getLinkTargets(resource.getKorrespondanseparttype())
+                    .anyMatch(s -> StringUtils.equalsAnyIgnoreCase(s, "IA", "IM", "IK"))) {
+                log.debug("Ignoring internal contact {}", resource);
+                continue;
+            }
             try {
                 if (isNotBlank(resource.getFodselsnummer())) {
                     final SynchronizePrivatePersonArgs synchronizePrivatePerson = korrespondansepartFactory.toPrivatePerson(resource);
