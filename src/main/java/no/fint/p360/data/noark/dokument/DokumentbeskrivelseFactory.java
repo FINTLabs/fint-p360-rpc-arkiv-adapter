@@ -1,10 +1,7 @@
 package no.fint.p360.data.noark.dokument;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.arkiv.kodeverk.DokumentStatus;
-import no.fint.model.arkiv.kodeverk.DokumentType;
-import no.fint.model.arkiv.kodeverk.TilknyttetRegistreringSom;
-import no.fint.model.arkiv.kodeverk.Variantformat;
+import no.fint.model.arkiv.kodeverk.*;
 import no.fint.model.arkiv.noark.Dokumentfil;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
@@ -31,6 +28,7 @@ import java.util.Comparator;
 
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
+import static no.fint.p360.data.utilities.P360Utils.getLinkTargets;
 
 @Slf4j
 @Service
@@ -49,7 +47,9 @@ public class DokumentbeskrivelseFactory {
         optionalValue(file.getTitle()).ifPresent(dokumentbeskrivelseResource::setTittel);
 
         DokumentobjektResource dokumentobjektResource = new DokumentobjektResource();
-        optionalValue(file.getFormat()).ifPresent(dokumentobjektResource::setFormat);
+        optionalValue(file.getFormat())
+                .map(Link.apply(Format.class, "systemid"))
+                .ifPresent(dokumentobjektResource::addFilformat);
         dokumentobjektResource.addReferanseDokumentfil(Link.with(Dokumentfil.class, "systemid", file.getRecno().toString()));
 
         optionalValue(file.getStatusCode())
@@ -115,21 +115,22 @@ public class DokumentbeskrivelseFactory {
         file.setTitle(dokumentbeskrivelse.getTittel());
 
         if (mapFormat) {
+            final String[] filformat = getLinkTargets(dokumentobjekt.getFilformat()).toArray(String[]::new);
             kodeverkRepository
                     .getFilformat()
                     .stream()
-                    .filter(it -> StringUtils.equalsIgnoreCase(it.getKode(), dokumentobjekt.getFormat()))
+                    .filter(it -> StringUtils.equalsAnyIgnoreCase(it.getKode(), filformat))
                     .map(FilformatResource::getSystemId)
                     .map(Identifikator::getIdentifikatorverdi)
                     .min(Comparator.comparingInt(Integer::parseInt))
                     .map(s -> StringUtils.prependIfMissing(s, "recno:"))
                     .ifPresent(file::setFormat);
-            log.debug("Mapping format {} to {}", dokumentobjekt.getFormat(), file.getFormat());
+            log.debug("Mapping format {} to {}", filformat, file.getFormat());
         } else {
-            file.setFormat(dokumentobjekt.getFormat());
+            applyParameterFromLink(
+                    dokumentobjekt.getFilformat(),
+                    file::setFormat);
         }
-
-        //createFileParameter.setFormat(objectFactory.createCreateFileParameterFormat(dokumentobjekt.getFormat()));
 
         applyParameterFromLink(
                 dokumentbeskrivelse.getTilknyttetRegistreringSom(),
