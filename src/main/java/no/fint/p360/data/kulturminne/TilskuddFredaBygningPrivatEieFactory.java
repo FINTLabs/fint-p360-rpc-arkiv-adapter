@@ -18,12 +18,17 @@ import no.fint.p360.data.utilities.P360Utils;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import no.p360.model.DocumentService.CreateDocumentArgs;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class TilskuddFredaBygningPrivatEieFactory {
+
+    @Value("${fint.case.defaults.tilskuddfredabygningprivateie.prosjekt:}")
+    private String project;
 
     @Autowired
     private NoarkFactory noarkFactory;
@@ -65,6 +70,9 @@ public class TilskuddFredaBygningPrivatEieFactory {
     public CreateCaseArgs convertToCreateCase(TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEieResource) {
         CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(caseDefaults.getTilskuddfredabygningprivateie(), tilskuddFredaBygningPrivatEieResource);
         createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFredaBygningPrivatEieResource.getSoknadsnummer()));
+        if (StringUtils.isNotBlank(project)) {
+            createCaseArgs.setProject(project);
+        }
         return createCaseArgs;
     }
 
