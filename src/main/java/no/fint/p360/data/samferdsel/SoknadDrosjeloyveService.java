@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.resource.FintLinks;
+import no.fint.model.resource.arkiv.samferdsel.SoknadDrosjeloyveResource;
+import no.fint.p360.model.ContextUser;
 import no.fint.p360.service.CaseQueryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import no.fint.p360.service.ContextUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -14,12 +16,16 @@ import java.util.LinkedList;
 @Service
 public class SoknadDrosjeloyveService {
 
-    @Autowired
-    private SoknadDrosjeloyveFactory soknadDrosjeloyveFactory;
+    private final SoknadDrosjeloyveFactory soknadDrosjeloyveFactory;
+    private final CaseQueryService caseQueryService;
+    private final ContextUser contextUser;
 
-    @Autowired
-    private CaseQueryService caseQueryService;
+    public SoknadDrosjeloyveService(SoknadDrosjeloyveFactory soknadDrosjeloyveFactory, CaseQueryService caseQueryService, ContextUserService contextUserService) {
+        this.soknadDrosjeloyveFactory = soknadDrosjeloyveFactory;
+        this.caseQueryService = caseQueryService;
 
+        contextUser = contextUserService.getContextUserForClass(SoknadDrosjeloyveResource.class);
+    }
 
     public void getDrosjeloyveForQuery(String query, Event<FintLinks> response) {
         response.setData(new LinkedList<>());
