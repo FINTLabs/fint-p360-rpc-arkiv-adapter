@@ -52,17 +52,8 @@ public class TilskuddFredaBygningPrivatEieFactory {
         TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEie = new TilskuddFredaBygningPrivatEieResource();
         tilskuddFredaBygningPrivatEie.setMatrikkelnummer(new MatrikkelnummerResource());
         tilskuddFredaBygningPrivatEie.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
+
         return noarkFactory.getSaksmappe(properties, caseResult, tilskuddFredaBygningPrivatEie);
-
-        /*
-        String caseNumber = caseResult.getCaseNumber();
-        String caseYear = NOARKUtils.getCaseYear(caseNumber);
-        String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
-        tilskuddFredaBygningPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "mappeid", caseYear, sequenceNumber));
-        tilskuddFredaBygningPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "systemid", caseResult.getRecno().toString()));
-        tilskuddFredaBygningPrivatEie.addSelf(Link.with(TilskuddFredaHusPrivatEie.class, "soknadsnummer", caseResult.getExternalId().getId()));
-         */
-
     }
 
 
