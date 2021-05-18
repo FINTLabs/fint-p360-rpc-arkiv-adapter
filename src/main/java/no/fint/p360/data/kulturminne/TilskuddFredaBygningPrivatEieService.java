@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.resource.FintLinks;
+import no.fint.model.resource.arkiv.kulturminnevern.TilskuddFredaBygningPrivatEieResource;
+import no.fint.p360.model.ContextUser;
 import no.fint.p360.service.CaseQueryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import no.fint.p360.service.ContextUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -14,12 +16,16 @@ import java.util.LinkedList;
 @Service
 public class TilskuddFredaBygningPrivatEieService {
 
-    @Autowired
-    private TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory;
+    private final TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory;
+    private final CaseQueryService caseQueryService;
+    private final ContextUser contextUser;
 
-    @Autowired
-    private CaseQueryService caseQueryService;
+    public TilskuddFredaBygningPrivatEieService(TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory, CaseQueryService caseQueryService, ContextUserService contextUserService) {
+        this.tilskuddFredaBygningPrivatEieFactory = tilskuddFredaBygningPrivatEieFactory;
+        this.caseQueryService = caseQueryService;
 
+        contextUser = contextUserService.getContextUserForClass(TilskuddFredaBygningPrivatEieResource.class);
+    }
 
     public void getTilskuddFredaBygningPrivatEieForQuery(String query, Event<FintLinks> response) {
         response.setData(new LinkedList<>());
