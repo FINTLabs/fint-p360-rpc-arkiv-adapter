@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.resource.FintLinks;
+import no.fint.model.resource.arkiv.kulturminnevern.TilskuddFartoyResource;
+import no.fint.p360.model.ContextUser;
 import no.fint.p360.service.CaseQueryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import no.fint.p360.service.ContextUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -14,12 +16,16 @@ import java.util.LinkedList;
 @Service
 public class TilskuddFartoyServices {
 
-    @Autowired
-    private TilskuddFartoyFactory tilskuddFartoyFactory;
+    private final TilskuddFartoyFactory tilskuddFartoyFactory;
+    private final CaseQueryService caseQueryService;
+    private final ContextUser contextUser;
 
-    @Autowired
-    private CaseQueryService caseQueryService;
+    public TilskuddFartoyServices(TilskuddFartoyFactory tilskuddFartoyFactory, CaseQueryService caseQueryService, ContextUserService contextUserService) {
+        this.tilskuddFartoyFactory = tilskuddFartoyFactory;
+        this.caseQueryService = caseQueryService;
 
+        contextUser = contextUserService.getContextUserForClass(TilskuddFartoyResource.class);
+    }
 
     public void getTilskuddFartoyForQuery(String query, Event<FintLinks> response) {
         response.setData(new LinkedList<>());

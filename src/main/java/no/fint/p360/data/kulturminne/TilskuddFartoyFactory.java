@@ -1,9 +1,8 @@
 package no.fint.p360.data.kulturminne;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.CaseDefaults;
-import no.fint.arkiv.TitleService;
+import no.fint.arkiv.CaseProperties;
 import no.fint.model.resource.arkiv.kulturminnevern.TilskuddFartoyResource;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.p360.data.exception.GetDocumentException;
@@ -14,11 +13,12 @@ import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.data.utilities.Constants;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.P360Utils;
+import no.fint.p360.model.ContextUser;
+import no.fint.p360.service.ContextUserService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import no.p360.model.DocumentService.CreateDocumentArgs;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -29,20 +29,19 @@ public class TilskuddFartoyFactory {
     @Value("${fint.case.defaults.tilskuddfartoy.prosjekt:}")
     private String project;
 
-    @Autowired
-    private NoarkFactory noarkFactory;
+    private final NoarkFactory noarkFactory;
+    private final JournalpostFactory journalpostFactory;
+    private final CaseProperties properties;
+    private final ContextUser contextUser;
 
-    @Autowired
-    private JournalpostFactory journalpostFactory;
 
-    @Autowired
-    TitleService titleService;
+    public TilskuddFartoyFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, ContextUserService contextUserService) {
+        this.noarkFactory = noarkFactory;
+        this.journalpostFactory = journalpostFactory;
 
-    @Autowired
-    AdditionalFieldService additionalFieldService;
-
-    @Autowired
-    CaseDefaults caseDefaults;
+        properties = caseDefaults.getTilskuddfartoy();
+        contextUser = contextUserService.getContextUserForClass(TilskuddFartoyResource.class);
+    }
 
     public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddfartoyException {
         if (!isTilskuddFartoy(caseResult)) {
@@ -51,7 +50,7 @@ public class TilskuddFartoyFactory {
 
         TilskuddFartoyResource tilskuddFartoy = new TilskuddFartoyResource();
         tilskuddFartoy.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
-        return noarkFactory.getSaksmappe(caseDefaults.getTilskuddfartoy(), caseResult, tilskuddFartoy);
+        return noarkFactory.getSaksmappe(properties, caseResult, tilskuddFartoy);
 
         /*
         String caseNumber = caseResult.getCaseNumber();
@@ -64,18 +63,30 @@ public class TilskuddFartoyFactory {
 
     }
 
-
     public CreateCaseArgs convertToCreateCase(TilskuddFartoyResource tilskuddFartoy) {
-        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(caseDefaults.getTilskuddfartoy(), tilskuddFartoy);
+        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(properties, tilskuddFartoy);
         createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFartoy.getSoknadsnummer()));
         if (StringUtils.isNotBlank(project)) {
             createCaseArgs.setProject(project);
         }
+
+        if (contextUser != null && StringUtils.isNotBlank(contextUser.getUsername())) {
+            createCaseArgs.setADContextUser(contextUser.getUsername());
+            log.info("CreateCaseArgs with ADContextUser set to {}", contextUser.getUsername());
+        }
+
         return createCaseArgs;
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
-        return journalpostFactory.toP360(journalpostResource, caseNumber);
+        CreateDocumentArgs createDocumentArgs = journalpostFactory.toP360(journalpostResource, caseNumber);
+
+        if (contextUser != null && StringUtils.isNotBlank(contextUser.getUsername())) {
+            createDocumentArgs.setADContextUser(contextUser.getUsername());
+            log.info("CreateDocumentArgs with ADContextUser set to {}", contextUser.getUsername());
+        }
+
+        return createDocumentArgs;
     }
 
     // TODO: 2019-05-11 Should we check for both archive classification and external id (is it a digisak)
@@ -87,7 +98,6 @@ public class TilskuddFartoyFactory {
         }
 
         return false;
-
     }
 
 }

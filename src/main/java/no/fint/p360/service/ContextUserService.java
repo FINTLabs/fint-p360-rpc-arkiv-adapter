@@ -17,7 +17,7 @@ public class ContextUserService {
         this.contextUsers = contextUsers;
 
         if (contextUsers.getAccount() == null) {
-            log.warn("No configured P360 ADContextUsers!");
+            log.warn("No configured P360 ADContextUsers! No worries, we'll continue as in the good old days.");
         } else {
             log.info("Configured P360 ADContextUsers: {}", contextUsers);
         }
