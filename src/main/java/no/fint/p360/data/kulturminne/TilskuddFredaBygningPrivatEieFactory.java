@@ -58,8 +58,9 @@ public class TilskuddFredaBygningPrivatEieFactory {
 
 
     public CreateCaseArgs convertToCreateCase(TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEieResource) {
-        CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(properties, tilskuddFredaBygningPrivatEieResource);
+        final CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(properties, tilskuddFredaBygningPrivatEieResource);
         createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFredaBygningPrivatEieResource.getSoknadsnummer()));
+
         if (StringUtils.isNotBlank(project)) {
             createCaseArgs.setProject(project);
         }
