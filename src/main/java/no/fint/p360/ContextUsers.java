@@ -11,7 +11,7 @@ import java.util.Map;
 @Data
 @Component
 @EnableConfigurationProperties
-@ConfigurationProperties("fint.p360.adcontextuser")
+@ConfigurationProperties("fint.p360.ad-context-user")
 public class ContextUsers {
 
     private Map<String, ContextUser> account;
