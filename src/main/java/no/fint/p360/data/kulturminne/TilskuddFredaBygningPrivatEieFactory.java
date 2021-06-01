@@ -14,8 +14,6 @@ import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.data.utilities.Constants;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.P360Utils;
-import no.fint.p360.model.ContextUser;
-import no.fint.p360.service.ContextUserService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import no.p360.model.DocumentService.CreateDocumentArgs;
@@ -33,15 +31,13 @@ public class TilskuddFredaBygningPrivatEieFactory {
     private final NoarkFactory noarkFactory;
     private final JournalpostFactory journalpostFactory;
     private final CaseProperties properties;
-    private final ContextUser contextUser;
 
 
-    public TilskuddFredaBygningPrivatEieFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, ContextUserService contextUserService) {
+    public TilskuddFredaBygningPrivatEieFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults) {
         this.noarkFactory = noarkFactory;
         this.journalpostFactory = journalpostFactory;
 
         properties = caseDefaults.getTilskuddfredabygningprivateie();
-        contextUser = contextUserService.getContextUserForClass(TilskuddFredaBygningPrivatEieResource.class);
     }
 
     public TilskuddFredaBygningPrivatEieResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddFredaHusPrivatEieException {
@@ -56,7 +52,6 @@ public class TilskuddFredaBygningPrivatEieFactory {
         return noarkFactory.getSaksmappe(properties, caseResult, tilskuddFredaBygningPrivatEie);
     }
 
-
     public CreateCaseArgs convertToCreateCase(TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEieResource) {
         final CreateCaseArgs createCaseArgs = noarkFactory.createCaseArgs(properties, tilskuddFredaBygningPrivatEieResource);
         createCaseArgs.setExternalId(P360Utils.getExternalIdParameter(tilskuddFredaBygningPrivatEieResource.getSoknadsnummer()));
@@ -65,23 +60,11 @@ public class TilskuddFredaBygningPrivatEieFactory {
             createCaseArgs.setProject(project);
         }
 
-        if (contextUser != null && StringUtils.isNotBlank(contextUser.getUsername())) {
-            createCaseArgs.setADContextUser(contextUser.getUsername());
-            log.info("CreateCaseArgs with ADContextUser set to {}", contextUser.getUsername());
-        }
-
         return createCaseArgs;
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
-        CreateDocumentArgs createDocumentArgs = journalpostFactory.toP360(journalpostResource, caseNumber);
-
-        if (contextUser != null && StringUtils.isNotBlank(contextUser.getUsername())) {
-            createDocumentArgs.setADContextUser(contextUser.getUsername());
-            log.info("CreateDocumentArgs with ADContextUser set to {}", contextUser.getUsername());
-        }
-
-        return createDocumentArgs;
+        return journalpostFactory.toP360(journalpostResource, caseNumber, new TilskuddFredaBygningPrivatEieResource());
     }
 
     // TODO: 2019-05-11 Should we check for both archive classification and external id (is it a digisak)

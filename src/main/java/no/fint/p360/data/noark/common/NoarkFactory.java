@@ -1,5 +1,6 @@
 package no.fint.p360.data.noark.common;
 
+import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.CaseProperties;
 import no.fint.arkiv.TitleService;
@@ -21,7 +22,9 @@ import no.fint.p360.data.noark.part.PartFactory;
 import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.NOARKUtils;
+import no.fint.p360.model.ContextUser;
 import no.fint.p360.repository.KodeverkRepository;
+import no.fint.p360.service.ContextUserService;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +42,7 @@ import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
 @Service
+@Slf4j
 public class NoarkFactory {
 
     @Value("${fint.arkiv.part:false}")
@@ -64,6 +68,9 @@ public class NoarkFactory {
 
     @Autowired
     private KlasseFactory klasseFactory;
+
+    @Autowired
+    private ContextUserService contextUserService;
 
     public <T extends SaksmappeResource> T getSaksmappe(CaseProperties caseProperties, Case caseResult, T saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
         String caseNumber = caseResult.getCaseNumber();
@@ -158,6 +165,19 @@ public class NoarkFactory {
         CreateCaseArgs createCaseArgs = new CreateCaseArgs();
 
         createCaseArgs.setTitle(titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource));
+
+        // TODO Consider rewrite using Optional
+        try {
+            ContextUser contextUser = contextUserService.getContextUserForClass(saksmappeResource.getClass());
+            if (contextUser != null && StringUtils.isNotBlank(contextUser.getUsername())) {
+                createCaseArgs.setADContextUser(contextUser.getUsername());
+                log.info("CreateCaseArgs with ADContextUser set to {}", contextUser.getUsername());
+            }
+        } catch (NullPointerException e) {
+            log.trace("There's no ADContextUser set for {}, hence no ADContextUser will automagically be set on this case.",
+                    saksmappeResource.getClass());
+        }
+
         createCaseArgs.setAdditionalFields(
                 additionalFieldService.getFieldsForResource(caseProperties.getField(), saksmappeResource)
                         .map(it -> {
