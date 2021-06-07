@@ -62,7 +62,7 @@ public class SoknadDrosjeloyveFactory {
         if (StringUtils.isNotBlank(journalpostTilgangsgruppe)) {
             createDocumentArgs.setAccessGroup(journalpostTilgangsgruppe);
 
-            log.info("Using tilgangsgruppe {} on document (journalpost).", sakTilgangsgruppe);
+            log.info("Using tilgangsgruppe {} on document (journalpost).", journalpostTilgangsgruppe);
         }
 
         return createDocumentArgs;
