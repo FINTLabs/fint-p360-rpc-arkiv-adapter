@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -166,17 +167,10 @@ public class NoarkFactory {
 
         createCaseArgs.setTitle(titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource));
 
-        // TODO Consider rewrite using Optional
-        try {
-            ContextUser contextUser = contextUserService.getContextUserForClass(saksmappeResource.getClass());
-            if (contextUser != null && StringUtils.isNotBlank(contextUser.getUsername())) {
-                createCaseArgs.setADContextUser(contextUser.getUsername());
-                log.info("CreateCaseArgs with ADContextUser set to {}", contextUser.getUsername());
-            }
-        } catch (NullPointerException e) {
-            log.trace("There's no ADContextUser set for {}, hence no ADContextUser will automagically be set on this case.",
-                    saksmappeResource.getClass());
-        }
+        Optional.ofNullable(contextUserService.getContextUserForCaseType(saksmappeResource))
+                .map(ContextUser::getUsername)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(createCaseArgs::setADContextUser);
 
         createCaseArgs.setAdditionalFields(
                 additionalFieldService.getFieldsForResource(caseProperties.getField(), saksmappeResource)

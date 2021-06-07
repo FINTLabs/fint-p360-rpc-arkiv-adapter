@@ -23,17 +23,6 @@ public class ContextUserService {
         }
     }
 
-    public ContextUser getContextUserForClass(Class<?> clazz) {
-        String caseTypeName = resourceName(clazz);
-        final String account = contextUsers.getCasetype().get(caseTypeName);
-
-        if (StringUtils.isBlank(account)) {
-            throw new InvalidContextUser("CaseType " + caseTypeName);
-        }
-
-        return getContextUser(account);
-    }
-
     public ContextUser getContextUserForCaseType(Object caseType) {
         return getContextUserForClass(caseType.getClass());
     }
@@ -42,14 +31,33 @@ public class ContextUserService {
         return getContextUser(contextUsers.getCasetype().get("default"));
     }
 
-    private ContextUser getContextUser(String account) {
-        final ContextUser contextUser = contextUsers.getAccount().get(account);
+    private ContextUser getContextUserForClass(Class<?> clazz) {
+        if (contextUsers.getCasetype() != null) {
+            String caseTypeName = resourceName(clazz);
+            final String account = contextUsers.getCasetype().get(caseTypeName);
 
-        if (contextUser == null) {
-            throw new InvalidContextUser("Account " + account);
+            if (StringUtils.isBlank(account)) {
+                throw new InvalidContextUser("CaseType " + caseTypeName);
+            }
+
+            return getContextUser(account);
         }
 
-        return contextUser;
+        return null;
+    }
+
+    private ContextUser getContextUser(String account) {
+        if (contextUsers.getAccount() != null) {
+            final ContextUser contextUser = contextUsers.getAccount().get(account);
+
+            if (contextUser == null) {
+                throw new InvalidContextUser("Account " + account);
+            }
+
+            return contextUser;
+        }
+
+        return null;
     }
 
     private static String resourceName(Class<?> clazz) {

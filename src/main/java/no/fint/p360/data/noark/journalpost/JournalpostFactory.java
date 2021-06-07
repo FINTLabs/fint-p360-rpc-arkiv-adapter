@@ -239,17 +239,10 @@ public class JournalpostFactory {
                         .map(this::createDocumentRemarkParameter)
                         .collect(Collectors.toList()));
 
-        // TODO Consider rewrite using Optional
-        try {
-            ContextUser contextUser = contextUserService.getContextUserForClass(saksmappeResource.getClass());
-            if (contextUser != null && StringUtils.isNotBlank(contextUser.getUsername())) {
-                createDocumentArgs.setADContextUser(contextUser.getUsername());
-                log.info("CreateDocumentArgs with ADContextUser set to {}", contextUser.getUsername());
-            }
-        } catch (NullPointerException e) {
-            log.trace("There's no ADContextUser set for {}, hence no ADContextUser will automagically be set on this journalpost.",
-                    saksmappeResource.getClass());
-        }
+        Optional.ofNullable(contextUserService.getContextUserForCaseType(saksmappeResource))
+                .map(ContextUser::getUsername)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(createDocumentArgs::setADContextUser);
 
         return createDocumentArgs;
     }
