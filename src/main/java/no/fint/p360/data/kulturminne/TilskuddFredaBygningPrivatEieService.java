@@ -1,25 +1,23 @@
 package no.fint.p360.data.kulturminne;
 
-import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.resource.FintLinks;
 import no.fint.p360.service.CaseQueryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 
-@Slf4j
 @Service
 public class TilskuddFredaBygningPrivatEieService {
 
-    @Autowired
-    private TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory;
+    private final TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory;
+    private final CaseQueryService caseQueryService;
 
-    @Autowired
-    private CaseQueryService caseQueryService;
-
+    public TilskuddFredaBygningPrivatEieService(TilskuddFredaBygningPrivatEieFactory tilskuddFredaBygningPrivatEieFactory, CaseQueryService caseQueryService) {
+        this.tilskuddFredaBygningPrivatEieFactory = tilskuddFredaBygningPrivatEieFactory;
+        this.caseQueryService = caseQueryService;
+    }
 
     public void getTilskuddFredaBygningPrivatEieForQuery(String query, Event<FintLinks> response) {
         response.setData(new LinkedList<>());

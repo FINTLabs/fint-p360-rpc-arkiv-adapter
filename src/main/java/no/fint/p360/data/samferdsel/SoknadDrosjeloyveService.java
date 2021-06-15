@@ -1,25 +1,23 @@
 package no.fint.p360.data.samferdsel;
 
-import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.resource.FintLinks;
 import no.fint.p360.service.CaseQueryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 
-@Slf4j
 @Service
 public class SoknadDrosjeloyveService {
 
-    @Autowired
-    private SoknadDrosjeloyveFactory soknadDrosjeloyveFactory;
+    private final SoknadDrosjeloyveFactory soknadDrosjeloyveFactory;
+    private final CaseQueryService caseQueryService;
 
-    @Autowired
-    private CaseQueryService caseQueryService;
-
+    public SoknadDrosjeloyveService(SoknadDrosjeloyveFactory soknadDrosjeloyveFactory, CaseQueryService caseQueryService) {
+        this.soknadDrosjeloyveFactory = soknadDrosjeloyveFactory;
+        this.caseQueryService = caseQueryService;
+    }
 
     public void getDrosjeloyveForQuery(String query, Event<FintLinks> response) {
         response.setData(new LinkedList<>());

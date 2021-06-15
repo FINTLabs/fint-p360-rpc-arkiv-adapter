@@ -128,11 +128,13 @@ public class UpdateTilskuddFartoyHandler implements Handler {
     }
 
     private void createDocumentsForCase(TilskuddFartoyResource tilskuddFartoyResource, String caseNumber) {
-        tilskuddFartoyResource
-                .getJournalpost()
-                .stream()
-                .map(it -> tilskuddFartoyFactory.convertToCreateDocument(it, caseNumber))
-                .forEach(documentService::createDocument);
+        if (tilskuddFartoyResource.getJournalpost() != null) {
+            tilskuddFartoyResource
+                    .getJournalpost()
+                    .stream()
+                    .map(it -> tilskuddFartoyFactory.convertToCreateDocument(it, caseNumber))
+                    .forEach(documentService::createDocument);
+        }
     }
 
     @Override

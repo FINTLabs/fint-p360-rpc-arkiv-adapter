@@ -25,7 +25,7 @@ fint:
         noark: https://api.felleskomponent.no/arkiv/noark/provider
         kodeverk: https://api.felleskomponent.no/arkiv/kodeverk/provider
         #personal: https://alpha.felleskomponent.no/administrasjon/personal/provider
-        #kulturminne: https://beta.felleskomponent.no/kultur/kulturminnevern/provider
+        kulturminne: https://api.felleskomponent.no/arkiv/kulturminnevern/provider
         samferdsel: https://api.felleskomponent.no/arkiv/samferdsel/provider
 
   oauth:

@@ -13,12 +13,15 @@ import no.fint.model.resource.arkiv.kodeverk.MerknadstypeResource;
 import no.fint.model.resource.arkiv.noark.DokumentbeskrivelseResource;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.model.resource.arkiv.noark.MerknadResource;
+import no.fint.model.resource.arkiv.noark.SaksmappeResource;
 import no.fint.p360.data.noark.dokument.DokumentbeskrivelseFactory;
 import no.fint.p360.data.noark.korrespondansepart.KorrespondansepartFactory;
 import no.fint.p360.data.noark.korrespondansepart.KorrespondansepartService;
 import no.fint.p360.data.noark.skjerming.SkjermingService;
 import no.fint.p360.data.utilities.FintUtils;
+import no.fint.p360.model.ContextUser;
 import no.fint.p360.repository.KodeverkRepository;
+import no.fint.p360.service.ContextUserService;
 import no.p360.model.DocumentService.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -54,6 +57,9 @@ public class JournalpostFactory {
 
     @Autowired
     private KorrespondansepartFactory korrespondansepartFactory;
+
+    @Autowired
+    private ContextUserService contextUserService;
 
     public JournalpostResource toFintResource(Document__1 documentResult) {
         JournalpostResource journalpost = new JournalpostResource();
@@ -182,10 +188,8 @@ public class JournalpostFactory {
         return merknad;
     }
 
-    public CreateDocumentArgs toP360(JournalpostResource journalpostResource, String caseNumber) {
-
+    public CreateDocumentArgs toP360(JournalpostResource journalpostResource, String caseNumber, SaksmappeResource saksmappeResource) {
         CreateDocumentArgs createDocumentArgs = new CreateDocumentArgs();
-//        createDocumentParameter.setADContextUser(objectFactory.createDocumentParameterBaseADContextUser(adapterProps.getP360User()));
 
         createDocumentArgs.setTitle(journalpostResource.getOffentligTittel());
         createDocumentArgs.setUnofficialTitle(journalpostResource.getTittel());
@@ -234,6 +238,11 @@ public class JournalpostFactory {
                         .orElseGet(Stream::empty)
                         .map(this::createDocumentRemarkParameter)
                         .collect(Collectors.toList()));
+
+        Optional.ofNullable(contextUserService.getContextUserForCaseType(saksmappeResource))
+                .map(ContextUser::getUsername)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(createDocumentArgs::setADContextUser);
 
         return createDocumentArgs;
     }
