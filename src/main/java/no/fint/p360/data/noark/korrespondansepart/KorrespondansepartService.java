@@ -38,6 +38,8 @@ public class KorrespondansepartService {
         final LinkedList<UnregisteredContact> unregisteredContacts = new LinkedList<>();
 
         for (KorrespondansepartResource resource : korrespondansepart) {
+            // TODO Should be controlled by a default false property.
+            // According to TietoEvry we should never insert internal contacts.
             if (getLinkTargets(resource.getKorrespondanseparttype())
                     .anyMatch(s -> StringUtils.equalsAnyIgnoreCase(s, "IA", "IM", "IK"))) {
                 log.debug("Ignoring internal contact {}", resource);
