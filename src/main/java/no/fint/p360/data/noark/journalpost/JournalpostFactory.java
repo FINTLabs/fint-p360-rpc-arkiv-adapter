@@ -244,6 +244,11 @@ public class JournalpostFactory {
                 .filter(StringUtils::isNotBlank)
                 .ifPresent(createDocumentArgs::setADContextUser);
 
+        applyParameterFromLink(
+                journalpostResource.getSaksbehandler(),
+                Integer::valueOf,
+                createDocumentArgs::setResponsiblePersonRecno);
+
         return createDocumentArgs;
     }
 
