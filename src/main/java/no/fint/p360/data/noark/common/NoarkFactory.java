@@ -172,6 +172,11 @@ public class NoarkFactory {
                 .filter(StringUtils::isNotBlank)
                 .ifPresent(createCaseArgs::setADContextUser);
 
+        Optional.ofNullable(caseProperties.getSaksansvarlig())
+            .filter(StringUtils::isNotBlank)
+            .map(Integer::valueOf)
+            .ifPresent(createCaseArgs::setResponsiblePersonRecno);
+
         createCaseArgs.setAdditionalFields(
                 additionalFieldService.getFieldsForResource(caseProperties.getField(), saksmappeResource)
                         .map(it -> {
@@ -253,6 +258,7 @@ public class NoarkFactory {
                 )
         );
         */
+
         return createCaseArgs;
     }
 
