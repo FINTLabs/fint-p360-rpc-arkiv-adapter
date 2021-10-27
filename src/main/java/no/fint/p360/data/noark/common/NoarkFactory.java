@@ -160,18 +160,6 @@ public class NoarkFactory {
                         .map(klasseFactory::toFintResource)
                         .collect(Collectors.toList()));
 
-        // XXX
-        for (PropertyDescriptor descriptor : PropertyUtils.getPropertyDescriptors(saksmappeResource)) {
-            log.debug("PropertyDescriptor: {}", descriptor);
-            if (FintComplexDatatypeObject.class.isAssignableFrom(descriptor.getPropertyType())) {
-                try {
-                    if (descriptor.getReadMethod().invoke(saksmappeResource) == null) {
-                        descriptor.getWriteMethod().invoke(saksmappeResource, descriptor.getPropertyType().newInstance());
-                    }
-                } catch (IllegalAccessException | InvocationTargetException | InstantiationException ignore) {}
-            }
-        }
-
         boolean isTitleParsed = titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
         if (log.isDebugEnabled()) {
             log.debug("Is the Title parsed? {}. The parameters we just fed the TitleService with {} (Title) {} (Saksmappe) {} (Input))",
