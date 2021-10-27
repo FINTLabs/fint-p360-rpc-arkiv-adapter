@@ -87,8 +87,14 @@ public class NoarkFactory {
         saksmappeResource.setSaksaar(caseYear);
         saksmappeResource.setSaksdato(FintUtils.parseIsoDate(caseResult.getDate()));
         saksmappeResource.setOpprettetDato(FintUtils.parseIsoDate(caseResult.getCreatedDate()));
+
         saksmappeResource.setTittel(caseResult.getUnofficialTitle());
         saksmappeResource.setOffentligTittel(caseResult.getTitle());
+        if (log.isDebugEnabled()) {
+            log.debug("Tittel and OfftenligTittel on {} set to {} and {}, based on values from {}",
+                    saksmappeResource, caseResult.getUnofficialTitle(), caseResult.getTitle(), caseResult);
+        }
+
         saksmappeResource.setNoekkelord(caseResult
                 .getArchiveCodes()
                 .stream()
@@ -150,7 +156,13 @@ public class NoarkFactory {
                         .map(klasseFactory::toFintResource)
                         .collect(Collectors.toList()));
 
-        titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
+        boolean isTitleParsed = titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
+        if (log.isDebugEnabled()) {
+            log.debug("Is the Title parsed? {}. The parameters we just fed the TitleService with {} (Title) {} (Saksmappe) {} (Input))",
+                    isTitleParsed, caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
+            log.debug("By the way, the OffentligTittel is {} as you might remember.",
+                    saksmappeResource.getOffentligTittel());
+        }
 
         additionalFieldService.setFieldsForResource(caseProperties.getField(), saksmappeResource,
                 caseResult.getCustomFields()
@@ -166,6 +178,10 @@ public class NoarkFactory {
         CreateCaseArgs createCaseArgs = new CreateCaseArgs();
 
         createCaseArgs.setTitle(titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource));
+        if (log.isDebugEnabled()) {
+            log.debug("Just set Title on the CreateCaseArgs to {}. This time we fed the TitleService with {} (Title) and {} (Saksmappe)",
+                    createCaseArgs.getTitle(), caseProperties.getTitle(), saksmappeResource);
+        }
 
         Optional.ofNullable(contextUserService.getContextUserForCaseType(saksmappeResource))
                 .map(ContextUser::getUsername)
