@@ -158,7 +158,7 @@ public class NoarkFactory {
 
         //boolean isTitleParsed = titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
 
-        String title = "Riksatikvarens tilskudd til kulturminner i privat eie - ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${bygningsnavn} - ${matrikkelnummer:link#kommunenummer.navn} kommune";
+        String title = "Riksatikvarens tilskudd til kulturminner i privat eie - ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${bygningsnavn} - ${link:matrikkelnummer.kommunenummer#navn} kommune";
         log.debug("--> Title by code: {} \nTitle from CaseProperties: {}\nTitle from SaksmappeResourse: {}", title, caseProperties.getTitle().getCases(), saksmappeResource.getTittel());
         //caseProperties.getTitle().setCases(title);
         //log.debug("--> {}", caseProperties.getTitle().getCases());
