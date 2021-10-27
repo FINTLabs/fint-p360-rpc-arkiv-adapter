@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.CaseProperties;
 import no.fint.arkiv.TitleService;
+import no.fint.model.FintComplexDatatypeObject;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.arkiv.kodeverk.Saksstatus;
 import no.fint.model.arkiv.noark.AdministrativEnhet;
@@ -27,11 +28,14 @@ import no.fint.p360.repository.KodeverkRepository;
 import no.fint.p360.service.ContextUserService;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -155,6 +159,18 @@ public class NoarkFactory {
                         .stream()
                         .map(klasseFactory::toFintResource)
                         .collect(Collectors.toList()));
+
+        // XXX
+        for (PropertyDescriptor descriptor : PropertyUtils.getPropertyDescriptors(saksmappeResource)) {
+            log.debug("PropertyDescriptor: {}", descriptor);
+            if (FintComplexDatatypeObject.class.isAssignableFrom(descriptor.getPropertyType())) {
+                try {
+                    if (descriptor.getReadMethod().invoke(saksmappeResource) == null) {
+                        descriptor.getWriteMethod().invoke(saksmappeResource, descriptor.getPropertyType().newInstance());
+                    }
+                } catch (IllegalAccessException | InvocationTargetException | InstantiationException ignore) {}
+            }
+        }
 
         boolean isTitleParsed = titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
         if (log.isDebugEnabled()) {
