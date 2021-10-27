@@ -156,7 +156,11 @@ public class NoarkFactory {
                         .map(klasseFactory::toFintResource)
                         .collect(Collectors.toList()));
 
-        boolean isTitleParsed = titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
+        //boolean isTitleParsed = titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
+
+        String title = "${link:matrikkelnummer.kommunenummer#navn}";
+        boolean isTitleParsed = titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, title);
+
         if (log.isDebugEnabled()) {
             log.debug("Is the Title parsed? {}. The parameters we just fed the TitleService with {} (Title) {} (Saksmappe) {} (Input))",
                     isTitleParsed, caseProperties.getTitle().getCases(), saksmappeResource, saksmappeResource.getTittel());
