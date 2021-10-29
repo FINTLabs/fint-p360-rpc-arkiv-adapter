@@ -72,7 +72,7 @@ dependencies {
     compile('no.fint:fint-relation-model:1.1.6')
     compile('no.fint:fint-model-resource:0.4.1')
 
-    compile('no.fint:fint-arkiv-case-defaults:3.1.0')
+    compile('no.fint:fint-arkiv-case-defaults:4.0.0')
     compile("no.fint:fint-arkiv-resource-model-java:${apiVersion}")
     compile("no.fint:fint-administrasjon-model-java:${apiVersion}")
 
@@ -84,7 +84,7 @@ dependencies {
     testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
     testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    compile 'com.azure:azure-storage-blob:12.1.0'
+    compile 'com.azure:azure-storage-blob:12.14.1'
     compile 'io.projectreactor:reactor-core:3.3.1.RELEASE'
     compile 'commons-beanutils:commons-beanutils:1.9.4'
     compile 'org.apache.commons:commons-text:1.8'
