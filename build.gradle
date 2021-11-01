@@ -84,7 +84,7 @@ dependencies {
     testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
     testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    compile 'com.azure:azure-storage-blob:12.14.1'
+    compile 'com.azure:azure-storage-blob:12.7.0'
     compile 'io.projectreactor:reactor-core:3.3.1.RELEASE'
     compile 'commons-beanutils:commons-beanutils:1.9.4'
     compile 'org.apache.commons:commons-text:1.8'
