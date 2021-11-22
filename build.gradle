@@ -72,7 +72,7 @@ dependencies {
     compile('no.fint:fint-relation-model:1.1.6')
     compile('no.fint:fint-model-resource:0.4.1')
 
-    compile('no.fint:fint-arkiv-case-defaults:4.0.0')
+    compile('no.fint:fint-arkiv-case-defaults:4.1.0-rc-1')
     compile("no.fint:fint-arkiv-resource-model-java:${apiVersion}")
     compile("no.fint:fint-administrasjon-model-java:${apiVersion}")
 
