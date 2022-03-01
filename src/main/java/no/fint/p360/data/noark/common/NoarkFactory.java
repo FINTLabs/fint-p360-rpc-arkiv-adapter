@@ -111,7 +111,7 @@ public class NoarkFactory {
         List<JournalpostResource> journalpostList = new ArrayList<>(journalpostIds.size());
         for (String journalpostRecord : journalpostIds) {
             Document__1 documentResult = documentService.getDocumentBySystemId(journalpostRecord);
-            JournalpostResource journalpostResource = journalpostFactory.toFintResource(documentResult);
+            JournalpostResource journalpostResource = journalpostFactory.toFintResource(documentResult, caseProperties, saksmappeResource);
             journalpostList.add(journalpostResource);
         }
         saksmappeResource.setJournalpost(journalpostList);

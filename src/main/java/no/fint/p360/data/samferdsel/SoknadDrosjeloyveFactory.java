@@ -57,7 +57,7 @@ public class SoknadDrosjeloyveFactory {
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
-        CreateDocumentArgs createDocumentArgs = journalpostFactory.toP360(journalpostResource, caseNumber, new SoknadDrosjeloyveResource());
+        CreateDocumentArgs createDocumentArgs = journalpostFactory.toP360(journalpostResource, caseNumber, new SoknadDrosjeloyveResource(), properties);
 
         if (StringUtils.isNotBlank(journalpostTilgangsgruppe)) {
             createDocumentArgs.setAccessGroup(journalpostTilgangsgruppe);
