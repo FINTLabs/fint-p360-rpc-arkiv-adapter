@@ -66,7 +66,6 @@ public class UpdateTilskuddFartoyHandler implements Handler {
         }
 
         Operation operation = response.getOperation();
-
         TilskuddFartoyResource tilskuddFartoyResource = objectMapper.convertValue(response.getData().get(0), TilskuddFartoyResource.class);
 
         if (operation == Operation.CREATE) {
@@ -98,10 +97,12 @@ public class UpdateTilskuddFartoyHandler implements Handler {
                 tilskuddFartoyResource.getJournalpost().isEmpty()) {
             throw new IllegalArgumentException("Update must contain at least one Journalpost");
         }
-        log.info("Complete document for update: {}", tilskuddFartoyResource);
+
         try {
             Case theCase = caseQueryService.query(query).collect(QueryUtils.toSingleton());
             String caseNumber = theCase.getCaseNumber();
+            log.info("About to update case with the caseNumber: {}", caseNumber);
+
             createDocumentsForCase(tilskuddFartoyResource, caseNumber);
             tilskuddfartoyService.getTilskuddFartoyForQuery(query, response);
         } catch (CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotTilskuddfartoyException e) {

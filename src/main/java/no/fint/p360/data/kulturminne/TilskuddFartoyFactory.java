@@ -13,12 +13,16 @@ import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.data.utilities.Constants;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.P360Utils;
+import no.fint.p360.data.utilities.QueryUtils;
+import no.fint.p360.service.CaseQueryService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import no.p360.model.DocumentService.CreateDocumentArgs;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -31,12 +35,14 @@ public class TilskuddFartoyFactory {
     private final JournalpostFactory journalpostFactory;
     private final CaseProperties properties;
 
+    private final CaseQueryService caseQueryService;
 
-    public TilskuddFartoyFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults) {
+    public TilskuddFartoyFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, CaseQueryService caseQueryService) {
         this.noarkFactory = noarkFactory;
         this.journalpostFactory = journalpostFactory;
 
         properties = caseDefaults.getTilskuddfartoy();
+        this.caseQueryService = caseQueryService;
     }
 
     public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddfartoyException {
@@ -61,7 +67,12 @@ public class TilskuddFartoyFactory {
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
-        return journalpostFactory.toP360(journalpostResource, caseNumber, new TilskuddFartoyResource());
+        Case theCase = caseQueryService.query("mappeid/" + caseNumber).collect(QueryUtils.toSingleton());
+        TilskuddFartoyResource resource = noarkFactory.getSaksmappe(properties, theCase, new TilskuddFartoyResource());
+        Optional.of(FintUtils.createIdentifikator(theCase.getExternalId().getId())).ifPresent(resource::setSoknadsnummer);
+        log.debug("Currently working (aka creating documents) with søknadsnummer: ", resource.getSoknadsnummer());
+
+        return journalpostFactory.toP360(journalpostResource, caseNumber, resource, properties);
     }
 
     // TODO: 2019-05-11 Should we check for both archive classification and external id (is it a digisak)
@@ -74,5 +85,4 @@ public class TilskuddFartoyFactory {
 
         return false;
     }
-
 }

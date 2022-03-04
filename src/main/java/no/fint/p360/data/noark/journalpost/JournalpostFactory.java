@@ -1,6 +1,8 @@
 package no.fint.p360.data.noark.journalpost;
 
 import lombok.extern.slf4j.Slf4j;
+import no.fint.arkiv.CaseProperties;
+import no.fint.arkiv.TitleService;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.arkiv.kodeverk.JournalStatus;
 import no.fint.model.arkiv.kodeverk.JournalpostType;
@@ -61,15 +63,22 @@ public class JournalpostFactory {
     @Autowired
     private ContextUserService contextUserService;
 
-    public JournalpostResource toFintResource(Document__1 documentResult) {
+    @Autowired
+    private TitleService titleService;
+
+    public JournalpostResource toFintResource(Document__1 documentResult, CaseProperties caseProperties, SaksmappeResource saksmappeResource) {
         JournalpostResource journalpost = new JournalpostResource();
 
         optionalValue(documentResult.getFiles())
                 .map(List::size)
                 .map(Integer::longValue)
                 .ifPresent(journalpost::setAntallVedlegg);
+
+        titleService.parseCaseTitle(caseProperties.getTitle(), saksmappeResource, saksmappeResource.getTittel());
+
         optionalValue(documentResult.getTitle()).ifPresent(journalpost::setTittel);
         optionalValue(documentResult.getOfficialTitle()).ifPresent(journalpost::setOffentligTittel);
+
         optionalValue(documentResult.getDocumentDate())
                 .map(FintUtils::parseIsoDate)
                 .ifPresent(journalpost::setDokumentetsDato);
@@ -101,7 +110,6 @@ public class JournalpostFactory {
                         .orElse(Stream.empty())
                         .map(korrespondansepartFactory::toFintResource)
                         .collect(Collectors.toList()));
-
 
         String[] split = optionalValue(documentResult.getDocumentNumber()).orElse("").split("-");
         if (split.length == 2 && StringUtils.isNumeric(split[1])) {
@@ -188,15 +196,29 @@ public class JournalpostFactory {
         return merknad;
     }
 
-    public CreateDocumentArgs toP360(JournalpostResource journalpostResource, String caseNumber, SaksmappeResource saksmappeResource) {
+    public CreateDocumentArgs toP360(JournalpostResource journalpostResource, String caseNumber, SaksmappeResource saksmappeResource, CaseProperties caseProperties) {
         CreateDocumentArgs createDocumentArgs = new CreateDocumentArgs();
 
-        createDocumentArgs.setTitle(journalpostResource.getOffentligTittel());
-        createDocumentArgs.setUnofficialTitle(journalpostResource.getTittel());
+        String recordTitlePrefix = titleService.getRecordTitlePrefix(caseProperties.getTitle(), saksmappeResource);
+        log.info("Record title prefix (brought to you by FINT Arkiv Case Defaults): {}", recordTitlePrefix);
+
+        if (journalpostResource.getOffentligTittel() != null || StringUtils.isNotBlank(journalpostResource.getOffentligTittel())) {
+            createDocumentArgs.setTitle(StringUtils.trim(recordTitlePrefix + journalpostResource.getOffentligTittel()));
+        } else {
+            log.debug("No title found, the prefix ({}) will be the complete title.", recordTitlePrefix);
+            createDocumentArgs.setTitle(StringUtils.trim(recordTitlePrefix));
+        }
+
+        if (journalpostResource.getTittel() != null || StringUtils.isNotBlank(journalpostResource.getTittel())) {
+            createDocumentArgs.setUnofficialTitle(StringUtils.trim(recordTitlePrefix + journalpostResource.getTittel()));
+        } else {
+            log.info("No title found, the prefix ({}) will be the complete title.", recordTitlePrefix);
+            createDocumentArgs.setTitle(StringUtils.trim(recordTitlePrefix));
+        }
+
         createDocumentArgs.setCaseNumber(caseNumber);
 
         skjermingService.applyAccessCodeAndParagraph(journalpostResource.getSkjerming(), createDocumentArgs::setAccessCode, createDocumentArgs::setParagraph);
-
 
         applyParameterFromLink(
                 journalpostResource.getAdministrativEnhet(),

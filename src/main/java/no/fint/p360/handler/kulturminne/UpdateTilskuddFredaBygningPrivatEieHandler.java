@@ -3,6 +3,7 @@ package no.fint.p360.handler.kulturminne;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.CaseDefaults;
+import no.fint.arkiv.TitleService;
 import no.fint.event.model.Event;
 import no.fint.event.model.Operation;
 import no.fint.event.model.ResponseStatus;
@@ -26,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -58,6 +60,7 @@ public class UpdateTilskuddFredaBygningPrivatEieHandler implements Handler {
     @Autowired
     private DocumentService documentService;
 
+
     @Override
     public void accept(Event<FintLinks> response) {
         if (response.getData().size() != 1) {
@@ -79,9 +82,11 @@ public class UpdateTilskuddFredaBygningPrivatEieHandler implements Handler {
             createCase(response, tilskuddFredaHusPrivatEieResource);
         } else if (operation == Operation.UPDATE) {
             caseDefaultsService.applyDefaultsForUpdate(caseDefaults.getTilskuddfredabygningprivateie(), tilskuddFredaHusPrivatEieResource);
+            log.info("Case to update: {}", tilskuddFredaHusPrivatEieResource);
             if (!validationService.validate(response, tilskuddFredaHusPrivatEieResource.getJournalpost())) {
                 return;
             }
+
             updateCase(response, response.getQuery(), tilskuddFredaHusPrivatEieResource);
         } else {
             throw new IllegalArgumentException("Invalid operation: " + operation);
@@ -99,7 +104,7 @@ public class UpdateTilskuddFredaBygningPrivatEieHandler implements Handler {
                 tilskuddFredaHusPrivatEieResource.getJournalpost().isEmpty()) {
             throw new IllegalArgumentException("Update must contain at least one Journalpost");
         }
-        log.info("Complete document for update: {}", tilskuddFredaHusPrivatEieResource);
+
         try {
             Case theCase = caseQueryService.query(query).collect(QueryUtils.toSingleton());
             String caseNumber = theCase.getCaseNumber();

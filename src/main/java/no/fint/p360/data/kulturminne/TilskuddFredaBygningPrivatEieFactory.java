@@ -14,6 +14,8 @@ import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.data.utilities.Constants;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.P360Utils;
+import no.fint.p360.data.utilities.QueryUtils;
+import no.fint.p360.service.CaseQueryService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import no.p360.model.DocumentService.CreateDocumentArgs;
@@ -32,12 +34,15 @@ public class TilskuddFredaBygningPrivatEieFactory {
     private final JournalpostFactory journalpostFactory;
     private final CaseProperties properties;
 
+    private final CaseQueryService caseQueryService;
 
-    public TilskuddFredaBygningPrivatEieFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults) {
+
+    public TilskuddFredaBygningPrivatEieFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, CaseQueryService caseQueryService) {
         this.noarkFactory = noarkFactory;
         this.journalpostFactory = journalpostFactory;
 
         properties = caseDefaults.getTilskuddfredabygningprivateie();
+        this.caseQueryService = caseQueryService;
     }
 
     public TilskuddFredaBygningPrivatEieResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddFredaHusPrivatEieException {
@@ -64,7 +69,8 @@ public class TilskuddFredaBygningPrivatEieFactory {
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
-        return journalpostFactory.toP360(journalpostResource, caseNumber, new TilskuddFredaBygningPrivatEieResource());
+        TilskuddFredaBygningPrivatEieResource resource =  noarkFactory.getSaksmappe(properties, caseQueryService.query("mappeid/" + caseNumber).collect(QueryUtils.toSingleton()), new TilskuddFredaBygningPrivatEieResource());
+        return journalpostFactory.toP360(journalpostResource, caseNumber, resource , properties);
     }
 
     // TODO: 2019-05-11 Should we check for both archive classification and external id (is it a digisak)

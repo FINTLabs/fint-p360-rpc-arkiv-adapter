@@ -22,11 +22,11 @@ fint:
       status: /status
       response: /response
       providers:
-        noark: https://api.felleskomponent.no/arkiv/noark/provider
-        kodeverk: https://api.felleskomponent.no/arkiv/kodeverk/provider
+        noark: https://beta.felleskomponent.no/arkiv/noark/provider
+        kodeverk: https://beta.felleskomponent.no/arkiv/kodeverk/provider
         #personal: https://alpha.felleskomponent.no/administrasjon/personal/provider
-        kulturminne: https://api.felleskomponent.no/arkiv/kulturminnevern/provider
-        samferdsel: https://api.felleskomponent.no/arkiv/samferdsel/provider
+        kulturminne: https://beta.felleskomponent.no/arkiv/kulturminnevern/provider
+        samferdsel: https://beta.felleskomponent.no/arkiv/samferdsel/provider
 
   oauth:
     enabled: true

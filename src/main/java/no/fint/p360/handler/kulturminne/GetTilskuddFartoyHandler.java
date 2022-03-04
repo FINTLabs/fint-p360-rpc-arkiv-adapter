@@ -1,6 +1,5 @@
 package no.fint.p360.handler.kulturminne;
 
-import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.arkiv.kulturminnevern.KulturminnevernActions;
@@ -19,8 +18,8 @@ import java.util.Collections;
 import java.util.Set;
 
 @Service
-@Slf4j
 public class GetTilskuddFartoyHandler implements Handler {
+
     @Autowired
     private TilskuddFartoyServices tilskuddfartoyService;
 
@@ -30,12 +29,14 @@ public class GetTilskuddFartoyHandler implements Handler {
     @Override
     public void accept(Event<FintLinks> response) {
         String query = response.getQuery();
+
         if (!caseQueryService.isValidQuery(query)) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode("BAD_REQUEST");
             response.setMessage("Invalid query: " + query);
             return;
         }
+
         try {
             tilskuddfartoyService.getTilskuddFartoyForQuery(query, response);
         } catch (CaseNotFound e) {
@@ -50,12 +51,10 @@ public class GetTilskuddFartoyHandler implements Handler {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setMessage(e.getMessage());
         }
-
     }
 
     @Override
     public Set<String> actions() {
         return Collections.singleton(KulturminnevernActions.GET_TILSKUDDFARTOY.name());
     }
-
 }
