@@ -49,6 +49,9 @@ public class NoarkFactory {
     @Value("${fint.arkiv.part:false}")
     private boolean usePart;
 
+    @Value("${fint.arkiv.casenumber.format:}")
+    private String caseNumberFormat;
+
     @Autowired
     private DocumentService documentService;
 
@@ -75,8 +78,11 @@ public class NoarkFactory {
 
     public <T extends SaksmappeResource> T getSaksmappe(CaseProperties caseProperties, Case caseResult, T saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
         String caseNumber = caseResult.getCaseNumber();
-        String caseYear = NOARKUtils.getCaseYear(caseNumber);
-        String sequenceNumber = NOARKUtils.getCaseSequenceNumber(caseNumber);
+        log.debug("Case number as returned from P360: {}", caseNumber);
+        String caseYear = getCaseYear(caseNumber, caseResult);
+        log.debug("Case year (our calculation): {}", caseYear);
+        String sequenceNumber = getCaseSequenceNumber(caseNumber);
+        log.debug("Case sequence number (our calculation): {}", sequenceNumber);
 
         optionalValue(caseResult.getNotes())
                 .filter(StringUtils::isNotBlank)
@@ -350,5 +356,34 @@ public class NoarkFactory {
 
     public boolean health() {
         return documentService.ping();
+    }
+
+    private String getCaseYear(String caseNumber, Case caseResult) {
+        if (StringUtils.isEmpty(caseNumberFormat)) {
+            return NOARKUtils.getCaseYear(caseNumber);
+        } else if (caseNumberFormat.equalsIgnoreCase("yyyy")) {
+            return caseNumber.substring(0,4);
+        } else if (caseNumberFormat.equalsIgnoreCase("yy")) {
+            return caseNumber.substring(0,2);
+        }
+
+        String caseYear = caseResult.getCreatedDate().substring(0,4);
+        log.warn("We're not able to determine case year from the case number ({}). Therefore we'll use the case created date's year ({}).",
+                caseNumber, caseYear);
+        return caseYear;
+    }
+
+    private String getCaseSequenceNumber(String caseNumber) {
+        if (StringUtils.isEmpty(caseNumberFormat)) {
+            return NOARKUtils.getCaseSequenceNumber(caseNumber);
+        } else if (caseNumberFormat.equalsIgnoreCase("yyyy")) {
+            return caseNumber.substring(4);
+        } else if (caseNumberFormat.equalsIgnoreCase("yy")) {
+            return caseNumber.substring(2);
+        }
+
+        log.warn("We'll return the complete case number ({}) as case sequence number due to a way to funky case number format ({}).",
+                caseNumber, caseNumberFormat);
+        return caseNumber;
     }
 }
