@@ -39,8 +39,10 @@ jobs:
           name: ${{steps.get_repo.outputs.REPO}}
           path: ./data/app.jar
 
-      - name: Start publish workflow
+      - name: LA8PV
           run: echo ${{github.ref}}
+
+      - name: Start publish workflow
           if: github.ref == 'refs/heads/main'
           uses: peter-evans/repository-dispatch@v1
           with:
