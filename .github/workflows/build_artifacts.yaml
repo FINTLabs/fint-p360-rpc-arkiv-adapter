@@ -39,11 +39,11 @@ jobs:
           name: ${{steps.get_repo.outputs.REPO}}
           path: ./data/app.jar
 
-      - name: LA8PV
-          run: echo ${{github.ref}}
+      - name: 📣
+          run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
       - name: Start publish workflow
-          if: github.ref == 'refs/heads/main'
+          if: ${{ github.ref }} == 'refs/heads/master'
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.GITHUBACTION_TOKEN }}
