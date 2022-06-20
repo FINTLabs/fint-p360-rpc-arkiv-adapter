@@ -1,8 +1,7 @@
 FROM gradle:6.8.1-jdk8 as builder
 USER root
 COPY . .
-ARG apiVersion
-RUN gradle --no-daemon -PapiVersion=${apiVersion} build
+RUN gradle --no-daemon build
 
 FROM gcr.io/distroless/java:8
 ENV JAVA_TOOL_OPTIONS -XX:+ExitOnOutOfMemoryError
