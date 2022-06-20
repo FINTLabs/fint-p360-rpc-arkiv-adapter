@@ -40,7 +40,7 @@ jobs:
           path: ./data/app.jar
 
       - name: Start publish workflow
-        if: "github.ref == 'refs/heads/master'"
+        if: github.ref == 'refs/heads/master'
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.GITHUBACTION_TOKEN }}
