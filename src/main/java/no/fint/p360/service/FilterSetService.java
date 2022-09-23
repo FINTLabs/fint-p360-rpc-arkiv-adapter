@@ -1,11 +1,8 @@
 package no.fint.p360.service;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.p360.ContextUsers;
 import no.fint.p360.FilterSets;
-import no.fint.p360.data.exception.InvalidContextUser;
 import no.fint.p360.data.exception.InvalidFilterSet;
-import no.fint.p360.model.ContextUser;
 import no.fint.p360.model.FilterSet;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
