@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.p360.data.exception.CaseNotFound;
 import no.fint.p360.data.exception.CreateCaseException;
 import no.fint.p360.data.utilities.Constants;
+import no.fint.p360.model.FilterSet;
 import no.p360.model.CaseService.*;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +14,23 @@ import java.util.List;
 @Slf4j
 public class CaseService extends P360Service {
 
-    public Case getCaseByCaseNumber(String caseNumber) throws CaseNotFound {
+    public Case getCaseByCaseNumber(FilterSet filterSet, String caseNumber) throws CaseNotFound {
 
         GetCasesArgs getCasesArgs = new GetCasesArgs();
         getCasesArgs.setCaseNumber(caseNumber);
 
-        return getCase(getCasesArgs);
+        return getCase(filterSet, getCasesArgs);
     }
 
-    public Case getCaseBySystemId(String systemId) throws CaseNotFound {
+    public Case getCaseBySystemId(FilterSet filterSet, String systemId) throws CaseNotFound {
 
         GetCasesArgs getCasesArgs = new GetCasesArgs();
         getCasesArgs.setRecno(Integer.valueOf(systemId));
 
-        return getCase(getCasesArgs);
+        return getCase(filterSet, getCasesArgs);
     }
 
-    public Case getCaseByExternalId(String externalId) throws CaseNotFound {
+    public Case getCaseByExternalId(FilterSet filterSet, String externalId) throws CaseNotFound {
 
         ExternalId__1 id = new ExternalId__1();
         id.setId(externalId);
@@ -38,10 +39,10 @@ public class CaseService extends P360Service {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
         getCasesArgs.setExternalId(id);
 
-        return getCase(getCasesArgs);
+        return getCase(filterSet, getCasesArgs);
     }
 
-    public List<Case> getCasesByTitle(String title, String maxReturnedCases) {
+    public List<Case> getCasesByTitle(FilterSet filterSet, String title, String maxReturnedCases) {
 
         GetCasesArgs getCasesArgs = new GetCasesArgs();
         getCasesArgs.setTitle(title);
@@ -49,12 +50,12 @@ public class CaseService extends P360Service {
         if (maxReturnedCases != null)
             getCasesArgs.setMaxReturnedCases(Integer.parseInt(maxReturnedCases));
 
-        return getCases(getCasesArgs);
+        return getCases(filterSet, getCasesArgs);
     }
 
-    public Case getCase(GetCasesArgs getCasesArgs) throws CaseNotFound {
+    public Case getCase(FilterSet filterSet, GetCasesArgs getCasesArgs) throws CaseNotFound {
 
-        List<Case> caseResult = getCases(getCasesArgs);
+        List<Case> caseResult = getCases(filterSet, getCasesArgs);
 
         if (caseResult.size() == 1) {
             return caseResult.get(0);
@@ -65,11 +66,11 @@ public class CaseService extends P360Service {
         }
     }
 
-    public List<Case> getCases(GetCasesArgs getCasesArgs) {
+    public List<Case> getCases(FilterSet filterSet, GetCasesArgs getCasesArgs) {
         getCasesArgs.setIncludeCaseContacts(true);
         getCasesArgs.setIncludeCustomFields(true);
 
-        GetCasesResponse response = call("CaseService/GetCases", getCasesArgs, GetCasesResponse.class);
+        GetCasesResponse response = call(filterSet, "CaseService/GetCases", getCasesArgs, GetCasesResponse.class);
         if (!response.getSuccessful()) {
             log.warn("GetCases {}: {}", getCasesArgs, response);
             throw new CaseNotFound(response.getErrorMessage());
@@ -78,9 +79,9 @@ public class CaseService extends P360Service {
         return response.getCases();
     }
 
-    public String createCase(CreateCaseArgs createCasesArgs) throws CreateCaseException {
+    public String createCase(FilterSet filterSet, CreateCaseArgs createCasesArgs) throws CreateCaseException {
 
-        CreateCaseResponse response = call("CaseService/CreateCase", createCasesArgs, CreateCaseResponse.class);
+        CreateCaseResponse response = call(filterSet, "CaseService/CreateCase", createCasesArgs, CreateCaseResponse.class);
 
         if (!response.getSuccessful())
             throw new CreateCaseException(response.getErrorMessage());
@@ -88,7 +89,4 @@ public class CaseService extends P360Service {
         return response.getCaseNumber();
     }
 
-    public boolean ping() {
-        return getHealth("CaseService/Ping");
-    }
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.p360.AdapterProps;
+import no.fint.p360.model.FilterSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public abstract class P360Service {
         return new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writer();
     }
 
-    protected <T> T call(String uri, Object args, Class<T> responseType) {
+    protected <T> T call(FilterSet filterSet, String uri, Object args, Class<T> responseType) {
         if (log.isTraceEnabled()) {
             try {
                 log.trace("POST {} {}", uri, WRITER.writeValueAsString(args));
@@ -39,8 +40,8 @@ public abstract class P360Service {
             }
         }
         return p360Client.post().uri(uri)
-                .header(HttpHeaders.AUTHORIZATION, "authkey " + adapterProps.getP360AuthKey())
-                .header("clientid", adapterProps.getP360ClientId())
+                .header(HttpHeaders.AUTHORIZATION, "authkey " + filterSet.authkey())
+                .header("clientid", filterSet.clientId())
                 .bodyValue(Collections.singletonMap("parameter", args))
                 .retrieve()
                 .bodyToMono(responseType)
@@ -56,10 +57,10 @@ public abstract class P360Service {
                 .block();
     }
 
-    public boolean getHealth(String url) {
+    public boolean getHealth(FilterSet filterSet, String url) {
         return p360Client.post().uri(url)
-                .header(HttpHeaders.AUTHORIZATION, "authkey " + adapterProps.getP360AuthKey())
-                .header("clientid", adapterProps.getP360ClientId())
+                .header(HttpHeaders.AUTHORIZATION, "authkey " + filterSet.authkey())
+                .header("clientid", filterSet.clientId())
                 .retrieve()
                 .toBodilessEntity()
                 .blockOptional()

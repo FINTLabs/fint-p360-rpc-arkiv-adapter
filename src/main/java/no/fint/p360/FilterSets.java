@@ -13,7 +13,6 @@ import java.util.Map;
 @EnableConfigurationProperties
 @ConfigurationProperties("fint.p360.filter-set")
 public class FilterSets {
-
     private Map<String, FilterSet> integration;
     private Map<String, String> casetype;
 }

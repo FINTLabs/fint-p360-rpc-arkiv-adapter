@@ -14,7 +14,9 @@ import no.fint.p360.data.utilities.Constants;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.P360Utils;
 import no.fint.p360.data.utilities.QueryUtils;
+import no.fint.p360.model.FilterSet;
 import no.fint.p360.service.CaseQueryService;
+import no.fint.p360.service.FilterSetService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import no.p360.model.DocumentService.CreateDocumentArgs;
@@ -34,15 +36,17 @@ public class TilskuddFartoyFactory {
     private final NoarkFactory noarkFactory;
     private final JournalpostFactory journalpostFactory;
     private final CaseProperties properties;
-
     private final CaseQueryService caseQueryService;
+    private final FilterSet filterSet;
 
-    public TilskuddFartoyFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, CaseQueryService caseQueryService) {
+    public TilskuddFartoyFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, CaseQueryService caseQueryService, FilterSetService filterSetService) {
         this.noarkFactory = noarkFactory;
         this.journalpostFactory = journalpostFactory;
 
         properties = caseDefaults.getTilskuddfartoy();
         this.caseQueryService = caseQueryService;
+
+        filterSet = filterSetService.getFilterSetForCaseType(TilskuddFartoyResource.class);
     }
 
     public TilskuddFartoyResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddfartoyException {
@@ -53,7 +57,7 @@ public class TilskuddFartoyFactory {
         TilskuddFartoyResource tilskuddFartoy = new TilskuddFartoyResource();
         tilskuddFartoy.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
 
-        return noarkFactory.getSaksmappe(properties, caseResult, tilskuddFartoy);
+        return noarkFactory.getSaksmappe(filterSet, properties, caseResult, tilskuddFartoy);
     }
 
     public CreateCaseArgs convertToCreateCase(TilskuddFartoyResource tilskuddFartoy) {
@@ -67,8 +71,8 @@ public class TilskuddFartoyFactory {
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
-        Case theCase = caseQueryService.query("mappeid/" + caseNumber).collect(QueryUtils.toSingleton());
-        TilskuddFartoyResource resource = noarkFactory.getSaksmappe(properties, theCase, new TilskuddFartoyResource());
+        Case theCase = caseQueryService.query(filterSet, "mappeid/" + caseNumber).collect(QueryUtils.toSingleton());
+        TilskuddFartoyResource resource = noarkFactory.getSaksmappe(filterSet, properties, theCase, new TilskuddFartoyResource());
         Optional.of(FintUtils.createIdentifikator(theCase.getExternalId().getId())).ifPresent(resource::setSoknadsnummer);
         log.debug("Currently working (aka creating documents) with søknadsnummer: ", resource.getSoknadsnummer());
 

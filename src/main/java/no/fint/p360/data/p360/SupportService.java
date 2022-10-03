@@ -3,9 +3,11 @@ package no.fint.p360.data.p360;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.p360.data.exception.CodeTableNotFound;
 import no.fint.p360.data.utilities.FintUtils;
+import no.fint.p360.service.FilterSetService;
 import no.p360.model.SupportService.CodeTableRow;
 import no.p360.model.SupportService.GetCodeTableRowsArgs;
 import no.p360.model.SupportService.GetCodeTableRowsResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +17,15 @@ import java.util.stream.Stream;
 @Slf4j
 public class SupportService extends P360Service {
 
+    @Autowired
+    private FilterSetService filterSetService;
+
     public GetCodeTableRowsResponse getCodeTable(String table) throws CodeTableNotFound {
         GetCodeTableRowsArgs getCodeTableRowsArgs = new GetCodeTableRowsArgs();
         getCodeTableRowsArgs.setCodeTableName(table);
         //getCodeTableRowsArgs.setLanguage("NOR");
         //getCodeTableRowsArgs.setIncludeExpiredValues(true);
-        GetCodeTableRowsResponse getCodeTableRowsResponse = call("SupportService/GetCodeTableRows", getCodeTableRowsArgs, GetCodeTableRowsResponse.class);
+        GetCodeTableRowsResponse getCodeTableRowsResponse = call(filterSetService.getDefaultFilterSet(), "SupportService/GetCodeTableRows", getCodeTableRowsArgs, GetCodeTableRowsResponse.class);
         if (getCodeTableRowsResponse.getSuccessful()) {
             return getCodeTableRowsResponse;
         }
@@ -35,11 +40,11 @@ public class SupportService extends P360Service {
     }
 
     public boolean ping()  {
-        return getHealth("SupportService/Ping");
+        return getHealth(filterSetService.getDefaultFilterSet(), "SupportService/Ping");
     }
 
     public String getSIFVersion() {
-        return call("SupportService/GetSIFVersion" , "", String.class);
+        return call(filterSetService.getDefaultFilterSet(), "SupportService/GetSIFVersion" , "", String.class);
     }
 
     }

@@ -3,6 +3,7 @@ package no.fint.p360.handler.kulturminne;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.CaseDefaults;
+import no.fint.arkiv.CaseProperties;
 import no.fint.event.model.Event;
 import no.fint.event.model.Operation;
 import no.fint.event.model.ResponseStatus;
@@ -16,12 +17,13 @@ import no.fint.p360.data.p360.CaseService;
 import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.QueryUtils;
 import no.fint.p360.handler.Handler;
+import no.fint.p360.model.FilterSet;
 import no.fint.p360.service.CaseQueryService;
+import no.fint.p360.service.FilterSetService;
 import no.fint.p360.service.P360CaseDefaultsService;
 import no.fint.p360.service.ValidationService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -30,32 +32,38 @@ import java.util.Set;
 @Service
 @Slf4j
 public class UpdateTilskuddFartoyHandler implements Handler {
-    @Autowired
-    private ObjectMapper objectMapper;
+    public UpdateTilskuddFartoyHandler(ObjectMapper objectMapper,
+                                       ValidationService validationService,
+                                       TilskuddFartoyServices tilskuddfartoyService,
+                                       TilskuddFartoyFactory tilskuddFartoyFactory,
+                                       CaseDefaults caseDefaults,
+                                       P360CaseDefaultsService caseDefaultsService,
+                                       CaseQueryService caseQueryService,
+                                       CaseService caseService,
+                                       DocumentService documentService,
+                                       FilterSetService filterSetService) {
+        this.objectMapper = objectMapper;
+        this.validationService = validationService;
+        this.tilskuddfartoyService = tilskuddfartoyService;
+        this.tilskuddFartoyFactory = tilskuddFartoyFactory;
+        this.caseProperties = caseDefaults.getTilskuddfartoy();
+        this.caseDefaultsService = caseDefaultsService;
+        this.caseQueryService = caseQueryService;
+        this.caseService = caseService;
+        this.documentService = documentService;
+        this.filterSet = filterSetService.getFilterSetForCaseType(TilskuddFartoyResource.class);
+    }
 
-    @Autowired
-    private ValidationService validationService;
-
-    @Autowired
-    private TilskuddFartoyServices tilskuddfartoyService;
-
-    @Autowired
-    private TilskuddFartoyFactory tilskuddFartoyFactory;
-
-    @Autowired
-    private CaseDefaults caseDefaults;
-
-    @Autowired
-    private P360CaseDefaultsService caseDefaultsService;
-
-    @Autowired
-    private CaseQueryService caseQueryService;
-
-    @Autowired
-    private CaseService caseService;
-
-    @Autowired
-    private DocumentService documentService;
+    private final ObjectMapper objectMapper;
+    private final ValidationService validationService;
+    private final TilskuddFartoyServices tilskuddfartoyService;
+    private final TilskuddFartoyFactory tilskuddFartoyFactory;
+    private final CaseProperties caseProperties;
+    private final P360CaseDefaultsService caseDefaultsService;
+    private final CaseQueryService caseQueryService;
+    private final CaseService caseService;
+    private final DocumentService documentService;
+    private final FilterSet filterSet;
 
     @Override
     public void accept(Event<FintLinks> response) {
@@ -69,14 +77,14 @@ public class UpdateTilskuddFartoyHandler implements Handler {
         TilskuddFartoyResource tilskuddFartoyResource = objectMapper.convertValue(response.getData().get(0), TilskuddFartoyResource.class);
 
         if (operation == Operation.CREATE) {
-            caseDefaultsService.applyDefaultsForCreation(caseDefaults.getTilskuddfartoy(), tilskuddFartoyResource);
+            caseDefaultsService.applyDefaultsForCreation(caseProperties, tilskuddFartoyResource);
             log.info("Case: {}", tilskuddFartoyResource);
             if (!validationService.validate(response, tilskuddFartoyResource)) {
                 return;
             }
             createCase(response, tilskuddFartoyResource);
         } else if (operation == Operation.UPDATE) {
-            caseDefaultsService.applyDefaultsForUpdate(caseDefaults.getTilskuddfartoy(), tilskuddFartoyResource);
+            caseDefaultsService.applyDefaultsForUpdate(caseProperties, tilskuddFartoyResource);
             if (!validationService.validate(response, tilskuddFartoyResource.getJournalpost())) {
                 return;
             }
@@ -99,7 +107,7 @@ public class UpdateTilskuddFartoyHandler implements Handler {
         }
 
         try {
-            Case theCase = caseQueryService.query(query).collect(QueryUtils.toSingleton());
+            Case theCase = caseQueryService.query(filterSet, query).collect(QueryUtils.toSingleton());
             String caseNumber = theCase.getCaseNumber();
             log.info("About to update case with the caseNumber: {}", caseNumber);
 
@@ -116,10 +124,10 @@ public class UpdateTilskuddFartoyHandler implements Handler {
             final CreateCaseArgs createCaseArgs =
                     caseDefaultsService
                             .applyDefaultsToCreateCaseParameter(
-                                    caseDefaults.getTilskuddfartoy(),
+                                    caseProperties,
                                     tilskuddFartoyFactory.convertToCreateCase(
                                             tilskuddFartoyResource));
-            String caseNumber = caseService.createCase(createCaseArgs);
+            String caseNumber = caseService.createCase(filterSet, createCaseArgs);
             createDocumentsForCase(tilskuddFartoyResource, caseNumber);
             tilskuddfartoyService.getTilskuddFartoyForQuery("mappeid/" + caseNumber, response);
         } catch (CreateCaseException | CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotTilskuddfartoyException e) {
@@ -134,7 +142,7 @@ public class UpdateTilskuddFartoyHandler implements Handler {
                     .getJournalpost()
                     .stream()
                     .map(it -> tilskuddFartoyFactory.convertToCreateDocument(it, caseNumber))
-                    .forEach(documentService::createDocument);
+                    .forEach(it -> documentService.createDocument(filterSet, it));
         }
     }
 

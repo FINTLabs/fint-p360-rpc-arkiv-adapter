@@ -5,29 +5,50 @@ import no.fint.p360.FilterSets;
 import no.fint.p360.data.exception.InvalidFilterSet;
 import no.fint.p360.model.FilterSet;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class FilterSetService {
 
+    private final FilterSet legacyFilterSet;
     private final FilterSets filterSets;
 
-    public FilterSetService(FilterSets filterSets) {
+    public FilterSetService(FilterSets filterSets,
+                            @Value("${fint.p360.clientid:}") String p360ClientId,
+                            @Value("${fint.p360.authkey:}") String p360AuthKey) {
         this.filterSets = filterSets;
 
-        if (filterSets.getIntegration() == null) {
-            log.warn("No configured P360 Filtersets! No worries, we'll continue as in the good old days.");
+        if (filterSets.getIntegration() != null && filterSets.getCasetype() != null) {
+            log.info("Configured P360 Filtersets and CaseTypes: {} {}",
+                    filterSets.getIntegration().keySet(),
+                    filterSets.getCasetype());
+            legacyFilterSet = null;
+        } else if (StringUtils.isBlank(p360AuthKey) || StringUtils.isBlank(p360ClientId)) {
+            log.error("Invalid P360 auth configuration! No FilterSets, and no legacy auth key!");
+            throw new IllegalStateException("Invalid P360 Auth Configuration");
         } else {
-            log.info("Configured P360 Filtersets: {}", filterSets);
+            legacyFilterSet = new FilterSet(p360AuthKey, p360ClientId);
+            log.warn("No configured P360 Filtersets! No worries, we'll continue as in the good old days.");
         }
     }
 
+    private static String resourceName(Class<?> clazz) {
+        return StringUtils.removeEnd(StringUtils.lowerCase(clazz.getSimpleName()), "resource");
+    }
+
     public FilterSet getFilterSetForCaseType(Object caseType) {
+        if (legacyFilterSet != null) {
+            return legacyFilterSet;
+        }
         return getFilterSetForClass(caseType.getClass());
     }
 
     public FilterSet getDefaultFilterSet() {
+        if (legacyFilterSet != null) {
+            return legacyFilterSet;
+        }
         return getFilterSet(filterSets.getCasetype().get("default"));
     }
 
@@ -58,9 +79,5 @@ public class FilterSetService {
         }
 
         return null;
-    }
-
-    private static String resourceName(Class<?> clazz) {
-        return StringUtils.removeEnd(StringUtils.lowerCase(clazz.getSimpleName()), "resource");
     }
 }

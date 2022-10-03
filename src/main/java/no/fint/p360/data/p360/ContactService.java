@@ -5,7 +5,9 @@ import no.fint.p360.data.exception.CreateContactException;
 import no.fint.p360.data.exception.CreateEnterpriseException;
 import no.fint.p360.data.exception.EnterpriseNotFound;
 import no.fint.p360.data.exception.PrivatePersonNotFound;
+import no.fint.p360.service.FilterSetService;
 import no.p360.model.ContactService.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -16,12 +18,15 @@ import java.util.function.Consumer;
 @Slf4j
 public class ContactService extends P360Service {
 
+    @Autowired
+    private FilterSetService filterSetService;
+
     public PrivatePerson getPrivatePersonByPersonalIdNumber(String personalIdNumber) throws PrivatePersonNotFound {
         GetPrivatePersonsArgs getPrivatePersonsArgs = new GetPrivatePersonsArgs();
         getPrivatePersonsArgs.setIncludeCustomFields(true);
         getPrivatePersonsArgs.setPersonalIdNumber(personalIdNumber);
 
-        GetPrivatePersonsResponse getPrivatePersonsResponse = call("ContactService/GetPrivatePersons", getPrivatePersonsArgs, GetPrivatePersonsResponse.class);
+        GetPrivatePersonsResponse getPrivatePersonsResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/GetPrivatePersons", getPrivatePersonsArgs, GetPrivatePersonsResponse.class);
         log.info("PrivatePersonsResult: {}", getPrivatePersonsResponse);
 
         if (getPrivatePersonsResponse.getSuccessful() && getPrivatePersonsResponse.getTotalPageCount() == 1) {
@@ -49,7 +54,7 @@ public class ContactService extends P360Service {
         getEnterprisesArgs.setIncludeCustomFields(true);
         argsConsumer.accept(getEnterprisesArgs);
 
-        GetEnterprisesResponse getEnterprisesResponse = call("ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
+        GetEnterprisesResponse getEnterprisesResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
 
         log.info("EnterpriseResult: {}", getEnterprisesResponse);
 
@@ -62,7 +67,7 @@ public class ContactService extends P360Service {
 
     public Integer synchronizePrivatePerson(SynchronizePrivatePersonArgs privatePerson) throws CreateContactException {
         log.info("Create Private Person: {}", privatePerson);
-        SynchronizePrivatePersonResponse synchronizePrivatePersonResponse = call("ContactService/SynchronizePrivatePerson", privatePerson, SynchronizePrivatePersonResponse.class);
+        SynchronizePrivatePersonResponse synchronizePrivatePersonResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/SynchronizePrivatePerson", privatePerson, SynchronizePrivatePersonResponse.class);
         log.info("Private Person Result: {}", synchronizePrivatePersonResponse);
         if (synchronizePrivatePersonResponse.getSuccessful()) {
             return synchronizePrivatePersonResponse.getRecno();
@@ -72,7 +77,7 @@ public class ContactService extends P360Service {
 
     public Integer synchronizeEnterprise(SynchronizeEnterpriseArgs enterprise) throws CreateEnterpriseException {
         log.info("Create Enterprise: {}", enterprise);
-        SynchronizeEnterpriseResponse synchronizeEnterpriseResponse = call("ContactService/SynchronizeEnterprise", enterprise, SynchronizeEnterpriseResponse.class);
+        SynchronizeEnterpriseResponse synchronizeEnterpriseResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/SynchronizeEnterprise", enterprise, SynchronizeEnterpriseResponse.class);
         log.info("Enterprise Result: {}", synchronizeEnterpriseResponse);
         if (synchronizeEnterpriseResponse.getSuccessful()) {
             return synchronizeEnterpriseResponse.getRecno();
