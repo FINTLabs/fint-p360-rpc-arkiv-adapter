@@ -11,13 +11,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class DocumentService extends P360Service {
 
-    public void createDocument(FilterSet filterSet,
-                               CreateDocumentArgs createDocumentArgs) throws CreateDocumentException {
+    public void createDocument(FilterSet filterSet, CreateDocumentArgs createDocumentArgs) throws CreateDocumentException {
         log.info("Create Document: {}", createDocumentArgs);
-        CreateDocumentResponse createDocumentResponse = call(filterSet,
-                "DocumentService/CreateDocument",
-                createDocumentArgs,
-                CreateDocumentResponse.class);
+        CreateDocumentResponse createDocumentResponse = call(filterSet, "DocumentService/CreateDocument", createDocumentArgs, CreateDocumentResponse.class);
         log.info("Create Document Result: {}", createDocumentResponse);
 
         if (createDocumentResponse.getSuccessful()) {
@@ -33,10 +29,7 @@ public class DocumentService extends P360Service {
         getDocumentsArgs.setIncludeRemarks(Boolean.TRUE);
         getDocumentsArgs.setIncludeCustomFields(Boolean.TRUE);
 
-        GetDocumentsResponse getDocumentsResponse = call(filterSet,
-                "DocumentService/GetDocuments",
-                getDocumentsArgs,
-                GetDocumentsResponse.class);
+        GetDocumentsResponse getDocumentsResponse = call(filterSet, "DocumentService/GetDocuments", getDocumentsArgs, GetDocumentsResponse.class);
 
         log.info("DocumentsResult: {}", getDocumentsResponse);
         if (!getDocumentsResponse.getSuccessful()) {
