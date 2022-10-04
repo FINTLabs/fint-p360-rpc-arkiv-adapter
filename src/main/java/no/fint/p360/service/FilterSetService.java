@@ -1,6 +1,7 @@
 package no.fint.p360.service;
 
 import lombok.extern.slf4j.Slf4j;
+import no.fint.model.FintMainObject;
 import no.fint.p360.FilterSets;
 import no.fint.p360.data.exception.InvalidFilterSet;
 import no.fint.p360.model.FilterSet;
@@ -38,11 +39,11 @@ public class FilterSetService {
         return StringUtils.removeEnd(StringUtils.lowerCase(clazz.getSimpleName()), "resource");
     }
 
-    public FilterSet getFilterSetForCaseType(Object caseType) {
+    public FilterSet getFilterSetForCaseType(Class<? extends FintMainObject> caseType) {
         if (legacyFilterSet != null) {
             return legacyFilterSet;
         }
-        return getFilterSetForClass(caseType.getClass());
+        return getFilterSetForClass(caseType);
     }
 
     public FilterSet getDefaultFilterSet() {
