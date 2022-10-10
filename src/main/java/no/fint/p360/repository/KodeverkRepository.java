@@ -6,6 +6,7 @@ import no.fint.model.resource.arkiv.kodeverk.*;
 import no.fint.model.resource.arkiv.noark.KlasseResource;
 import no.fint.model.resource.arkiv.noark.KlassifikasjonssystemResource;
 import no.fint.p360.data.noark.codes.CaseCategoryService;
+import no.fint.p360.data.noark.codes.ResponseCodeService;
 import no.fint.p360.data.noark.codes.dokumentstatus.DokumentstatusService;
 import no.fint.p360.data.noark.codes.dokumenttype.DokumenttypeService;
 import no.fint.p360.data.noark.codes.filformat.FilformatResource;
@@ -85,6 +86,9 @@ public class KodeverkRepository {
     @Autowired
     private FilformatService filformatService;
 
+    @Autowired
+    private ResponseCodeService responseCodeService;
+
     @Getter
     private List<SaksmappetypeResource> saksmappetype;
 
@@ -133,6 +137,9 @@ public class KodeverkRepository {
     @Getter
     private List<FilformatResource> filformat;
 
+    @Getter
+    private List<String> avskrivingsmate;
+
     private transient boolean healthy = false;
 
     @Scheduled(initialDelay = 10000, fixedDelayString = "${fint.kodeverk.refresh-interval:1500000}")
@@ -153,6 +160,7 @@ public class KodeverkRepository {
         klassifikasjonssystem = klassifikasjonssystemService.getKlassifikasjonssystem().toList();
         klasse = klasseService.getKlasse().toList();
         filformat = filformatService.getFilformatTable().toList();
+        avskrivingsmate = responseCodeService.getResponseCodeTable().toList();
         log.info("Refreshed code lists");
         log.info("Case Category Table: {}", caseCategoryService.getCaseCategoryTable().collect(Collectors.joining(", ")));
         healthy = true;

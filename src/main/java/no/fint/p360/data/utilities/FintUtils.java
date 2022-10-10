@@ -18,10 +18,7 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 public enum FintUtils {
@@ -184,6 +181,16 @@ public enum FintUtils {
 
     public static Kontaktinformasjon createKontaktinformasjon(Contact__1 contact) {
         return getKontaktinformasjon(contact.getEmail(), null, null);
+    }
+
+    public static Optional<String> getIdFromLink(List<Link> links){
+        return links
+                .stream()
+                .filter(Objects::nonNull)
+                .map(Link::getHref)
+                .filter(StringUtils::isNotBlank)
+                .map(s -> StringUtils.substringAfterLast(s, "/"))
+                .findFirst();
     }
 
 }

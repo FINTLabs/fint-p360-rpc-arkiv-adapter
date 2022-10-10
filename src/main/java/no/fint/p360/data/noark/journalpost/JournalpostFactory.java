@@ -66,7 +66,9 @@ public class JournalpostFactory {
     @Autowired
     private TitleService titleService;
 
-    public JournalpostResource toFintResource(Document__1 documentResult, CaseProperties caseProperties, SaksmappeResource saksmappeResource) {
+    public JournalpostResource toFintResource(Document__1 documentResult,
+                                              CaseProperties caseProperties,
+                                              SaksmappeResource saksmappeResource) {
         JournalpostResource journalpost = new JournalpostResource();
 
         optionalValue(documentResult.getFiles())
@@ -99,7 +101,10 @@ public class JournalpostFactory {
         journalpost.setReferanseArkivDel(Collections.emptyList());
 
         // FIXME: 2019-05-08 Figure out which is already rep and if some of them should be code lists (noark) + skjerming
-        journalpost.setBeskrivelse(String.format("%s - %s - %s", documentResult.getType().getDescription(), documentResult.getStatusDescription(), documentResult.getAccessCodeDescription()));
+        journalpost.setBeskrivelse(String.format("%s - %s - %s",
+                documentResult.getType().getDescription(),
+                documentResult.getStatusDescription(),
+                documentResult.getAccessCodeDescription()));
 
         // TODO: 2019-05-08 Check noark if this is correct
         journalpost.setForfatter(Collections.singletonList(documentResult.getResponsiblePersonName()));
@@ -196,7 +201,10 @@ public class JournalpostFactory {
         return merknad;
     }
 
-    public CreateDocumentArgs toP360(JournalpostResource journalpostResource, String caseNumber, SaksmappeResource saksmappeResource, CaseProperties caseProperties) {
+    public CreateDocumentArgs toP360(JournalpostResource journalpostResource,
+                                     String caseNumber,
+                                     SaksmappeResource saksmappeResource,
+                                     CaseProperties caseProperties) {
         CreateDocumentArgs createDocumentArgs = new CreateDocumentArgs();
 
         String recordTitlePrefix = titleService.getRecordTitlePrefix(caseProperties.getTitle(), saksmappeResource);
@@ -218,7 +226,9 @@ public class JournalpostFactory {
 
         createDocumentArgs.setCaseNumber(caseNumber);
 
-        skjermingService.applyAccessCodeAndParagraph(journalpostResource.getSkjerming(), createDocumentArgs::setAccessCode, createDocumentArgs::setParagraph);
+        skjermingService.applyAccessCodeAndParagraph(journalpostResource.getSkjerming(),
+                createDocumentArgs::setAccessCode,
+                createDocumentArgs::setParagraph);
 
         applyParameterFromLink(
                 journalpostResource.getAdministrativEnhet(),
@@ -241,7 +251,9 @@ public class JournalpostFactory {
                 journalpostResource.getJournalstatus(),
                 createDocumentArgs::setStatus);
 
-        final Pair<List<Contact>, List<UnregisteredContact>> contacts = korrespondansepartService.getContactsFromKorrespondansepart(journalpostResource.getKorrespondansepart());
+        final Pair<List<Contact>, List<UnregisteredContact>> contacts = korrespondansepartService.getContactsFromKorrespondansepart(
+                journalpostResource.getKorrespondansepart(),
+                SkjermingService.hasTilgangsrestriksjon(journalpostResource.getSkjerming()));
 
         createDocumentArgs.setContacts(contacts.getLeft());
         createDocumentArgs.setUnregisteredContacts(contacts.getRight());
