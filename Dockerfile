@@ -1,7 +1,9 @@
 FROM gradle:7.5.1-jdk17 as builder
 USER root
 COPY . .
-RUN gradle --no-daemon build
+ARG USERNAME
+ARG TOKEN
+RUN gradle --no-daemon -Pgpr.user=${USERNAME} -Pgpr.key=${TOKEN} build
 
 FROM gcr.io/distroless/java17
 ENV JAVA_TOOL_OPTIONS -XX:+ExitOnOutOfMemoryError

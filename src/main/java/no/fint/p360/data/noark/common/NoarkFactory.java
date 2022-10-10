@@ -206,6 +206,11 @@ public class NoarkFactory {
         );
 
         applyParameterFromLink(
+                saksmappeResource.getSaksmappetype(),
+                createCaseArgs::setCaseType
+        );
+
+        applyParameterFromLink(
                 saksmappeResource.getSaksstatus(),
                 createCaseArgs::setStatus
         );

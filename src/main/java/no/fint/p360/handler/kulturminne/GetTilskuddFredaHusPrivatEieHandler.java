@@ -13,6 +13,7 @@ import no.fint.p360.handler.Handler;
 import no.fint.p360.service.CaseQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.Collections;
 import java.util.Set;
@@ -50,6 +51,10 @@ public class GetTilskuddFredaHusPrivatEieHandler implements Handler {
         } catch (GetDocumentException | IllegalCaseNumberFormat e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setMessage(e.getMessage());
+        } catch (WebClientResponseException e) {
+            response.setResponseStatus(ResponseStatus.ERROR);
+            response.setStatusCode(e.getStatusCode().name());
+            response.setMessage(e.getResponseBodyAsString());
         }
     }
 
