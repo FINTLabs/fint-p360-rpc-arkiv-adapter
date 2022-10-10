@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
-import reactor.netty.tcp.ProxyProvider;
+import reactor.netty.transport.ProxyProvider;
 
 @Slf4j
 @Configuration
@@ -41,11 +41,11 @@ public class P360Configuration {
     public WebClient p360ClientWithProxy() {
         log.info("Running with proxy configuration: proxyHost: {}, proxyPort: {}", proxyHost, proxyPort);
         return getWebClientBuilder()
-                .clientConnector(new ReactorClientHttpConnector(getHttpClient().tcpConfiguration(tcpClient -> tcpClient
+                .clientConnector(new ReactorClientHttpConnector(getHttpClient()
                         .proxy(proxy -> proxy
                                 .type(ProxyProvider.Proxy.HTTP)
                                 .host(proxyHost)
-                                .port(proxyPort)))))
+                                .port(proxyPort))))
                 .build();
     }
 
