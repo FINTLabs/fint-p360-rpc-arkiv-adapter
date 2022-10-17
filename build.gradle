@@ -38,15 +38,6 @@ repositories {
     }
     mavenCentral()
     mavenLocal()
-    repositories {
-        maven {
-            url = uri("https://maven.pkg.github.com/FINTLabs/fint-arkiv-case-defaults")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-            }
-        }
-    }
 }
 
 dependencies {
@@ -75,7 +66,7 @@ dependencies {
     implementation('no.fint:fint-relation-model:1.1.6')
     implementation('no.fint:fint-model-resource:0.4.1')
 
-    implementation('no.fintlabs:fint-arkiv-case-defaults:0.1-SNAPSHOT')
+    implementation('no.fintlabs:fint-arkiv-case-defaults:4.2.0')
     implementation("no.fint:fint-arkiv-resource-model-java:${apiVersion}")
     implementation("no.fint:fint-administrasjon-model-java:${apiVersion}")
 
