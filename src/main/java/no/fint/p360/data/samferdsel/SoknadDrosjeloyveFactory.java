@@ -9,6 +9,8 @@ import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.common.NoarkFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
+import no.fint.p360.model.FilterSet;
+import no.fint.p360.service.FilterSetService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import no.p360.model.DocumentService.CreateDocumentArgs;
@@ -29,18 +31,19 @@ public class SoknadDrosjeloyveFactory {
     private final NoarkFactory noarkFactory;
     private final JournalpostFactory journalpostFactory;
     private final CaseProperties properties;
+    private final FilterSet filterSet;
 
-
-    public SoknadDrosjeloyveFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults) {
+    public SoknadDrosjeloyveFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, FilterSetService filterSetService) {
         this.noarkFactory = noarkFactory;
         this.journalpostFactory = journalpostFactory;
 
         properties = caseDefaults.getSoknaddrosjeloyve();
+        filterSet = filterSetService.getFilterSetForCaseType(SoknadDrosjeloyveResource.class);
     }
 
     public SoknadDrosjeloyveResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat {
         SoknadDrosjeloyveResource drosjeloyve = new SoknadDrosjeloyveResource();
-        noarkFactory.getSaksmappe(properties, caseResult, drosjeloyve);
+        noarkFactory.getSaksmappe(filterSet, properties, caseResult, drosjeloyve);
         return drosjeloyve;
     }
 

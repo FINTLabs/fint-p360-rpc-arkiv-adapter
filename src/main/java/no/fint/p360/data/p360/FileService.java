@@ -3,18 +3,24 @@ package no.fint.p360.data.p360;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.p360.AdapterProps;
 import no.fint.p360.data.exception.FileNotFound;
+import no.fint.p360.model.FilterSet;
+import no.fint.p360.service.FilterSetService;
 import no.p360.model.FileService.File;
 import no.p360.model.FileService.GetFileWithMetadataArgs;
 import no.p360.model.FileService.GetFileWithMetadataResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 public class FileService extends P360Service {
 
-    @Autowired
-    private AdapterProps props;
+    private final AdapterProps props;
+    private final FilterSet filterSet;
+
+    public FileService(AdapterProps props, FilterSetService filterSetService) {
+        this.props = props;
+        filterSet = filterSetService.getDefaultFilterSet();
+    }
 
     public File getFileByRecNo(String recNo) {
         log.info("Retrieving {} ...", recNo);
@@ -23,7 +29,7 @@ public class FileService extends P360Service {
         getFileWithMetadataArgs.setIncludeFileData(true);
         // TODO Rejected by P360: getFileWithMetadataArgs.setADContextUser(props.getP360User());
 
-        GetFileWithMetadataResponse fileWithMetadata = call("FileService/GetFileWithMetadata", getFileWithMetadataArgs, GetFileWithMetadataResponse.class);
+        GetFileWithMetadataResponse fileWithMetadata = call(filterSet, "FileService/GetFileWithMetadata", getFileWithMetadataArgs, GetFileWithMetadataResponse.class);
 
         if (fileWithMetadata.getSuccessful()) {
             log.info("Retrieving {} successfully", recNo);
@@ -35,6 +41,6 @@ public class FileService extends P360Service {
     }
 
     public boolean ping()  {
-        return getHealth("FileService/Ping");
+        return getHealth(filterSet, "FileService/Ping");
     }
 }

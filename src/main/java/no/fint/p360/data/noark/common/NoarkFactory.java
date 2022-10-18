@@ -23,6 +23,7 @@ import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.NOARKUtils;
 import no.fint.p360.model.ContextUser;
+import no.fint.p360.model.FilterSet;
 import no.fint.p360.repository.KodeverkRepository;
 import no.fint.p360.service.ContextUserService;
 import no.p360.model.CaseService.*;
@@ -76,7 +77,7 @@ public class NoarkFactory {
     @Autowired
     private ContextUserService contextUserService;
 
-    public <T extends SaksmappeResource> T getSaksmappe(CaseProperties caseProperties, Case caseResult, T saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
+    public <T extends SaksmappeResource> T getSaksmappe(FilterSet filterSet, CaseProperties caseProperties, Case caseResult, T saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
         String caseNumber = caseResult.getCaseNumber();
         log.debug("Case number as returned from P360: {}", caseNumber);
         String caseYear = getCaseYear(caseNumber, caseResult);
@@ -116,7 +117,7 @@ public class NoarkFactory {
                 .collect(Collectors.toList());
         List<JournalpostResource> journalpostList = new ArrayList<>(journalpostIds.size());
         for (String journalpostRecord : journalpostIds) {
-            Document__1 documentResult = documentService.getDocumentBySystemId(journalpostRecord);
+            Document__1 documentResult = documentService.getDocumentBySystemId(filterSet, journalpostRecord);
             JournalpostResource journalpostResource = journalpostFactory.toFintResource(documentResult, caseProperties, saksmappeResource);
             journalpostList.add(journalpostResource);
         }
@@ -352,10 +353,6 @@ public class NoarkFactory {
                 .ifPresent(contact::setRole);
 
         return contact;
-    }
-
-    public boolean health() {
-        return documentService.ping();
     }
 
     private String getCaseYear(String caseNumber, Case caseResult) {

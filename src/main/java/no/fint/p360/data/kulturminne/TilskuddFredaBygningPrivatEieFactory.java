@@ -15,7 +15,9 @@ import no.fint.p360.data.utilities.Constants;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.P360Utils;
 import no.fint.p360.data.utilities.QueryUtils;
+import no.fint.p360.model.FilterSet;
 import no.fint.p360.service.CaseQueryService;
+import no.fint.p360.service.FilterSetService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
 import no.p360.model.DocumentService.CreateDocumentArgs;
@@ -33,16 +35,17 @@ public class TilskuddFredaBygningPrivatEieFactory {
     private final NoarkFactory noarkFactory;
     private final JournalpostFactory journalpostFactory;
     private final CaseProperties properties;
-
     private final CaseQueryService caseQueryService;
+    private final FilterSet filterSet;
 
-
-    public TilskuddFredaBygningPrivatEieFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, CaseQueryService caseQueryService) {
+    public TilskuddFredaBygningPrivatEieFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, CaseQueryService caseQueryService, FilterSetService filterSetService) {
         this.noarkFactory = noarkFactory;
         this.journalpostFactory = journalpostFactory;
 
         properties = caseDefaults.getTilskuddfredabygningprivateie();
         this.caseQueryService = caseQueryService;
+
+        filterSet = filterSetService.getFilterSetForCaseType(TilskuddFredaBygningPrivatEieResource.class);
     }
 
     public TilskuddFredaBygningPrivatEieResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotTilskuddFredaHusPrivatEieException {
@@ -54,7 +57,7 @@ public class TilskuddFredaBygningPrivatEieFactory {
         tilskuddFredaBygningPrivatEie.setMatrikkelnummer(new MatrikkelnummerResource());
         tilskuddFredaBygningPrivatEie.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
 
-        return noarkFactory.getSaksmappe(properties, caseResult, tilskuddFredaBygningPrivatEie);
+        return noarkFactory.getSaksmappe(filterSet, properties, caseResult, tilskuddFredaBygningPrivatEie);
     }
 
     public CreateCaseArgs convertToCreateCase(TilskuddFredaBygningPrivatEieResource tilskuddFredaBygningPrivatEieResource) {
@@ -69,7 +72,7 @@ public class TilskuddFredaBygningPrivatEieFactory {
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
-        TilskuddFredaBygningPrivatEieResource resource =  noarkFactory.getSaksmappe(properties, caseQueryService.query("mappeid/" + caseNumber).collect(QueryUtils.toSingleton()), new TilskuddFredaBygningPrivatEieResource());
+        TilskuddFredaBygningPrivatEieResource resource =  noarkFactory.getSaksmappe(filterSet, properties, caseQueryService.query(filterSet, "mappeid/" + caseNumber).collect(QueryUtils.toSingleton()), new TilskuddFredaBygningPrivatEieResource());
         return journalpostFactory.toP360(journalpostResource, caseNumber, resource , properties);
     }
 

@@ -10,8 +10,9 @@ import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.sak.SakFactory;
 import no.fint.p360.handler.Handler;
+import no.fint.p360.model.FilterSet;
 import no.fint.p360.service.CaseQueryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import no.fint.p360.service.FilterSetService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -21,11 +22,15 @@ import java.util.Set;
 @Slf4j
 @Service
 public class GetSakHandler implements Handler {
-    @Autowired
-    private SakFactory sakFactory;
+    private final SakFactory sakFactory;
+    private final CaseQueryService caseQueryService;
+    private final FilterSet filterSet;
 
-    @Autowired
-    private CaseQueryService caseQueryService;
+    public GetSakHandler(SakFactory sakFactory, CaseQueryService caseQueryService, FilterSetService filterSetService) {
+        this.sakFactory = sakFactory;
+        this.caseQueryService = caseQueryService;
+        filterSet = filterSetService.getDefaultFilterSet();
+    }
 
     @Override
     public void accept(Event<FintLinks> response) {
@@ -38,7 +43,7 @@ public class GetSakHandler implements Handler {
         }
         response.setData(new LinkedList<>());
         try {
-            caseQueryService.query(query).map(sakFactory::toFintResource).forEach(response::addData);
+            caseQueryService.query(filterSet, query).map(sakFactory::toFintResource).forEach(response::addData);
             response.setResponseStatus(ResponseStatus.ACCEPTED);
         } catch (CaseNotFound e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
@@ -56,9 +61,5 @@ public class GetSakHandler implements Handler {
         return Collections.singleton(NoarkActions.GET_SAK.name());
     }
 
-    @Override
-    public boolean health() {
-        return sakFactory.health();
-    }
 }
 
