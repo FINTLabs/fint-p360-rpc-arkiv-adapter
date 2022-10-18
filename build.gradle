@@ -81,7 +81,7 @@ dependencies {
     implementation 'com.azure:azure-storage-blob:12.19.1'
     implementation 'io.projectreactor:reactor-core:3.4.24'
     implementation 'commons-beanutils:commons-beanutils:1.9.4'
-    implementation 'org.apache.commons:commons-text:1.9'
+    implementation 'org.apache.commons:commons-text:1.10.0'
 }
 
 //bootRepackage.enabled = false
