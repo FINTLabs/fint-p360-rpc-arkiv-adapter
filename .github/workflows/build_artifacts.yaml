@@ -41,7 +41,7 @@ jobs:
 
       - name: Start publish workflow
         if: github.ref == 'refs/heads/master'
-        uses: peter-evans/repository-dispatch@v1
+        uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.GITHUBACTION_TOKEN }}
           repository: ${{ github.repository }}
