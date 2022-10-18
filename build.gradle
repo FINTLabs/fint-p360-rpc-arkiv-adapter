@@ -54,7 +54,7 @@ dependencies {
     // Spring adds validation-api 1.x and hibernate-validator 5.x by default, all three dependencies needed to override.
     // Version 6.1.0 does not work :(
     implementation 'javax.validation:validation-api:2.0.1.Final'
-    implementation 'org.hibernate.validator:hibernate-validator:6.0.17.Final'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
     implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:6.0.17.Final'
 
     implementation('org.springframework.boot:spring-boot-starter-actuator')
