@@ -6,6 +6,7 @@ import no.fint.model.resource.arkiv.kodeverk.*;
 import no.fint.model.resource.arkiv.noark.KlasseResource;
 import no.fint.model.resource.arkiv.noark.KlassifikasjonssystemResource;
 import no.fint.p360.data.noark.codes.CaseCategoryService;
+import no.fint.p360.data.noark.codes.ResponseCodeService;
 import no.fint.p360.data.noark.codes.dokumentstatus.DokumentstatusService;
 import no.fint.p360.data.noark.codes.dokumenttype.DokumenttypeService;
 import no.fint.p360.data.noark.codes.filformat.FilformatResource;
@@ -17,6 +18,7 @@ import no.fint.p360.data.noark.codes.klassifikasjonssystem.Klassifikasjonssystem
 import no.fint.p360.data.noark.codes.korrespondanseparttype.KorrespondansepartTypeService;
 import no.fint.p360.data.noark.codes.merknadstype.MerknadstypeService;
 import no.fint.p360.data.noark.codes.partrolle.PartRolleService;
+import no.fint.p360.data.noark.codes.saksmappetype.SaksmappetypeService;
 import no.fint.p360.data.noark.codes.saksstatus.SaksStatusService;
 import no.fint.p360.data.noark.codes.skjermingshjemmel.SkjermingshjemmelService;
 import no.fint.p360.data.noark.codes.tilgangsrestriksjon.TilgangsrestriksjonService;
@@ -32,6 +34,9 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class KodeverkRepository {
+
+    @Autowired
+    private SaksmappetypeService saksmappetypeService;
 
     @Autowired
     private SaksStatusService saksStatusService;
@@ -81,6 +86,12 @@ public class KodeverkRepository {
     @Autowired
     private FilformatService filformatService;
 
+    @Autowired
+    private ResponseCodeService responseCodeService;
+
+    @Getter
+    private List<SaksmappetypeResource> saksmappetype;
+
     @Getter
     private List<SaksstatusResource> saksstatus;
 
@@ -126,25 +137,30 @@ public class KodeverkRepository {
     @Getter
     private List<FilformatResource> filformat;
 
+    @Getter
+    private List<String> avskrivingsmate;
+
     private transient boolean healthy = false;
 
     @Scheduled(initialDelay = 10000, fixedDelayString = "${fint.kodeverk.refresh-interval:1500000}")
     public void refresh() {
-        saksstatus = saksStatusService.getCaseStatusTable().collect(Collectors.toList());
-        dokumentStatus = dokumentstatusService.getDocumentStatusTable().collect(Collectors.toList());
-        dokumentType = dokumenttypeService.getDocumenttypeTable().collect(Collectors.toList());
-        journalpostType = journalpostTypeService.getDocumentCategoryTable().collect(Collectors.toList());
-        korrespondansepartType = korrespondansepartTypeService.getKorrespondansepartType().collect(Collectors.toList());
-        journalStatus = journalStatusService.getJournalStatusTable().collect(Collectors.toList());
-        tilknyttetRegistreringSom = tilknyttetRegistreringSomService.getDocumentRelationTable().collect(Collectors.toList());
-        partRolle = partRolleService.getPartRolle().collect(Collectors.toList());
-        merknadstype = merknadstypeService.getMerknadstype().collect(Collectors.toList());
-        tilgangsrestriksjon = tilgangsrestriksjonService.getAccessCodeTable().collect(Collectors.toList());
-        skjermingshjemmel = skjermingshjemmelService.getLawTable().collect(Collectors.toList());
-        variantformat = variantformatService.getVersionFormatTable().collect(Collectors.toList());
-        klassifikasjonssystem = klassifikasjonssystemService.getKlassifikasjonssystem().collect(Collectors.toList());
-        klasse = klasseService.getKlasse().collect(Collectors.toList());
-        filformat = filformatService.getFilformatTable().collect(Collectors.toList());
+        saksmappetype = saksmappetypeService.getCaseTypeTable().toList();
+        saksstatus = saksStatusService.getCaseStatusTable().toList();
+        dokumentStatus = dokumentstatusService.getDocumentStatusTable().toList();
+        dokumentType = dokumenttypeService.getDocumenttypeTable().toList();
+        journalpostType = journalpostTypeService.getDocumentCategoryTable().toList();
+        korrespondansepartType = korrespondansepartTypeService.getKorrespondansepartType().toList();
+        journalStatus = journalStatusService.getJournalStatusTable().toList();
+        tilknyttetRegistreringSom = tilknyttetRegistreringSomService.getDocumentRelationTable().toList();
+        partRolle = partRolleService.getPartRolle().toList();
+        merknadstype = merknadstypeService.getMerknadstype().toList();
+        tilgangsrestriksjon = tilgangsrestriksjonService.getAccessCodeTable().toList();
+        skjermingshjemmel = skjermingshjemmelService.getLawTable().toList();
+        variantformat = variantformatService.getVersionFormatTable().toList();
+        klassifikasjonssystem = klassifikasjonssystemService.getKlassifikasjonssystem().toList();
+        klasse = klasseService.getKlasse().toList();
+        filformat = filformatService.getFilformatTable().toList();
+        avskrivingsmate = responseCodeService.getResponseCodeTable().toList();
         log.info("Refreshed code lists");
         log.info("Case Category Table: {}", caseCategoryService.getCaseCategoryTable().collect(Collectors.joining(", ")));
         healthy = true;
