@@ -75,7 +75,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-actuator')
 
     testImplementation('cglib:cglib-nodep:3.3.0')
-    testImplementation('org.spockframework:spock-spring:2.2-groovy-4.0')
+    testImplementation('org.spockframework:spock-spring:2.3-groovy-4.0')
     testImplementation('org.spockframework:spock-core:2.2-groovy-4.0')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     implementation 'com.azure:azure-storage-blob:12.19.1'
