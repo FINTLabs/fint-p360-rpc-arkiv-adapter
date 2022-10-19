@@ -5,7 +5,7 @@ buildscript {
 
     dependencies {
         // this plugin
-        classpath 'org.jsonschema2pojo:jsonschema2pojo-gradle-plugin:1.1.0'
+        classpath 'org.jsonschema2pojo:jsonschema2pojo-gradle-plugin:1.1.2'
     }
 }
 
