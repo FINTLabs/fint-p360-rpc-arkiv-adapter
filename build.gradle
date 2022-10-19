@@ -55,7 +55,7 @@ dependencies {
     // Version 6.1.0 does not work :(
     implementation 'javax.validation:validation-api:2.0.1.Final'
     implementation 'org.hibernate.validator:hibernate-validator:6.0.17.Final'
-    implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:6.0.17.Final'
+    implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:8.0.0.Final'
 
     implementation('org.springframework.boot:spring-boot-starter-actuator')
     implementation('io.micrometer:micrometer-registry-prometheus')
