@@ -53,7 +53,7 @@ public class GetTilskuddFredaHusPrivatEieHandler implements Handler {
             response.setMessage(e.getMessage());
         } catch (WebClientResponseException e) {
             response.setResponseStatus(ResponseStatus.ERROR);
-            response.setStatusCode(e.getStatusCode().name());
+            response.setStatusCode(String.valueOf(e.getStatusCode()));
             response.setMessage(e.getResponseBodyAsString());
         }
     }
