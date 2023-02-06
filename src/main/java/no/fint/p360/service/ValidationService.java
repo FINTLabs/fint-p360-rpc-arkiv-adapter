@@ -1,10 +1,10 @@
 package no.fint.p360.service;
 
+import jakarta.validation.Validation;
 import no.fint.event.model.Event;
 import no.fint.event.model.Problem;
 import no.fint.event.model.ResponseStatus;
 import no.fint.model.resource.FintLinks;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.validation.Validator;
@@ -15,11 +15,15 @@ import java.util.stream.Collectors;
 @Service
 public class ValidationService {
 
-    @Autowired
-    private ValidatorFactory validatorFactory;
+    private final Validator validator;
+
+    public ValidationService() {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        this.validator = validatorFactory.getValidator();
+    }
 
     public List<Problem> getProblems(Object resource) {
-        Validator validator = validatorFactory.getValidator();
+        Validator validator = this.validator;
         return validator.validate(resource)
                 .stream()
                 .map(violation -> new Problem() {{
