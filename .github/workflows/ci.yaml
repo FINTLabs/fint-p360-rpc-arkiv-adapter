@@ -22,8 +22,8 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
           cache: 'gradle'
-      - uses: gradle/wrapper-validation-action@v1.0.5
+      - uses: gradle/wrapper-validation-action@v1.0.6
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.3.3
+        uses: gradle/gradle-build-action@v2.4.0
         with:
           arguments: check
