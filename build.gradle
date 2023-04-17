@@ -45,7 +45,7 @@ dependencies {
     implementation('org.apache.tika:tika-core:2.7.0')
 
     // Updates to 3.x do not work :( (2.39 is the last 2.x version)
-    implementation('org.glassfish.jersey.core:jersey-client:2.39')
+    implementation('org.glassfish.jersey.core:jersey-client:2.39.1')
     implementation('org.glassfish.jersey.core:jersey-common:2.39')
     implementation('org.jooq:jool-java-8:0.9.15')
     implementation 'org.projectlombok:lombok'
