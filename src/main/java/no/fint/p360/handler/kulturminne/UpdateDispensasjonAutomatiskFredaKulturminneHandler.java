@@ -76,7 +76,8 @@ public class UpdateDispensasjonAutomatiskFredaKulturminneHandler implements Hand
 
         Operation operation = response.getOperation();
 
-        DispensasjonAutomatiskFredaKulturminneResource dispensasjonAutomatiskFredaKulturminne = objectMapper.convertValue(response.getData().get(0), DispensasjonAutomatiskFredaKulturminneResource.class);
+        DispensasjonAutomatiskFredaKulturminneResource dispensasjonAutomatiskFredaKulturminne =
+                objectMapper.convertValue(response.getData().get(0), DispensasjonAutomatiskFredaKulturminneResource.class);
 
         if (operation == Operation.CREATE) {
             caseDefaultsService.applyDefaultsForCreation(caseProperties, dispensasjonAutomatiskFredaKulturminne);
@@ -98,7 +99,9 @@ public class UpdateDispensasjonAutomatiskFredaKulturminneHandler implements Hand
         }
     }
 
-    private void updateCase(Event<FintLinks> response, String query, DispensasjonAutomatiskFredaKulturminneResource dispensasjonAutomatiskFredaKulturminne) {
+    private void updateCase(Event<FintLinks> response, String query,
+                            DispensasjonAutomatiskFredaKulturminneResource dispensasjonAutomatiskFredaKulturminne) {
+
         if (!caseQueryService.isValidQuery(query)) {
             response.setStatusCode("BAD_REQUEST");
             response.setResponseStatus(ResponseStatus.REJECTED);
@@ -115,7 +118,8 @@ public class UpdateDispensasjonAutomatiskFredaKulturminneHandler implements Hand
             String caseNumber = theCase.getCaseNumber();
             createDocumentsForCase(dispensasjonAutomatiskFredaKulturminne, caseNumber);
             dispensasjonAutomatiskFredaKulturminneService.getDispensasjonAutomatiskFredaKulturminneForQuery(query, response);
-        } catch (CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotDispensasjonAutomatiskFredaKulturminneException e) {
+        } catch (CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat |
+                 NotDispensasjonAutomatiskFredaKulturminneException e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode(HttpStatus.BAD_REQUEST.name());
             response.setMessage(e.getMessage());
@@ -133,7 +137,8 @@ public class UpdateDispensasjonAutomatiskFredaKulturminneHandler implements Hand
             String caseNumber = caseService.createCase(filterSet, createCaseArgs);
             createDocumentsForCase(dispensasjonAutomatiskFredaKulturminne, caseNumber);
             dispensasjonAutomatiskFredaKulturminneService.getDispensasjonAutomatiskFredaKulturminneForQuery("mappeid/" + caseNumber, response);
-        } catch (CreateCaseException | CaseNotFound | CreateDocumentException | GetDocumentException | IllegalCaseNumberFormat | NotDispensasjonAutomatiskFredaKulturminneException e) {
+        } catch (CreateCaseException | CaseNotFound | CreateDocumentException | GetDocumentException |
+                 IllegalCaseNumberFormat | NotDispensasjonAutomatiskFredaKulturminneException e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode(HttpStatus.BAD_REQUEST.name());
             response.setMessage(e.getMessage());

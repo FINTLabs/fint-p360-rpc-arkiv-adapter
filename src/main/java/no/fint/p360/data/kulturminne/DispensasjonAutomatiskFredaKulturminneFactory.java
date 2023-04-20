@@ -39,7 +39,9 @@ public class DispensasjonAutomatiskFredaKulturminneFactory {
     private final CaseQueryService caseQueryService;
     private final FilterSet filterSet;
 
-    public DispensasjonAutomatiskFredaKulturminneFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, CaseQueryService caseQueryService, FilterSetService filterSetService) {
+    public DispensasjonAutomatiskFredaKulturminneFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory,
+            CaseDefaults caseDefaults, CaseQueryService caseQueryService, FilterSetService filterSetService) {
+
         this.noarkFactory = noarkFactory;
         this.journalpostFactory = journalpostFactory;
 
@@ -49,11 +51,14 @@ public class DispensasjonAutomatiskFredaKulturminneFactory {
         filterSet = filterSetService.getFilterSetForCaseType(DispensasjonAutomatiskFredaKulturminneResource.class);
     }
 
-    public DispensasjonAutomatiskFredaKulturminneResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat, NotDispensasjonAutomatiskFredaKulturminneException {
+    public DispensasjonAutomatiskFredaKulturminneResource toFintResource(Case caseResult)
+            throws GetDocumentException, IllegalCaseNumberFormat, NotDispensasjonAutomatiskFredaKulturminneException {
+
         if (!isDispensasjonAutomatiskFredaKulturminne(caseResult)) {
             throw new NotDispensasjonAutomatiskFredaKulturminneException(caseResult.getCaseNumber());
         }
-        DispensasjonAutomatiskFredaKulturminneResource dispensasjonAutomatiskFredaKulturminne = new DispensasjonAutomatiskFredaKulturminneResource();
+        DispensasjonAutomatiskFredaKulturminneResource dispensasjonAutomatiskFredaKulturminne =
+                new DispensasjonAutomatiskFredaKulturminneResource();
         dispensasjonAutomatiskFredaKulturminne.setSoknadsnummer(FintUtils.createIdentifikator(caseResult.getExternalId().getId()));
 
         return noarkFactory.getSaksmappe(filterSet, properties, caseResult, dispensasjonAutomatiskFredaKulturminne);
@@ -83,7 +88,8 @@ public class DispensasjonAutomatiskFredaKulturminneFactory {
     // TODO Compare with CaseProperties
     private boolean isDispensasjonAutomatiskFredaKulturminne(Case caseResult) {
 
-        if (FintUtils.optionalValue(caseResult.getExternalId()).isPresent() && FintUtils.optionalValue(caseResult.getArchiveCodes()).isPresent()) {
+        if (FintUtils.optionalValue(caseResult.getExternalId()).isPresent()
+                && FintUtils.optionalValue(caseResult.getArchiveCodes()).isPresent()) {
             return caseResult.getExternalId().getType().equals(Constants.EXTERNAL_ID_TYPE);
         }
 
