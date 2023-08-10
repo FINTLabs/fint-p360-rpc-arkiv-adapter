@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adapter-p360-arkiv
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: adapter-p360-arkiv
+  template:
+    metadata:
+      labels:
+        app: adapter-p360-arkiv
+      annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "8091"
+          prometheus.io/path: "actuator/prometheus"
+    spec:
+      restartPolicy: Always
+      volumes:
+        - name: tempdir
+          emptyDir:
+            sizeLimit: 1G
+      containers:
+        - name: adapter-p360-arkiv
+          image: fintlabsacr.azurecr.io/fint-p360-rpc-arkiv-adapter:2023-04-20-6de684e
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "2"
+            requests:
+              memory: "1Gi"
+              cpu: "250m"
+          ports:
+            - containerPort: 8091
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8091
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: tempdir
+              mountPath: /temp
+          env:
+            - {name: TZ, value: Europe/Oslo}
+            - name: JAVA_TOOL_OPTIONS
+              value: >-
+                -Xmx1G -verbose:gc
+                -XX:+ExitOnOutOfMemoryError
+                -Dfile.encoding=UTF-8
+            - {name: security.basic.enabled, value: "false"}
+            - {name: fint.adapter.reject-unknown-events, value: 'true'}
+            - {name: fint.adapter.endpoints.providers.kodeverk, value: https://beta.felleskomponent.no/arkiv/kodeverk/provider}
+            - {name: fint.adapter.endpoints.providers.noark, value: https://beta.felleskomponent.no/arkiv/noark/provider}
+            - {name: fint.adapter.endpoints.providers.kulturminne, value: https://beta.felleskomponent.no/arkiv/kulturminnevern/provider}
+            - {name: fint.case.coding.filformat.RA-JPEG, value: 'JPG'}
+            - {name: fint.case.coding.filformat.RA-PDF, value: 'PDF'}
+            - {name: fint.case.coding.filformat.RA-TEKST, value: 'TXT'}
+            - {name: fint.case.coding.filformat.RA-TIFF6, value: 'TIF'}
+            - {name: fint.file-cache.directory, value: '/temp'}
