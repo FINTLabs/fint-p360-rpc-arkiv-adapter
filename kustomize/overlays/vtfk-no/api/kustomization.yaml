@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# namespace: vtfk-no
+
+resources:
+  - ../../../base
+  - onepassword.yaml
+
+commonLabels:
+ app.kubernetes.io/instance: adapter-p360-arkiv_vtfk-no
+ fintlabs.no/org-id: vtfk.no
+
+patches:
+  
+  - target:
+      kind: Deployment
+      name: adapter-p360-arkiv
+    path: deployment.yaml
+
+  - target:
+      kind: Deployment
+      name: adapter-p360-arkiv
+    patch: |-
+      - op: replace
+        path: "/metadata/name"
+        value: "adapter-p360-arkiv-vtfk"
+      - op: replace
+        path: "/spec/selector/matchLabels/app"
+        value: "adapter-p360-arkiv-vtfk"
+      - op: replace
+        path: "/spec/template/metadata/labels/app"
+        value: "adapter-p360-arkiv-vtfk"
+      - op: replace
+        path: /spec/template/spec/containers/0/name
+        value: "adapter-p360-arkiv-vtfk"
