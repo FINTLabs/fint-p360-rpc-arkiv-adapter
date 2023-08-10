@@ -7,9 +7,9 @@ resources:
   - ../../../base
   - onepassword.yaml
 
-#commonLabels:
-#  app.kubernetes.io/instance: adapter-p360-arkiv_agderfk-no
-#  fintlabs.no/org-id: agderfk.no
+commonLabels:
+ app.kubernetes.io/instance: adapter-p360-arkiv_agderfk-no
+ fintlabs.no/org-id: agderfk.no
 
 patches:
   

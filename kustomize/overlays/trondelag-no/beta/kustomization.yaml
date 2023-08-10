@@ -1,15 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# namespace: tffk-no
+# namespace: trondelag-no
 
 resources:
   - ../../../base
   - onepassword.yaml
 
-#commonLabels:
-#  app.kubernetes.io/instance: adapter-p360-arkiv_tffk-no
-#  fintlabs.no/org-id: tffk.no
+commonLabels:
+ app.kubernetes.io/instance: adapter-p360-arkiv_trondelag-no
+ fintlabs.no/org-id: trondelag.no
 
 patches:
   

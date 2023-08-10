@@ -2,6 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: adapter-p360-arkiv
+  labels:
+    app.kubernetes.io/instance: adapter-p360-arkiv_fintlabs_no
+    app.kubernetes.io/name: adapter-p360-arkiv
+    fintlabs.no/team: arkiv
+    fintlabs.no/org-id: fintlabs.no
 spec:
   strategy:
     rollingUpdate:
@@ -26,7 +31,7 @@ spec:
             sizeLimit: 1G
       containers:
         - name: adapter-p360-arkiv
-          image: fintlabsacr.azurecr.io/fint-p360-rpc-arkiv-adapter:2023-04-20-6de684e
+          image: fintlabsacr.azurecr.io/fint-p360-rpc-arkiv-adapter:empty
           imagePullPolicy: Always
           resources:
             limits:
