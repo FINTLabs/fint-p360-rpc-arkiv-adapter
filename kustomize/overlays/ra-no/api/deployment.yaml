@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adapter-p360-arkiv
+spec:
+  template:
+    spec:
+      containers:
+        - name: adapter-p360-arkiv
+          image: fintlabsacr.azurecr.io/fint-p360-rpc-arkiv-adapter:2023-04-20-6de684e
+          resources:
+            limits:
+              memory: "4Gi"
+              cpu: "2"
+            requests:
+              memory: "3Gi"
+              cpu: "250m"
+          envFrom:
+            - secretRef:
+                name: p360-rpc-arkiv-ra
+          env:
+            - {name: TZ, value: Europe/Oslo}
+            - name: JAVA_TOOL_OPTIONS
+              value: >-
+                -Xmx3G -verbose:gc
+                -XX:+ExitOnOutOfMemoryError
+                -Dfile.encoding=UTF-8
+            - {name: springfox.title, value: "Public 360 Online Adapter for Riksantikvaren"}
+            - {name: fint.adapter.organizations, value: ra.no}
+            - {name: fint.adapter.reject-unknown-events, value: 'false'}
+            - {name: fint.adapter.endpoints.providers.kodeverk, value: https://api.felleskomponent.no/arkiv/kodeverk/provider}
+            - {name: fint.adapter.endpoints.providers.noark, value: https://api.felleskomponent.no/arkiv/noark/provider}
+            - {name: fint.adapter.endpoints.providers.kulturminne, value: https://api.felleskomponent.no/arkiv/kulturminnevern/provider}
+            - {name: fint.case.defaults.tilskuddfartoy.title.cases, value: '${kallesignal} - ${fartoyNavn} - Tilskudd - Kulturminne-ID ${kulturminneId} - Søknadsnr. ${soknadsnummer.identifikatorverdi}'}
+            - {name: fint.case.defaults.tilskuddfartoy.field.CF_KulturminneID, value: '${kulturminneId}'}
+            - {name: fint.case.defaults.tilskuddfartoy.saksmappeType, value: 'Sak'}
+            - {name: fint.case.defaults.tilskuddfartoy.administrativEnhet, value: '200018'} # Seksjon for foto, arkiv og bibliotek
+            - {name: fint.case.defaults.tilskuddfartoy.arkivdel, value: '200002'} # Digisak
+            - {name: fint.case.defaults.tilskuddfartoy.saksstatus, value: 'B'}
+            - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.ordning, value: 'Funksjonsbasert arkivnøkkel'}
+            - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.verdi, value: 'recno:200074'}
+            - {name: fint.case.defaults.tilskuddfartoy.noekkelord, value: ''}
+            - {name: fint.case.defaults.tilskuddfartoy.korrespondansepartType, value: '5'}
+            - {name: fint.case.defaults.tilskuddfartoy.journalpostType, value: '110'}
+            - {name: fint.case.defaults.tilskuddfartoy.journalstatus, value: 'A'} # F eller M gir feilmelding
+            - {name: fint.case.defaults.tilskuddfartoy.dokumentstatus, value: 'F'}
+            - {name: fint.case.defaults.tilskuddfartoy.dokumentType, value: Brev}
+            - {name: fint.case.defaults.tilskuddfartoy.tilknyttetRegistreringSom, value: H}
+            - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '200004' }
+            - {name: fint.case.defaults.tilskuddfartoy.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} Tilskudd post 71 - Kulturminne-ID ${kulturminneId} - ${bygningsnavn} - Søknadsnr. ${soknadsnummer.identifikatorverdi}'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.field.CF_KulturminneID, value: '${kulturminneId}'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksmappeType, value: 'Sak'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.administrativEnhet, value: '200018'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.arkivdel, value: '200002'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksstatus, value: 'B'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.ordning, value: 'Funksjonsbasert arkivnøkkel'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: 'recno:200073'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.noekkelord, value: ''}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.korrespondansepartType, value: '5'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpostType, value: '110'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalstatus, value: 'A'} # F eller M gir feilmelding
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentstatus, value: 'F'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentType, value: 'Brev'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.tilknyttetRegistreringSom, value: 'H'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '200004' }
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.administrativEnhet, value: '200018'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.arkivdel, value: '200002'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.avskrivningsmaate, value: 'TE' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.dokumentstatus, value: 'F'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.dokumentType, value: 'Brev'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.field.CF_KulturminneID, value: '${kulturminneId}'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpostType, value: 'I'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpost.I.status, value: '3'} # S (Registrert av ansvarlig person/leder)
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpost.U.status, value: 'A'} # Arkivert
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.ordning, value: 'Funksjonsbasert arkivnøkkel'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: 'recno:200075'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.korrespondansepartType, value: 'EA'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.noekkelord, value: ''}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200004' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${tiltak} - kml § 8, 1. ledd - Dispensasjon - ${link$matrikkelnummer.kommunenummer#navn} - Kulturminne-ID ${kulturminneId}'}
+            - {name: fint.case.coding.journalposttype.I, value: '110'}
+            - {name: fint.case.coding.journalposttype.U, value: '111'}
+            - {name: fint.case.coding.journalposttype.N, value: '113'}
+            - {name: fint.case.coding.journalposttype.X, value: '60005'}
+            - {name: fint.case.coding.journalposttype.S, value: '1'}
+            - {name: fint.case.coding.korrespondanseparttype.EA, value: '5'}
+            - {name: fint.case.coding.korrespondanseparttype.EM, value: '6'}
+            - {name: logging.level.no.fint.p360.data.p360, value: info}
+            - {name: logging.level.no.fint.p360.service, value: info}

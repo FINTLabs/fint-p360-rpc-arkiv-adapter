@@ -47,7 +47,7 @@ jobs:
       fail-fast: false
       matrix:
         org: [ agderfk-no, ra-no, tffk-no, trondelag-no, vtfk-no ]
-        cluster: [ aks-beta-fint-2021-11-23 ]
+        cluster: [ aks-beta-fint-2021-11-23, aks-api-fint-2022-02-08 ]
         use-image-from-overlay: [ true ]
         deploy-every-branch: [ true ]
 
