@@ -31,7 +31,7 @@ spec:
             sizeLimit: 1G
       containers:
         - name: adapter-p360-arkiv
-          image: fintlabsacr.azurecr.io/fint-p360-rpc-arkiv-adapter:empty
+          image: ghcr.io/fintlabs/fint-p360-rpc-arkiv-adapter:empty
           imagePullPolicy: Always
           resources:
             limits:

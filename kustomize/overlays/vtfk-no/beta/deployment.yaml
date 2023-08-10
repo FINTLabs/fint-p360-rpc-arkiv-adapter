@@ -7,7 +7,6 @@ spec:
     spec:
       containers:
         - name: adapter-p360-arkiv
-          image: fintlabsacr.azurecr.io/fint-p360-rpc-arkiv-adapter:2023-04-20-6de684e
           resources:
             limits:
               memory: "3Gi"
