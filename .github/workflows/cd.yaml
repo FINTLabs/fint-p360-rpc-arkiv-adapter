@@ -49,8 +49,10 @@ jobs:
         org: [ agderfk-no, ra-no, tffk-no, trondelag-no, vtfk-no ]
         cluster: [ aks-beta-fint-2021-11-23, aks-api-fint-2022-02-08 ]
         use-image-from-overlay: [ true ]
-        deploy-every-branch: [ true ]
-
+        include: 
+          - cluster: aks-beta-fint-2021-11-23
+            deploy-every-branch: true
+            
     steps: 
       - uses: actions/checkout@v3
 
