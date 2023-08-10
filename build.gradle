@@ -73,7 +73,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    implementation 'com.azure:azure-storage-blob:12.21.1'
+    implementation 'com.azure:azure-storage-blob:12.23.0'
     implementation 'io.projectreactor:reactor-core:3.5.8'
     implementation 'commons-beanutils:commons-beanutils:1.9.4'
     implementation 'org.apache.commons:commons-text:1.10.0'
