@@ -104,7 +104,7 @@ jobs:
           echo "name=$namespace" >> $GITHUB_OUTPUT
 
       - name: Deploy to Kubernetes
-        if: github.ref == 'refs/heads/master' || matrix.deploy-every-branch == true
+        if: github.actor != 'dependabot[bot]' && (github.ref == 'refs/heads/master' || matrix.deploy-every-branch == true)
         uses: azure/k8s-deploy@v4
         with:
           action: deploy
