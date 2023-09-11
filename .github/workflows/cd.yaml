@@ -47,18 +47,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        org: [ agderfk-no, ra-no, tffk-no, trondelag-no, vtfk-no ]
+        org: [ agderfk-no, ra-no, tffk-no, trondelag-no, vtfk-no, telemarkfylke-no, vestfoldfylke-no ]
         cluster: [ aks-beta-fint-2021-11-23, aks-api-fint-2022-02-08 ]
         include: 
           - cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
 
           - org: telemarkfylke-no
-            cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
 
           - org: vestfoldfylke-no
-            cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
             
     steps: 
