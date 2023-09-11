@@ -57,7 +57,7 @@ jobs:
             cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
 
-          - org: festfoldfylke-no
+          - org: vestfoldfylke-no
             cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
             
