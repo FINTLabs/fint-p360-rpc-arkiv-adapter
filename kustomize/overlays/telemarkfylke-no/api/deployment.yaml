@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adapter-p360-arkiv
+spec:
+  template:
+    spec:
+      containers:
+        - name: adapter-p360-arkiv
+          resources:
+            limits:
+              memory: "9Gi"
+              cpu: "2"
+            requests:
+              memory: "7Gi"
+              cpu: "1024m"
+          envFrom:
+            - secretRef:
+                name: arkiv-p360-api
+            - secretRef:
+                name: arkiv-p360-onepassword
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: >-
+                -Xmx7G -verbose:gc
+                -XX:+ExitOnOutOfMemoryError
+                -Dfile.encoding=UTF-8
+            - {name: fint.adapter.endpoints.providers.kodeverk, value: https://api.felleskomponent.no/arkiv/kodeverk/provider}
+            - {name: fint.adapter.endpoints.providers.noark, value: https://api.felleskomponent.no/arkiv/noark/provider}
+            - {name: fint.adapter.endpoints.providers.samferdsel, value: https://api.felleskomponent.no/arkiv/samferdsel/provider}
+            - {name: fint.adapter.endpoints.providers.kulturminne, value: https://api.felleskomponent.no/arkiv/kulturminnevern/provider}
+            - {name: springfox.title, value: 'P360 RPC Adapter for Telemark'}
+            - {name: fint.adapter.reject-unknown-events, value: 'false'}
+            - {name: fint.case.coding.dokumentType.B, value: '1'}
+            - {name: fint.case.coding.journalposttype.I, value: '110'}
+            - {name: fint.case.coding.journalposttype.U, value: '111'}
+            - {name: fint.case.coding.journalposttype.N, value: '113'}
+            - {name: fint.case.coding.journalposttype.X, value: '60005'}
+            - {name: fint.case.coding.journalposttype.S, value: '218'}
+            - {name: fint.case.coding.korrespondanseparttype.EA, value: '5'}
+            - {name: fint.case.coding.korrespondanseparttype.EM, value: '6'}
+            - {name: fint.case.coding.filformat.RA-PDF, value: 'PDF'}
+            - {name: fint.case.coding.filformat.RA-TEKST, value: 'TXT'}
+            - {name: fint.case.coding.filformat.RA-JPEG, value: 'JPG'}
+            - {name: fint.case.coding.filformat.RA-TIFF6, value: 'TIF'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '246348'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.arkivdel, value: 'Løyver'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: 'F'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.journalenhet, value: 'Sentralarkiv'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.journalstatus, value: 'J'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.ordning, value: 'ORG'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.tittel, value: '${organisasjonsnavn}'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.verdi, value: '${organisasjonsnummer}'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.2.ordning, value: 'FAGKLASSE PRINSIPP'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.2.verdi, value: 'N12'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.3.ordning, value: 'TILLEGGSKODE PRINSIPP'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.3.verdi, value: 'recno:380029'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.noekkelord, value: ''}
+            - {name: fint.case.defaults.soknaddrosjeloyve.saksmappeType, value: 'Sak'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.saksstatus, value: 'B'}
+            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: 'Alle'}
+            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: 'Løyver'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
+            - {name: fint.case.defaults.tilskuddfartoy.title.cases, value: 'Tilskudd - fartøyvern - ${fartoyNavn} - ${kallesignal}'}
+            - {name: fint.case.defaults.tilskuddfartoy.title.records, value: 'Fartøy - ${fartoyNavn} - ${kulturminneId}'}
+            - {name: fint.case.defaults.tilskuddfartoy.administrativEnhet, value: '200074'} # Seksjon for kulturarv
+            - {name: fint.case.defaults.tilskuddfartoy.arkivdel, value: '60001'} # Sakarkiv
+            - {name: fint.case.defaults.tilskuddfartoy.saksstatus, value: 'B'}
+            - {name: fint.case.defaults.tilskuddfartoy.journalstatus, value: 'J'}
+            - {name: fint.case.defaults.tilskuddfartoy.dokumentstatus, value: 'F'}
+            - {name: fint.case.defaults.tilskuddfartoy.dokumentType, value: 'B'}
+            - {name: fint.case.defaults.tilskuddfartoy.tilknyttetRegistreringSom, value: 'H'}
+            - {name: fint.case.defaults.tilskuddfartoy.saksmappeType, value: 'Sak'}
+            - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.ordning, value: 'recno:60006'} # FELLESKLASSE PRINSIPP
+            - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.verdi, value: '243'}
+            - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.2.ordning, value: 'recno:60007'} # FAGKLASSE PRINSIPP
+            - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.2.verdi, value: 'C54'}
+            - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '200074'}
+            - {name: fint.case.defaults.tilskuddfartoy.variantFormat, value: 'P'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: 'Tilskudd - bygningsvern - ${soknadsnummer.identifikatorverdi} - ${kulturminneId} - ${bygningsnavn} - ${link$matrikkelnummer.kommunenummer#navn} kommune'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.records, value: 'FRIP - ${bygningsnavn} - ${kulturminneId}'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.administrativEnhet, value: '200074'} # Seksjon for kulturarv
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.arkivdel, value: '60001'} # Sakarkiv
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksstatus, value: 'B'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalstatus, value: 'J'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentstatus, value: 'F'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentType, value: 'B'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.tilknyttetRegistreringSom, value: 'H'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksmappeType, value: 'Sak'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.ordning, value: 'recno:60006'} # FELLESKLASSE PRINSIPP
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: '243'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.2.ordning, value: 'recno:60007'} # FAGKLASSE PRINSIPP
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.2.verdi, value: 'C53'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '200074'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.variantFormat, value: 'P'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: 'Søknad om dispensasjon - kulturminneloven § 8 første ledd - Gbnr. ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ID ${kulturminneId} - ${link$matrikkelnummer.kommunenummer#navn} kommune - Vestfold og Telemark fylkeskommune'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.records, value: '#{tittel}'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.administrativEnhet, value: '200074'} # Seksjon for kulturarv
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.arkivdel, value: '60001'} # Sakarkiv
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalstatus, value: 'J'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.dokumentstatus, value: 'F'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.dokumentType, value: 'B'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.ordning, value: 'recno:60006'} # FELLESKLASSE PRINSIPP
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: '243'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.2.ordning, value: 'recno:60007'} # FAGKLASSE PRINSIPP
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.2.verdi, value: 'C50'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.3.ordning, value: 'TILLEGGSKODE PRINSIPP'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.3.verdi, value: 'recno:380029'} # &18
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200074'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.variantFormat, value: 'P'}
+            - {name: logging.level.no.fint.arkiv, value: 'info'}
+            - {name: logging.level.no.fint.p360, value: 'info'}
+            - {name: logging.level.reactor.netty.http.client, value: 'warn'}
