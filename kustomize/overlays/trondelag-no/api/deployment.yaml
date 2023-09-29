@@ -64,8 +64,8 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksstatus, value: 'B'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.tilknyttetRegistreringSom, value: 'H'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: 'Riksantikvarens tilskudd til kulturminner i privat eie - ${bygningsnavn} - ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${link$matrikkelnummer.kommunenummer#navn} kommune - ${kulturminneId} - ${soknadsnummer.identifikatorverdi}'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.records, value: '#{tittel.replaceFirst("Riksantikvarens tilskudd til kulturminner i privat eie","Søknad om")}'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: 'Tilskuddssak fra Digisak - ${bygningsnavn} - ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${link$matrikkelnummer.kommunenummer#navn} kommune - ${kulturminneId} - ${soknadsnummer.identifikatorverdi}'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.records, value: '#{tittel.replaceFirst("Tilskuddssak fra Digisak","Søknad om")}'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '200833'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: '0'}
             - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200100'}
