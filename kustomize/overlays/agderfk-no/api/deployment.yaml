@@ -20,7 +20,7 @@ spec:
               cpu: "1024m"
           envFrom:
             - secretRef:
-                name: p360-rpc-arkiv-agderfk
+                name: arkiv-p360-onepassword
           env:
             - {name: TZ, value: Europe/Oslo}
             - {name: JAVA_TOOL_OPTIONS, value: '-Xmx7G -verbose:gc -XX:+ExitOnOutOfMemoryError -Dfile.encoding=UTF-8'}

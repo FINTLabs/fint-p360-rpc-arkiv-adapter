@@ -16,7 +16,7 @@ spec:
               cpu: "512m"
           envFrom:
             - secretRef:
-                name: p360-arkiv-tffk
+                name: arkiv-p360-onepassword
           env:
             - {name: TZ, value: Europe/Oslo}
             - name: JAVA_TOOL_OPTIONS
