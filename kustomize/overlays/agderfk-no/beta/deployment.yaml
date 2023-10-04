@@ -9,7 +9,7 @@ spec:
         - name: adapter-p360-arkiv
           envFrom:
             - secretRef:
-                name: p360-arkiv-agder
+                name: arkiv-p360-onepassword
           env:
             - {name: TZ, value: Europe/Oslo}
             - name: JAVA_TOOL_OPTIONS
