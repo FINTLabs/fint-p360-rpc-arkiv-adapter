@@ -94,8 +94,8 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.dokumentType, value: '1'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
-            - {name: fint.p360.filterset.casetype.default, value: 'drosjeloyve'}
-            - {name: fint.p360.filterset.casetype.sak, value: 'drosjeloyve'}
+            - {name: fint.p360.filterset.casetype.default, value: 'flyt'}
+            - {name: fint.p360.filterset.casetype.sak, value: 'flyt'}
             - {name: fint.p360.filterset.casetype.soknaddrosjeloyve, value: 'drosjeloyve'}
             - {name: fint.p360.filterset.casetype.tilskuddfartoy, value: 'digisak'}
             - {name: fint.p360.filterset.casetype.tilskuddfredabygningprivateie, value: 'digisak'}
