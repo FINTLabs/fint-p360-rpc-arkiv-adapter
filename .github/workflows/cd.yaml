@@ -52,7 +52,12 @@ jobs:
         include: 
           - cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
-            
+
+          - org: telemarkfylke-no
+            deploy-every-branch: true
+
+          - org: vestfoldfylke-no
+            deploy-every-branch: true
     steps: 
       - uses: actions/checkout@v4
 
