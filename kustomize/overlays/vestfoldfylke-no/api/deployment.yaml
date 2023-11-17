@@ -43,7 +43,7 @@ spec:
             - {name: fint.case.coding.filformat.RA-TEKST, value: 'TXT'}
             - {name: fint.case.coding.filformat.RA-JPEG, value: 'JPG'}
             - {name: fint.case.coding.filformat.RA-TIFF6, value: 'TIF'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200020'} #Sektor samferdsel
+            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200100'}
             - {name: fint.case.defaults.soknaddrosjeloyve.arkivdel, value: '200004'}
             - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.soknaddrosjeloyve.journalenhet, value: 'Sentralarkiv'}
@@ -59,7 +59,7 @@ spec:
             - {name: fint.case.defaults.soknaddrosjeloyve.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksstatus, value: 'B'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: 'Alle'}
-            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: 'Alle'}
+            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '200677'}
             - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
             - {name: fint.case.defaults.tilskuddfartoy.title.cases, value: 'Tilskudd - fartøyvern - ${fartoyNavn} - ${kallesignal}'}
             - {name: fint.case.defaults.tilskuddfartoy.title.records, value: 'Fartøy - ${fartoyNavn} - ${kulturminneId}'}
