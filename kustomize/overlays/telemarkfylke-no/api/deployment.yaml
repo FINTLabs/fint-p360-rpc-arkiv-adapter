@@ -63,7 +63,7 @@ spec:
             - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
             - {name: fint.case.defaults.tilskuddfartoy.title.cases, value: 'Tilskudd - fartøyvern - ${fartoyNavn} - ${kallesignal}'}
             - {name: fint.case.defaults.tilskuddfartoy.title.records, value: 'Fartøy - ${fartoyNavn} - ${kulturminneId}'}
-            - {name: fint.case.defaults.tilskuddfartoy.administrativEnhet, value: '200023'}
+            - {name: fint.case.defaults.tilskuddfartoy.administrativEnhet, value: '200418'}
             - {name: fint.case.defaults.tilskuddfartoy.arkivdel, value: '60001'} # Sakarkiv
             - {name: fint.case.defaults.tilskuddfartoy.saksstatus, value: 'B'}
             - {name: fint.case.defaults.tilskuddfartoy.journalstatus, value: 'J'}
@@ -75,11 +75,11 @@ spec:
             - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.verdi, value: '243'}
             - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.2.ordning, value: 'FAGKLASSE PRINSIPP'} # FAGKLASSE PRINSIPP
             - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.2.verdi, value: 'C54'}
-            - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '200023'}
+            - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '200418'}
             - {name: fint.case.defaults.tilskuddfartoy.variantFormat, value: 'P'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: 'Tilskudd - bygningsvern - ${soknadsnummer.identifikatorverdi} - ${kulturminneId} - ${bygningsnavn} - ${link$matrikkelnummer.kommunenummer#navn} kommune'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.records, value: 'FRIP - ${bygningsnavn} - ${kulturminneId}'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.administrativEnhet, value: '200023'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.administrativEnhet, value: '200418'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.arkivdel, value: '60001'} # Sakarkiv
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksstatus, value: 'B'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalstatus, value: 'J'}
@@ -91,11 +91,11 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: '243'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.2.ordning, value: 'FAGKLASSE PRINSIPP'} # FAGKLASSE PRINSIPP
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.2.verdi, value: 'C53'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '200023'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '200418'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.variantFormat, value: 'P'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: 'Søknad om dispensasjon - kulturminneloven § 8 første ledd - Gbnr. ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ID ${kulturminneId} - ${link$matrikkelnummer.kommunenummer#navn} kommune - Vestfold og Telemark fylkeskommune'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.records, value: '#{tittel}'}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.administrativEnhet, value: '200023'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.administrativEnhet, value: '200418'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.arkivdel, value: '60001'} # Sakarkiv
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalstatus, value: 'J'}
@@ -109,7 +109,7 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.2.verdi, value: 'C50'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.3.ordning, value: 'TILLEGGSKODE PRINSIPP'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.3.verdi, value: 'recno:380029'} # &18
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200023'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200418'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.variantFormat, value: 'P'}
             - {name: logging.level.no.fint.arkiv, value: 'info'}
             - {name: logging.level.no.fint.p360, value: 'info'}
