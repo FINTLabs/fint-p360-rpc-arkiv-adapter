@@ -54,7 +54,7 @@ jobs:
             deploy-every-branch: true
 
           - org: ffk-no
-            deploy-every-branch: false
+            deploy-every-branch: true
             
     steps: 
       - uses: actions/checkout@v4
