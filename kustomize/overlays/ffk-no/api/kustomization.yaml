@@ -6,6 +6,7 @@ namespace: ffk-no
 resources:
   - ../../../base
   - onepassword.yaml
+  - fint-adapter.yaml
 
 commonLabels:
  app.kubernetes.io/instance: adapter-p360-arkiv_ffk-no
