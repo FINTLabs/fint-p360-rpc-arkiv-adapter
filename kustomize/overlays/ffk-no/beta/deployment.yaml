@@ -10,6 +10,8 @@ spec:
           envFrom:
             - secretRef:
                 name: arkiv-p360-onepassword
+            - secretRef:
+                name: arkiv-p360-beta
           env:
             - {name: TZ, value: Europe/Oslo}
             - name: JAVA_TOOL_OPTIONS
