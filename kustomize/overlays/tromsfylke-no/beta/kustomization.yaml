@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: tromsfylke-no
+
+resources:
+  - ../../../base
+  - onepassword.yaml
+  - fint-adapter.yaml
+
+commonLabels:
+ app.kubernetes.io/instance: adapter-p360-arkiv_tromsfylke-no
+ fintlabs.no/org-id: tromsfylke.no
+
+patches:
+  
+  - target:
+      kind: Deployment
+      name: adapter-p360-arkiv
+    path: deployment.yaml
