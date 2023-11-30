@@ -109,7 +109,7 @@ spec:
             - {name: fint.p360.filterset.casetype.tilskuddfartoy, value: 'digisak'}
             - {name: fint.p360.filterset.casetype.tilskuddfredabygningprivateie, value: 'digisak'}
             - {name: fint.p360.filterset.casetype.dispensasjonautomatiskfredakulturminne, value: 'digisak'}
-            - {name: logging.level.no.fint.p360.data.p360, value: trace}
-            - {name: logging.level.no.fint.p360.data, value: trace}
-            - {name: logging.level.no.fint.p360.service, value: trace}
-            - {name: logging.level.no.fint.arkiv, value: trace}
+            - {name: logging.level.no.fint.p360.data.p360, value: info}
+            - {name: logging.level.no.fint.p360.data, value: info}
+            - {name: logging.level.no.fint.p360.service, value: info}
+            - {name: logging.level.no.fint.arkiv, value: info}
