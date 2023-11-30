@@ -48,7 +48,7 @@ spec:
 
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '0'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: '0'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200020'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200023'}
             - {name: fint.case.defaults.soknaddrosjeloyve.arkivdel, value: '200007'}
             - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.soknaddrosjeloyve.journalenhet, value: 'Sentralarkiv'}
@@ -61,8 +61,8 @@ spec:
             - {name: fint.case.defaults.soknaddrosjeloyve.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksstatus, value: 'B'}
             - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.saksansvarlig, value: '200020'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.saksbehandler, value: '200020'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.saksansvarlig, value: '200023'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.saksbehandler, value: '200023'}
 
             - {name: fint.case.defaults.tilskuddfartoy.administrativEnhet, value: '200045'}
             - {name: fint.case.defaults.tilskuddfartoy.arkivdel, value: '60001'}
