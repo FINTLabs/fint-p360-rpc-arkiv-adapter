@@ -46,9 +46,9 @@ spec:
             - {name: fint.case.coding.korrespondanseparttype.EA, value: '5'}
             - {name: fint.case.coding.korrespondanseparttype.EM, value: '6'}
 
-            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '0'}
+            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '200136'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: '0'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200017'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200006'}
             - {name: fint.case.defaults.soknaddrosjeloyve.arkivdel, value: '200008'}
             - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.soknaddrosjeloyve.journalenhet, value: 'Sentralarkiv'}
@@ -57,12 +57,12 @@ spec:
             - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.tittel, value: '${organisasjonsnavn}' }
             - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.verdi, value: '${organisasjonsnummer}' }
             - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.2.ordning, value: Funksjonsbasert arkivnøkkel}
-            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.2.verdi, value: '552'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.2.verdi, value: '542'}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksstatus, value: 'B'}
             - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.saksansvarlig, value: '200017'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.saksbehandler, value: '200017'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.saksansvarlig, value: '203764'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.saksbehandler, value: '203764'}
 
             - {name: fint.case.defaults.tilskuddfartoy.administrativEnhet, value: '200037'}
             - {name: fint.case.defaults.tilskuddfartoy.arkivdel, value: '60001'}
