@@ -95,8 +95,8 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksstatus, value: 'B'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.tilknyttetRegistreringSom, value: 'H'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: 'Riksantikvarens tilskudd til kulturminner - ${bygningsnavn} - ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${link$matrikkelnummer.kommunenummer#navn} kommune - ${kulturminneId}'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.records, value: '#{tittel.replaceFirst("Riksantikvarens tilskudd til kulturminner","Søknad om")}'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: 'Riksantikvarens tilskudd til kulturminner - ${bygningsnavn} - gbnr. ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${link$matrikkelnummer.kommunenummer#navn} kommune - ${kulturminneId}'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.records, value: '#{tittel} -'}
 
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.administrativEnhet, value: '200006'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.arkivdel, value: '60001'}
