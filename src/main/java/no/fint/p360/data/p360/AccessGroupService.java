@@ -19,9 +19,9 @@ public class AccessGroupService extends P360Service {
 
     public List<AccessGroup> getAccessGroups(GetAccessGroupsArgs getAccessGroupsArgs) {
 
-        log.info("GetAccessGroups query: {}", getAccessGroupsArgs);
+        log.debug("GetAccessGroups query: {}", getAccessGroupsArgs);
         GetAccessGroupsResponse getAccessGroupsResponse = call(filterSetService.getDefaultFilterSet(), "AccessGroupService/GetAccessGroups", getAccessGroupsArgs, GetAccessGroupsResponse.class);
-        log.info("GetAccessGroupsResponse result: {}", getAccessGroupsResponse);
+        log.debug("GetAccessGroupsResponse result: {}", getAccessGroupsResponse);
         return getAccessGroupsResponse.getAccessGroups();
     }
 }

@@ -81,14 +81,14 @@ public class UpdateDispensasjonAutomatiskFredaKulturminneHandler implements Hand
 
         if (operation == Operation.CREATE) {
             caseDefaultsService.applyDefaultsForCreation(caseProperties, dispensasjonAutomatiskFredaKulturminne);
-            log.info("Case: {}", dispensasjonAutomatiskFredaKulturminne);
+            log.debug("Case: {}", dispensasjonAutomatiskFredaKulturminne);
             if (!validationService.validate(response, dispensasjonAutomatiskFredaKulturminne)) {
                 return;
             }
             createCase(response, dispensasjonAutomatiskFredaKulturminne);
         } else if (operation == Operation.UPDATE) {
             caseDefaultsService.applyDefaultsForUpdate(caseProperties, dispensasjonAutomatiskFredaKulturminne);
-            log.info("Case to update: {}", dispensasjonAutomatiskFredaKulturminne);
+            log.debug("Case to update: {}", dispensasjonAutomatiskFredaKulturminne);
             if (!validationService.validate(response, dispensasjonAutomatiskFredaKulturminne.getJournalpost())) {
                 return;
             }

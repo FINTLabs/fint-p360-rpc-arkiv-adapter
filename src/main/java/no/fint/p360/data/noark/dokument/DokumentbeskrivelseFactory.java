@@ -160,7 +160,7 @@ public class DokumentbeskrivelseFactory {
         }
 
         // TODO 2019-12-09 Large documents, and ability to fetch from both external URIs and P360
-        log.info("Dokumentfil: {}", dokumentobjekt.getReferanseDokumentfil());
+        log.debug("Dokumentfil: {}", dokumentobjekt.getReferanseDokumentfil());
         String base64 = dokumentobjekt
                 .getReferanseDokumentfil()
                 .stream()
