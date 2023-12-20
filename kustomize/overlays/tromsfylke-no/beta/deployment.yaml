@@ -77,7 +77,7 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpost.I.status, value: '3'} #S
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpost.U.status, value: 'E'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.ordning, value: 'Funksjonsbasert arkivnøkkel'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: '800'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: '800'} #Vern av kulturminne/kulturarv
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '200045'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksbehandler, value: '200045'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksmappeType, value: 'Sak'}
@@ -94,13 +94,13 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpost.I.status, value: '3'} #S
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpost.U.status, value: 'E'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.ordning, value: 'Funksjonsbasert arkivnøkkel'}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: '800'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: '701'} #Behandle og utarbeide dispensasjonssaker
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200045'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksbehandler, value: '200045'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: 'Søknad om dispensasjon for arkeologiske kulturminner etter kml §8.1 - gbnr. ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${link$matrikkelnummer.kommunenummer#navn} kommune - ${kulturminneId}'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: 'Dispensasjon for arkeologiske kulturminner etter kml §8.1 - gbnr. ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${link$matrikkelnummer.kommunenummer#navn} kommune - ${kulturminneId}'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.records, value: '#{tittel} -'}
 
             - {name: fint.p360.filterset.casetype.sak, value: 'digisak'}
