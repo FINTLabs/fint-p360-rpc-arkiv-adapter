@@ -56,8 +56,8 @@ spec:
             - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.ordning, value: 'Org.nr'}
             - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.tittel, value: '${organisasjonsnavn}' }
             - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.verdi, value: '${organisasjonsnummer}' }
-            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.2.ordning, value: Funksjonsbasert arkivnøkkel}
-            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.2.verdi, value: '552'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.2.ordning, value: 'Funksjonsbasert arkivnøkkel'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.2.verdi, value: '542'}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksstatus, value: 'B'}
             - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
