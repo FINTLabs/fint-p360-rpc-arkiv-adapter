@@ -13,10 +13,11 @@ The adapter uses the following services:
 # Properties
 
 | Properties                                            | Default                                  | Description   |
-| :---------------------------------------------------- | :----------------------------------------| :------------ |
+|:------------------------------------------------------|:-----------------------------------------| :------------ |
 | fint.p360.clientid                                    |                                          |               |
 | fint.p360.authkey                                     |                                          |               |
 | fint.p360.endpoint-base-url                           |                                          |               |
+| fint.p360.file.version-format.ignore                  | `true`                                   |               |
 | fint.file-repository.cache-directory                  | file-cache                               |               |
 | fint.file-repository.cache-spec                       | expireAfterAccess=5m,expireAfterWrite=7m |               |
 | fint.kulturminne.tilskudd-fartoy.arkivdel             |                                          |               |
