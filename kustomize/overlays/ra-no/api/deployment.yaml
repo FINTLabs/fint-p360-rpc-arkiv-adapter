@@ -92,3 +92,4 @@ spec:
             - {name: fint.case.coding.korrespondanseparttype.EM, value: '6'}
             - {name: logging.level.no.fint.p360.data.p360, value: info}
             - {name: logging.level.no.fint.p360.service, value: info}
+            - {name: logging.level.no.fint.p360.repository, value: debug}
