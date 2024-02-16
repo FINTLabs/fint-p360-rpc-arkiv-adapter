@@ -53,7 +53,7 @@ public class AzureBlobRepository extends InternalRepository {
     @Override
     public void putFile(Event<FintLinks> event, DokumentfilResource resource) throws IOException {
         String blobName = getNextSystemId();
-        log.debug("Azure Blob name: %s", blobName);
+        log.debug("Azure Blob name: {}", blobName);
 
         resource.setSystemId(FintUtils.createIdentifikator(blobName));
         BlobClient blobClient = blobContainerClient.getBlobClient(blobName);
@@ -105,7 +105,7 @@ public class AzureBlobRepository extends InternalRepository {
     @Override
     public boolean exists(String blobName) {
         if (log.isDebugEnabled()) {
-            log.debug("Do the %s already exist? Answer: %s", blobName,
+            log.debug("Do the {} already exist? Answer: {}", blobName,
                     blobContainerClient.getBlobClient(blobName).exists());
         }
 
