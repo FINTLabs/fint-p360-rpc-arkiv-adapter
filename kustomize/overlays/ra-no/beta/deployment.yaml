@@ -87,4 +87,5 @@ spec:
             - {name: fint.case.coding.korrespondanseparttype.EM, value: '6'}
             - {name: logging.level.no.fint.p360.data.p360, value: trace}
             - {name: logging.level.no.fint.p360.service, value: debug}
+            - {name: logging.level.no.fint.p360.repository, value: debug}
             - {name: fint.p360.file.format-mapper, value: 'false'}
