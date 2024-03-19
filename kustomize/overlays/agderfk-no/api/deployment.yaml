@@ -84,12 +84,12 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.2.verdi, value: 'recno:340354'}  # C52
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.prosjekt, value: 'recno:200173'}
 
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: 'Søknad om dispensasjon - kulturminneloven § 8 første ledd - ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${kulturminneId} - ${link$matrikkelnummer.kommunenummer#navn} - Agder fylkeskommune'}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.records, value: '#{tittel.replaceFirst("Søknad","Vedtak")}' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer}, ${kulturminneId}, ${link$matrikkelnummer.kommunenummer#navn} kommune - Agder fylkeskommune'}
+            #- {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.records, value: '#{tittel}' }
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.administrativEnhet, value: '200210'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.arkivdel, value: '60001'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.ordning, value: 'recno:60006'} # FELLESKLASSE PRINSIPP
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: 'recno:300097'} # 040
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: 'recno:380106'} # ---
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.2.ordning, value: 'recno:60008'} # TILLEGGSKODE PRINSIPP
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.2.verdi, value: 'recno:340353'} # C51
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
