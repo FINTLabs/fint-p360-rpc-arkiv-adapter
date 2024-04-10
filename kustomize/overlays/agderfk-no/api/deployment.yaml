@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adapter-p360-arkiv
+  name: adapter-arkiv-p360
 spec:
   template:
     spec:
@@ -10,7 +10,7 @@ spec:
             sizeLimit: 2G
           name: tempdir
       containers:
-        - name: adapter-p360-arkiv
+        - name: adapter-arkiv-p360
           resources:
             limits:
               memory: "9Gi"

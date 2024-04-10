@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adapter-p360-arkiv
+  name: adapter-arkiv-p360
 spec:
   template:
     spec:
       containers:
-        - name: adapter-p360-arkiv
+        - name: adapter-arkiv-p360
           resources:
             limits:
               memory: "7Gi"
