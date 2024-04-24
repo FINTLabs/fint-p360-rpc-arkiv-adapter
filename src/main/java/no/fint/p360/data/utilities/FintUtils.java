@@ -127,8 +127,10 @@ public enum FintUtils {
         AdresseResource adresseResource = new AdresseResource();
         adresseResource.setAdresselinje(Collections.singletonList(address.getStreetAddress()));
         adresseResource.setPoststed(address.getZipPlace());
-        adresseResource.setPostnummer(address.getZipPlace());
-        adresseResource.addLand(Link.with(Landkode.class, "systemid", address.getCountry()));
+        adresseResource.setPostnummer(address.getZipCode());
+        if (StringUtils.isNotBlank(address.getCountry())) {
+            adresseResource.addLand(Link.with(Landkode.class, "systemid", address.getCountry()));
+        }
         return adresseResource;
     }
 
