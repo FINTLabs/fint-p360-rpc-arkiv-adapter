@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adapter-p360-arkiv
+  name: adapter-arkiv-p360
 spec:
   template:
     spec:
       containers:
-        - name: adapter-p360-arkiv
+        - name: adapter-arkiv-p360
           resources:
             limits:
               memory: "4Gi"
@@ -24,14 +24,19 @@ spec:
                 -Xmx1G -verbose:gc
                 -XX:+ExitOnOutOfMemoryError
                 -Dfile.encoding=UTF-8
+
+            - {name: springfox.title, value: 'P360 RPC Adapter for Trøndelag' }
+            - {name: security.basic.enabled, value: 'false' }
+
             - {name: fint.adapter.endpoints.providers.samferdsel, value: https://beta.felleskomponent.no/arkiv/samferdsel/provider}
             - {name: fint.adapter.endpoints.providers.kodeverk, value: https://beta.felleskomponent.no/arkiv/kodeverk/provider}
             - {name: fint.adapter.endpoints.providers.noark, value: https://beta.felleskomponent.no/arkiv/noark/provider}
             - {name: fint.adapter.endpoints.providers.kulturminne, value: https://beta.felleskomponent.no/arkiv/kulturminnevern/provider}
-            - {name: springfox.title, value: 'P360 RPC Adapter for Trøndelag'}
-            - {name: security.basic.enabled, value: 'false'}
             - {name: fint.adapter.reject-unknown-events, value: 'false'}
+
             - {name: fint.arkiv.casenumber.format, value: 'yyyy'}
+            - {name: fint.arkiv.part, value: 'false'}
+
             - {name: fint.case.coding.dokumentType.B, value: '1'}
             - {name: fint.case.coding.journalposttype.I, value: '110'}
             - {name: fint.case.coding.journalposttype.N, value: '113'}
@@ -40,6 +45,7 @@ spec:
             - {name: fint.case.coding.journalposttype.X, value: '60005'}
             - {name: fint.case.coding.korrespondanseparttype.EA, value: '5'}
             - {name: fint.case.coding.korrespondanseparttype.EM, value: '6'}
+
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '200833'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: '0'}
             - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200100'}
@@ -55,6 +61,7 @@ spec:
             - {name: fint.case.defaults.soknaddrosjeloyve.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksstatus, value: 'B'}
             - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
+
             - {name: fint.case.defaults.tilskuddfartoy.administrativEnhet, value: '200096'}
             - {name: fint.case.defaults.tilskuddfartoy.arkivdel, value: '60001'}
             - {name: fint.case.defaults.tilskuddfartoy.dokumentstatus, value: 'F'}
@@ -68,6 +75,7 @@ spec:
             - {name: fint.case.defaults.tilskuddfartoy.saksstatus, value: 'B'}
             - {name: fint.case.defaults.tilskuddfartoy.tilknyttetRegistreringSom, value: 'H'}
             - {name: fint.case.defaults.tilskuddfartoy.title.cases, value: 'Riksantikvarens tilskudd til fartøyvern - ${kallesignal} - ${fartoyNavn} - ${kulturminneId}'}
+
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.administrativEnhet, value: '200096'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.arkivdel, value: '60001'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentstatus, value: 'F'}
@@ -81,6 +89,7 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksstatus, value: 'B'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.tilknyttetRegistreringSom, value: 'H'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: 'Tilskuddssak fra Digisak - ${bygningsnavn} - ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${link$matrikkelnummer.kommunenummer#navn} kommune - ${kulturminneId} - ${soknadsnummer.identifikatorverdi}'}
+
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: 'Søknad om dispensasjon - kulturminneloven § 8 første ledd - ${tiltak} - ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${kulturminneId} - ${link$matrikkelnummer.kommunenummer#navn} kommune'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.records, value: '#{tittel.replaceFirst("Søknad","Vedtak")} -' }
 #            - {name: fint.case.formats.field.dispensasjonautomatiskfredakulturminne.CF_KulturminneID, value: '${kulturminneId}'}
@@ -95,12 +104,14 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.dokumentType, value: '1'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
+
             - {name: fint.p360.filterset.casetype.default, value: 'flyt'}
             - {name: fint.p360.filterset.casetype.sak, value: 'flyt'}
             - {name: fint.p360.filterset.casetype.soknaddrosjeloyve, value: 'drosjeloyve'}
             - {name: fint.p360.filterset.casetype.tilskuddfartoy, value: 'digisak'}
             - {name: fint.p360.filterset.casetype.tilskuddfredabygningprivateie, value: 'digisak'}
             - {name: fint.p360.filterset.casetype.dispensasjonautomatiskfredakulturminne, value: 'digisak'}
+
             - {name: logging.level.no.fint.arkiv, value: 'trace'}
             - {name: logging.level.no.fint.p360, value: 'trace'}
             - {name: logging.level.reactor.netty.http.client, value: 'warn'}

@@ -80,10 +80,10 @@ public class EventHandlerService {
             response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.name());
         } finally {
             if (response.getData() != null) {
-                log.info("{}: Response for {}: {}, {} items", component, response.getAction(), response.getResponseStatus(), response.getData().size());
+                log.debug("{}: Response for {}: {}, {} items", component, response.getAction(), response.getResponseStatus(), response.getData().size());
                 log.trace("Event data: {}", response.getData());
             } else {
-                log.info("{}: Response for {}: {}", component, response.getAction(), response.getResponseStatus());
+                log.debug("{}: Response for {}: {}", component, response.getAction(), response.getResponseStatus());
             }
             eventResponseService.postResponse(component, response);
         }

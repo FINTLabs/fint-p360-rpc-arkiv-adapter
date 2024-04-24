@@ -42,6 +42,10 @@ public class DokumentbeskrivelseFactory {
     @Value("${fint.p360.file.format-mapper:false}")
     private boolean mapFormat;
 
+    @Value("${fint.p360.file.version-format.ignore:true}")
+    private boolean ignoreVersionFormat;
+
+
     public DokumentbeskrivelseResource toFintResource(File__1 file) {
         DokumentbeskrivelseResource dokumentbeskrivelseResource = new DokumentbeskrivelseResource();
         optionalValue(file.getTitle()).ifPresent(dokumentbeskrivelseResource::setTittel);
@@ -144,7 +148,7 @@ public class DokumentbeskrivelseFactory {
                 dokumentbeskrivelse.getDokumentstatus(),
                 file::setStatus);
 
-        applyParameterFromLink(
+        if (!ignoreVersionFormat) applyParameterFromLink(
                 dokumentobjekt.getVariantFormat(),
                 file::setVersionFormat);
 
@@ -160,7 +164,7 @@ public class DokumentbeskrivelseFactory {
         }
 
         // TODO 2019-12-09 Large documents, and ability to fetch from both external URIs and P360
-        log.info("Dokumentfil: {}", dokumentobjekt.getReferanseDokumentfil());
+        log.debug("Dokumentfil: {}", dokumentobjekt.getReferanseDokumentfil());
         String base64 = dokumentobjekt
                 .getReferanseDokumentfil()
                 .stream()

@@ -8,12 +8,12 @@ resources:
   - onepassword.yaml
 
 commonLabels:
- app.kubernetes.io/instance: adapter-p360-arkiv_agderfk-no
+ app.kubernetes.io/instance: adapter-arkiv-p360_agderfk-no
  fintlabs.no/org-id: agderfk.no
 
 patches:
   
   - target:
       kind: Deployment
-      name: adapter-p360-arkiv
+      name: adapter-arkiv-p360
     path: deployment.yaml

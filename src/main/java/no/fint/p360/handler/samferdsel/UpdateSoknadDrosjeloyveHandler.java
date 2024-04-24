@@ -80,7 +80,7 @@ public class UpdateSoknadDrosjeloyveHandler implements Handler {
 
         if (operation == Operation.CREATE) {
             caseDefaultsService.applyDefaultsForCreation(caseProperties, SoknadDrosjeloyveResource);
-            log.info("Case: {}", SoknadDrosjeloyveResource);
+            log.debug("Case: {}", SoknadDrosjeloyveResource);
             if (!validationService.validate(response, SoknadDrosjeloyveResource)) {
                 return;
             }
@@ -107,7 +107,7 @@ public class UpdateSoknadDrosjeloyveHandler implements Handler {
                 SoknadDrosjeloyveResource.getJournalpost().isEmpty()) {
             throw new IllegalArgumentException("Update must contain at least one Journalpost");
         }
-        log.info("Complete document for update: {}", SoknadDrosjeloyveResource);
+        log.debug("Complete document for update: {}", SoknadDrosjeloyveResource);
         try {
             Case theCase = caseQueryService.query(filterSet, query).collect(QueryUtils.toSingleton());
             String caseNumber = theCase.getCaseNumber();

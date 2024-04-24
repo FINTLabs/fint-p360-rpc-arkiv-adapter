@@ -47,12 +47,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        org: [ agderfk-no, ra-no, tffk-no, trondelagfylke-no, vtfk-no, telemarkfylke-no, vestfoldfylke-no ]
+        org: [ agderfk-no, ra-no, trondelagfylke-no, telemarkfylke-no, vestfoldfylke-no, ffk-no, tromsfylke-no ]
         cluster: [ aks-beta-fint-2021-11-23, aks-api-fint-2022-02-08 ]
         include: 
           - cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
-            
+
     steps: 
       - uses: actions/checkout@v4
 
@@ -63,18 +63,18 @@ jobs:
 
       - name: Bake manifests with Kustomize
         id: bake
-        uses: azure/k8s-bake@v2
+        uses: azure/k8s-bake@v3
         with:
           renderEngine: 'kustomize'
           kustomizationPath: 'kustomize/overlays/${{ matrix.org }}/${{ steps.environment.outputs.name }}'
 
       - name: Login to Azure
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: "${{ secrets[format('AKS_{0}_FINT_GITHUB', steps.environment.outputs.name)] }}"
 
       - name: Set the target cluster
-        uses: azure/aks-set-context@v3
+        uses: azure/aks-set-context@v4
         with:
           cluster-name: ${{ matrix.cluster }}
           resource-group: rg-aks-${{ steps.environment.outputs.name }}

@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class InternalRepository {
-    private AtomicLong identifier =
+    private final AtomicLong identifier =
             new AtomicLong(Long
                     .parseLong(DateTimeFormatter
                             .ofPattern("yyyyDDDHHmm'000'")

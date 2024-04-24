@@ -80,14 +80,14 @@ public class UpdateTilskuddFredaBygningPrivatEieHandler implements Handler {
 
         if (operation == Operation.CREATE) {
             caseDefaultsService.applyDefaultsForCreation(caseProperties, tilskuddFredaHusPrivatEieResource);
-            log.info("Case: {}", tilskuddFredaHusPrivatEieResource);
+            log.debug("Case: {}", tilskuddFredaHusPrivatEieResource);
             if (!validationService.validate(response, tilskuddFredaHusPrivatEieResource)) {
                 return;
             }
             createCase(response, tilskuddFredaHusPrivatEieResource);
         } else if (operation == Operation.UPDATE) {
             caseDefaultsService.applyDefaultsForUpdate(caseProperties, tilskuddFredaHusPrivatEieResource);
-            log.info("Case to update: {}", tilskuddFredaHusPrivatEieResource);
+            log.debug("Case to update: {}", tilskuddFredaHusPrivatEieResource);
             if (!validationService.validate(response, tilskuddFredaHusPrivatEieResource.getJournalpost())) {
                 return;
             }

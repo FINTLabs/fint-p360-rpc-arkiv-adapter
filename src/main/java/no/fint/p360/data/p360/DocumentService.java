@@ -13,12 +13,12 @@ public class DocumentService extends P360Service {
 
     public void createDocument(FilterSet filterSet,
                                CreateDocumentArgs createDocumentArgs) throws CreateDocumentException {
-        log.info("Create Document: {}", createDocumentArgs);
+        log.debug("Create Document: {}", createDocumentArgs);
         CreateDocumentResponse createDocumentResponse = call(filterSet,
                 "DocumentService/CreateDocument",
                 createDocumentArgs,
                 CreateDocumentResponse.class);
-        log.info("Create Document Result: {}", createDocumentResponse);
+        log.debug("Create Document Result: {}", createDocumentResponse);
 
         if (createDocumentResponse.getSuccessful()) {
             log.info("Documents successfully created");
@@ -38,7 +38,7 @@ public class DocumentService extends P360Service {
                 getDocumentsArgs,
                 GetDocumentsResponse.class);
 
-        log.info("DocumentsResult: {}", getDocumentsResponse);
+        log.debug("DocumentsResult: {}", getDocumentsResponse);
         if (!getDocumentsResponse.getSuccessful()) {
             throw new GetDocumentException(getDocumentsResponse.getErrorMessage());
         } else if (getDocumentsResponse.getDocuments().size() == 1) {

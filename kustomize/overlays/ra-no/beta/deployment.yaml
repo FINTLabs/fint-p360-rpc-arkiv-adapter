@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adapter-p360-arkiv
+  name: adapter-arkiv-p360
 spec:
   template:
     spec:
       containers:
-        - name: adapter-p360-arkiv
+        - name: adapter-arkiv-p360
           envFrom:
             - secretRef:
                 name: arkiv-p360-onepassword
@@ -76,7 +76,7 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${tiltak} - kml § 8, 1. ledd - Dispensasjon - ${link$matrikkelnummer.kommunenummer#navn} - Kulturminne-ID ${kulturminneId}'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${tiltak} - kml § 8, 1. ledd - Dispensasjon - ${link$matrikkelnummer.kommunenummer#navn} - Kulturminne-ID ${kulturminneId} - Søknadsnr. ${soknadsnummer.identifikatorverdi}'}
             #- {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${tiltak} - kml § 8, 1. ledd - Dispensasjon - ${link$matrikkelnummer.kommunenummer#navn}, ${link$matrikkelnummer.kommunenummer#link$fylke#navn} - Kulturminne-ID ${kulturminneId}'} # Når fylkestilhørighet er på plass i felles kodeverk
             - {name: fint.case.coding.journalposttype.I, value: '110'}
             - {name: fint.case.coding.journalposttype.U, value: '111'}
@@ -87,4 +87,5 @@ spec:
             - {name: fint.case.coding.korrespondanseparttype.EM, value: '6'}
             - {name: logging.level.no.fint.p360.data.p360, value: trace}
             - {name: logging.level.no.fint.p360.service, value: debug}
+            - {name: logging.level.no.fint.p360.repository, value: debug}
             - {name: fint.p360.file.format-mapper, value: 'false'}

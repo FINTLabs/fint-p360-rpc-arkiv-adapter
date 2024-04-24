@@ -1,0 +1,22 @@
+apiVersion: fintlabs.no/v1alpha1
+kind: FintAdapter
+metadata:
+  name: arkiv-p360-api
+  namespace: ffk-no
+  labels:
+    app.kubernetes.io/name: adapter-arkiv-p360
+    app.kubernetes.io/instance: adapter-arkiv-p360_ffk-no
+    app.kubernetes.io/version: latest
+    app.kubernetes.io/component: adapter-arkiv-p360
+    app.kubernetes.io/part-of: arkiv
+    fintlabs.no/team: arkiv
+    fintlabs.no/org-id: ffk.no
+
+spec:
+  orgId: ffk.no
+  note: Brukes av p360-arkiv-adapter.
+  components:
+    - arkiv_kodeverk
+    - arkiv_noark
+    - arkiv_kulturminnevern
+    - arkiv_samferdsel

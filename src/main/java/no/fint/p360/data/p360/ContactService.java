@@ -27,7 +27,7 @@ public class ContactService extends P360Service {
         getPrivatePersonsArgs.setPersonalIdNumber(personalIdNumber);
 
         GetPrivatePersonsResponse getPrivatePersonsResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/GetPrivatePersons", getPrivatePersonsArgs, GetPrivatePersonsResponse.class);
-        log.info("PrivatePersonsResult: {}", getPrivatePersonsResponse);
+        log.debug("PrivatePersonsResult: {}", getPrivatePersonsResponse);
 
         if (getPrivatePersonsResponse.getSuccessful() && getPrivatePersonsResponse.getTotalPageCount() == 1) {
             return getPrivatePersonsResponse.getPrivatePersons().get(0);
@@ -56,7 +56,7 @@ public class ContactService extends P360Service {
 
         GetEnterprisesResponse getEnterprisesResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
 
-        log.info("EnterpriseResult: {}", getEnterprisesResponse);
+        log.debug("EnterpriseResult: {}", getEnterprisesResponse);
 
         if (getEnterprisesResponse.getSuccessful() && getEnterprisesResponse.getTotalPageCount() == 1) {
             return getEnterprisesResponse.getEnterprises();
@@ -66,9 +66,9 @@ public class ContactService extends P360Service {
     }
 
     public Integer synchronizePrivatePerson(SynchronizePrivatePersonArgs privatePerson) throws CreateContactException {
-        log.info("Create Private Person: {}", privatePerson);
+        log.debug("Create Private Person: {}", privatePerson);
         SynchronizePrivatePersonResponse synchronizePrivatePersonResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/SynchronizePrivatePerson", privatePerson, SynchronizePrivatePersonResponse.class);
-        log.info("Private Person Result: {}", synchronizePrivatePersonResponse);
+        log.debug("Private Person Result: {}", synchronizePrivatePersonResponse);
         if (synchronizePrivatePersonResponse.getSuccessful()) {
             return synchronizePrivatePersonResponse.getRecno();
         }
@@ -76,9 +76,9 @@ public class ContactService extends P360Service {
     }
 
     public Integer synchronizeEnterprise(SynchronizeEnterpriseArgs enterprise) throws CreateEnterpriseException {
-        log.info("Create Enterprise: {}", enterprise);
+        log.debug("Create Enterprise: {}", enterprise);
         SynchronizeEnterpriseResponse synchronizeEnterpriseResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/SynchronizeEnterprise", enterprise, SynchronizeEnterpriseResponse.class);
-        log.info("Enterprise Result: {}", synchronizeEnterpriseResponse);
+        log.debug("Enterprise Result: {}", synchronizeEnterpriseResponse);
         if (synchronizeEnterpriseResponse.getSuccessful()) {
             return synchronizeEnterpriseResponse.getRecno();
         }

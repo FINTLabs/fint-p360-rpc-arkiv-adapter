@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adapter-p360-arkiv
+  name: adapter-arkiv-p360
   labels:
-    app.kubernetes.io/instance: adapter-p360-arkiv_fintlabs_no
-    app.kubernetes.io/name: adapter-p360-arkiv
+    app.kubernetes.io/instance: adapter-arkiv-p360_fintlabs_no
+    app.kubernetes.io/name: adapter-arkiv-p360
     fintlabs.no/team: arkiv
     fintlabs.no/org-id: fintlabs.no
 spec:
@@ -14,11 +14,11 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: adapter-p360-arkiv
+      app: adapter-arkiv-p360
   template:
     metadata:
       labels:
-        app: adapter-p360-arkiv
+        app: adapter-arkiv-p360
       annotations:
           prometheus.io/scrape: "true"
           prometheus.io/port: "8091"
@@ -30,7 +30,7 @@ spec:
           emptyDir:
             sizeLimit: 1G
       containers:
-        - name: adapter-p360-arkiv
+        - name: adapter-arkiv-p360
           image: ghcr.io/fintlabs/fint-p360-rpc-arkiv-adapter:empty
           imagePullPolicy: Always
           resources:
