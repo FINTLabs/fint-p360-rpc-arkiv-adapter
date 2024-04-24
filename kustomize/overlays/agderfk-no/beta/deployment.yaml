@@ -114,4 +114,4 @@ spec:
             - {name: fint.adapter.endpoints.providers.noark, value: https://beta.felleskomponent.no/arkiv/noark/provider}
             - {name: fint.adapter.endpoints.providers.kulturminne, value: https://beta.felleskomponent.no/arkiv/kulturminnevern/provider}
 
-            - {name: fint.arkiv.part, value: "false"}
+            - {name: fint.arkiv.part, value: "true"}
