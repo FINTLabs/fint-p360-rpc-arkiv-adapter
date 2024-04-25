@@ -29,6 +29,7 @@ public class CaseQueryService {
                 .put("soknadsnummer/", this::finnSaksmapperGittEksternNokkel)
                 .put("mappeid/", this::finnSaksmapperGittSaksnummer)
                 .put("systemid/", this::finnSaksmapperGittSystemId)
+                .put("$filter=", this::finnSaksmapperGittODataFilter)
                 .put("?", this::finnSaksmapperGittTittel)
                 .build();
         validQueries = queryMap.keySet().toArray(new String[0]);
@@ -66,4 +67,12 @@ public class CaseQueryService {
         return Stream.of(caseService.getCaseByExternalId(filterSet, noekkel));
     }
 
+    public Stream<Case> finnSaksmapperGittODataFilter(FilterSet filterSet, String query) {
+        log.debug("The Odata filtered case query, proudly present to you by Paperboiz: " + query);
+
+        final Map<String, String> params = QueryUtils.getQueryParams("?" + query);
+        String maxResult = params.getOrDefault("maxResult", "10");
+
+        return caseService.getCaseByODataFilter(filterSet, query, maxResult).stream();
+    }
 }

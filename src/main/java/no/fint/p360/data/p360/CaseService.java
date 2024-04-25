@@ -59,7 +59,7 @@ public class CaseService extends P360Service {
 
         if (caseResult.size() == 1) {
             return caseResult.get(0);
-        } else if (caseResult.size() == 0) {
+        } else if (caseResult.isEmpty()) {
             throw new CaseNotFound("Zero cases found");
         } else {
             throw new CaseNotFound("More than one case found");
@@ -89,4 +89,7 @@ public class CaseService extends P360Service {
         return response.getCaseNumber();
     }
 
+    public List<Case> getCaseByODataFilter(FilterSet filterSet, String query, String maxResult) {
+        throw new CaseNotFound("Case not found (yet).");
+    }
 }
