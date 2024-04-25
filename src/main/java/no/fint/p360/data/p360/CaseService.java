@@ -90,6 +90,9 @@ public class CaseService extends P360Service {
     }
 
     public List<Case> getCaseByODataFilter(FilterSet filterSet, String query) {
-        throw new CaseNotFound("Get case by ODataFilter is soon here, regards Paperboiz 🚀");
+        GetCasesArgs getCasesArgs = new GetCasesArgs();
+        getCasesArgs.setCaseNumber("24/00027");
+
+        return getCases(filterSet, getCasesArgs);
     }
 }
