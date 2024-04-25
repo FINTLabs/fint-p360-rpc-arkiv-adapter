@@ -56,7 +56,10 @@ public class CaseQueryService {
         return Stream.of(caseService.getCaseByCaseNumber(filterSet, saksnummer));
     }
 
+    @Deprecated
     public Stream<Case> finnSaksmapperGittTittel(FilterSet filterSet, String query) {
+        log.warn("..so you want to use this old deprecated stuff ({})?! We recommend the new fancy OData way.", query);
+
         final Map<String, String> params = QueryUtils.getQueryParams("?" + query);
         String title = params.get("title");
         String maxResult = params.getOrDefault("maxResult", "10");
