@@ -70,9 +70,6 @@ public class CaseQueryService {
     public Stream<Case> finnSaksmapperGittODataFilter(FilterSet filterSet, String query) {
         log.debug("The Odata filtered case query, proudly present to you by Paperboiz: " + query);
 
-        final Map<String, String> params = QueryUtils.getQueryParams("?" + query);
-        String maxResult = params.getOrDefault("maxResult", "10");
-
-        return caseService.getCaseByODataFilter(filterSet, query, maxResult).stream();
+        return caseService.getCaseByODataFilter(filterSet, query).stream();
     }
 }

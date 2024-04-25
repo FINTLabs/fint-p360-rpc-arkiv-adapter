@@ -89,7 +89,7 @@ public class CaseService extends P360Service {
         return response.getCaseNumber();
     }
 
-    public List<Case> getCaseByODataFilter(FilterSet filterSet, String query, String maxResult) {
+    public List<Case> getCaseByODataFilter(FilterSet filterSet, String query) {
         throw new CaseNotFound("Case not found (yet).");
     }
 }
