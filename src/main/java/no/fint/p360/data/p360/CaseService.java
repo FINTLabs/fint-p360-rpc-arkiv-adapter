@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.p360.data.exception.CaseNotFound;
 import no.fint.p360.data.exception.CreateCaseException;
 import no.fint.p360.data.utilities.Constants;
+import no.fint.p360.data.utilities.ODataFilterUtils;
 import no.fint.p360.model.FilterSet;
 import no.p360.model.CaseService.*;
 import org.springframework.stereotype.Service;
@@ -90,9 +91,7 @@ public class CaseService extends P360Service {
     }
 
     public List<Case> getCaseByODataFilter(FilterSet filterSet, String query) {
-        GetCasesArgs getCasesArgs = new GetCasesArgs();
-        getCasesArgs.setCaseNumber("24/00027");
-
-        return getCases(filterSet, getCasesArgs);
+        ODataFilterUtils oDataFilterUtils = new ODataFilterUtils();
+        return getCases(filterSet, oDataFilterUtils.getCasesArgs(query));
     }
 }
