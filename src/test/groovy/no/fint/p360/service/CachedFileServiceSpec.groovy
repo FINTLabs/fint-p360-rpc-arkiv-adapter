@@ -19,7 +19,8 @@ class CachedFileServiceSpec extends Specification {
     void setup() {
         path = Files.createTempDirectory(Paths.get('build'), 'filerepo')
         cache = Mock()
-        cachedFileService = new CachedFileService(files: cache, objectMapper: new ObjectMapper(), props: new AdapterProps(p360ClientId: "RA/TEST", p360AuthKey: "topsecret", cacheDirectory: path))
+        cachedFileService = new CachedFileService(files: cache, objectMapper: new ObjectMapper(),
+                props: new AdapterProps(endpointBaseUrl: "url", cacheSpec: "default", cacheDirectory: path))
     }
 
     def "Get content type from format (file extension)"() {
