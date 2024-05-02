@@ -52,9 +52,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     // Spring adds validation-api 1.x and hibernate-validator 5.x by default, all three dependencies needed to override.
     // Version 6.1.0 does not work :(
-    implementation 'javax.validation:validation-api:2.0.1.Final'
-    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
-    implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:8.0.1.Final'
+    //implementation 'javax.validation:validation-api:2.0.1.Final'
+    //implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    //implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:8.0.1.Final'
+    //implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
@@ -73,6 +74,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation 'com.azure:azure-storage-blob:12.25.4'
     implementation 'io.projectreactor:reactor-core:3.6.5'
