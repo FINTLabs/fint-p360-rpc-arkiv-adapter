@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -23,29 +24,24 @@ public class ODataFilterUtils {
 
         Map<String, String> oDataFilter = parseQuery(query);
 
-        if (oDataFilter.containsKey("mappeid")) {
-            getCasesArgs.setCaseNumber(oDataFilter.get("mappeid"));
-        }
+        Optional.ofNullable(oDataFilter.get("mappeid"))
+                .ifPresent(getCasesArgs::setCaseNumber);
 
-        if (oDataFilter.containsKey("systemid")) {
-            getCasesArgs.setRecno(Integer.valueOf(oDataFilter.get("systemid")));
-        }
+        Optional.ofNullable(oDataFilter.get("systemid"))
+                .map(Integer::valueOf)
+                .ifPresent(getCasesArgs::setRecno);
 
-        if (oDataFilter.containsKey("tittel")) {
-            getCasesArgs.setTitle(oDataFilter.get("tittel"));
-        }
+        Optional.ofNullable(oDataFilter.get("tittel"))
+                .ifPresent(getCasesArgs::setTitle);
 
-        if (oDataFilter.containsKey("arkivdel")) {
-            getCasesArgs.setSubArchive(oDataFilter.get("arkivdel"));
-        }
+        Optional.ofNullable(oDataFilter.get("arkivdel"))
+                .ifPresent(getCasesArgs::setSubArchive);
 
-        if (oDataFilter.containsKey("klassifikasjon")) {
-            getCasesArgs.setArchiveCode(oDataFilter.get("klassifikasjon"));
-        }
+        Optional.ofNullable(oDataFilter.get("klassifikasjon"))
+                .ifPresent(getCasesArgs::setArchiveCode);
 
-        if (oDataFilter.containsKey("kontaktid")) {
-            getCasesArgs.setContactReferenceNumber(oDataFilter.get("kontaktid"));
-        }
+        Optional.ofNullable(oDataFilter.get("kontaktid"))
+                .ifPresent(getCasesArgs::setContactReferenceNumber);
 
         return getCasesArgs;
     }
