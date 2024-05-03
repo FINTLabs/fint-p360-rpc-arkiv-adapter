@@ -40,9 +40,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:33.0.0-jre'
+    implementation 'com.google.guava:guava:33.1.0-jre'
     implementation 'org.apache.commons:commons-lang3:3.14.0'
-    implementation 'org.apache.tika:tika-core:2.9.1'
+    implementation 'org.apache.tika:tika-core:2.9.2'
 
     implementation 'org.glassfish.jersey.core:jersey-client:2.42'
     implementation 'org.glassfish.jersey.core:jersey-common:2.41'
@@ -50,11 +50,6 @@ dependencies {
     implementation 'org.projectlombok:lombok'
 
     annotationProcessor 'org.projectlombok:lombok'
-    // Spring adds validation-api 1.x and hibernate-validator 5.x by default, all three dependencies needed to override.
-    // Version 6.1.0 does not work :(
-    implementation 'javax.validation:validation-api:2.0.1.Final'
-    implementation 'org.hibernate.validator:hibernate-validator:6.0.23.Final'
-    implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:6.0.23.Final'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
@@ -68,12 +63,15 @@ dependencies {
     implementation "no.fint:fint-arkiv-resource-model-java:${apiVersion}"
     implementation "no.fint:fint-administrasjon-model-java:${apiVersion}"
 
+    implementation 'no.fintlabs:fint-antlr:1.1.1'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    implementation 'com.azure:azure-storage-blob:12.25.1'
-    implementation 'io.projectreactor:reactor-core:3.5.8'
+    implementation 'com.azure:azure-storage-blob:12.25.4'
+    implementation 'io.projectreactor:reactor-core:3.6.5'
     implementation 'commons-beanutils:commons-beanutils:1.9.4'
     implementation 'org.apache.commons:commons-text:1.12.0'
 
@@ -83,13 +81,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-//bootRepackage.enabled = false
-
 bootRun {
     systemProperties System.properties
 }
 
 test {
+    useJUnitPlatform()
+
     testLogging {
         events 'passed', 'skipped', 'failed'
     }
