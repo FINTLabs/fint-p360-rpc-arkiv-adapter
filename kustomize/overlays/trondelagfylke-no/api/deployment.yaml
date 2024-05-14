@@ -75,7 +75,7 @@ spec:
 
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '200833'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: '0'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200100'}
+            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '462797'}
             - {name: fint.case.defaults.soknaddrosjeloyve.arkivdel, value: '200013'}
             - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.soknaddrosjeloyve.journalenhet, value: 'Sentralarkiv'}
