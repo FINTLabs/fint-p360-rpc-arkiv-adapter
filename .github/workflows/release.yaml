@@ -29,7 +29,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value=latest
       - name: Login to ACR
-        uses: Azure/docker-login@v1
+        uses: Azure/docker-login@v2
         with:
           login-server: fintlabsacr.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
