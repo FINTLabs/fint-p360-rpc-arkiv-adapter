@@ -5,58 +5,24 @@ import spock.lang.Specification
 
 class ODataFilterUtilsSpec extends Specification {
 
-    private ODataFilterUtils oDataFilterUtils;
+    private ODataFilterUtils oDataFilterUtils = new ODataFilterUtils()
 
-    void setup() {
-        oDataFilterUtils = new ODataFilterUtils();
-    }
+    def "Get property from ODataFiltered query"() {
+        setup:
+        def filter = oDataFilterUtils.getCasesArgs(query)
 
-    def "Get mappeid from ODataFiltered query"() {
-        when:
-        def filter = oDataFilterUtils.getCasesArgs("mappeid eq '24/00027'")
+        expect:
+        expected == propertyGetter.call(filter)
 
-        then:
-        "24/00027" == filter.getCaseNumber();
-    }
-
-    def "Get systemid from ODataFiltered query"() {
-        when:
-        def filter = oDataFilterUtils.getCasesArgs("systemid eq '201927'")
-
-        then:
-        201927 == filter.getRecno();
-    }
-
-    def "Get arkivdel from ODataFiltered query"() {
-        when:
-        def filter = oDataFilterUtils.getCasesArgs("arkivdel eq '60001'")
-
-        then:
-        "60001" == filter.getSubArchive();
-    }
-
-    def "Get klassifikasjon from ODataFiltered query"() {
-        when:
-        def filter = oDataFilterUtils.getCasesArgs("klassifikasjon eq 'C52'")
-
-        then:
-        "C52" == filter.getArchiveCode();
-    }
-
-    def "Get kontaktid from ODataFiltered query"() {
-        when:
-        def filter = oDataFilterUtils.getCasesArgs("kontaktid eq '08089312345'")
-
-        then:
-        "08089312345" == filter.getContactReferenceNumber();
-    }
-
-    def "Get tittel from ODataFiltered query"() {
-        when:
-        def filter = oDataFilterUtils.getCasesArgs("tittel eq 'Post 74 - Charlie Foxtrot - S/S Den Sorte Dame - 12345'")
-
-        then:
-        "Post 74 - Charlie Foxtrot - S/S Den Sorte Dame - 12345" == filter.getTitle();
+        where:
+        query                                                                             | expected                               | propertyGetter
+        "mappeid eq '24/00027'"                                                           | "24/00027"                             | { it.getCaseNumber() }
+        "systemid eq '201927'"                                                            | 201927                                 | { it.getRecno() }
+        "arkivdel eq '60001'"                                                             | "60001"                                | { it.getSubArchive() }
+        "klassifikasjon/primar/verdi eq 'C52'"                                            | "C52"                                  | { it.getArchiveCode() }
+        "klassifikasjon/primar/ordning eq 'ORG' and klassifikasjon/primar/verdi eq '123'" | "123"                                  | { it.getArchiveCode() }
+        "kontaktid eq '08089312345'"                                                      | "08089312345"                          | { it.getContactReferenceNumber() }
+        "tittel eq 'Post 74 - S/S Den Sorte Dame - 12345'"                                | "Post 74 - S/S Den Sorte Dame - 12345" | { it.getTitle() }
     }
 
     def "Get both mappeid and tittel from one magic ODataFiltered query"() {
@@ -64,13 +30,13 @@ class ODataFilterUtilsSpec extends Specification {
         def filter = oDataFilterUtils.getCasesArgs("tittel eq 'Charlie Foxtrot - S/S Den Sorte Dame' and mappeid eq '2024/123'")
 
         then:
-        "Charlie Foxtrot - S/S Den Sorte Dame" == filter.getTitle();
-        "2024/123" == filter.getCaseNumber();
+        "Charlie Foxtrot - S/S Den Sorte Dame" == filter.getTitle()
+        "2024/123" == filter.getCaseNumber()
     }
 
     def "When unsupported ODataFilter property exception is thrown"() {
         when:
-        def filter = oDataFilterUtils.getCasesArgs("org eq 'ks dif'")
+        oDataFilterUtils.getCasesArgs("org eq 'ks dif'")
 
         then:
         thrown(IllegalODataFilter)
@@ -78,7 +44,7 @@ class ODataFilterUtilsSpec extends Specification {
 
     def "When unsupported ODataFilter operator exception is thrown"() {
         when:
-        def filter = oDataFilterUtils.getCasesArgs("fintlabs ne 'ks dif'")
+        oDataFilterUtils.getCasesArgs("fintlabs ne 'ks dif'")
 
         then:
         thrown(IllegalODataFilter)

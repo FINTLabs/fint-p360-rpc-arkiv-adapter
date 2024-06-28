@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class ODataFilterUtils {
 
     private final List<String> supportedODataProperties = List.of("mappeid", "tittel", "systemid", "arkivdel",
-            "klassifikasjon", "kontaktid");
+            "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid");
 
     public GetCasesArgs getCasesArgs(String query) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
@@ -37,7 +37,7 @@ public class ODataFilterUtils {
         Optional.ofNullable(oDataFilter.get("arkivdel"))
                 .ifPresent(getCasesArgs::setSubArchive);
 
-        Optional.ofNullable(oDataFilter.get("klassifikasjon"))
+        Optional.ofNullable(oDataFilter.get("klassifikasjon/primar/verdi"))
                 .ifPresent(getCasesArgs::setArchiveCode);
 
         Optional.ofNullable(oDataFilter.get("kontaktid"))
