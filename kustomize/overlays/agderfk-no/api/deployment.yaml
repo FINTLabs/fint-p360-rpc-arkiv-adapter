@@ -32,7 +32,7 @@ spec:
             - {name: fint.adapter.endpoints.providers.samferdsel, value: https://api.felleskomponent.no/arkiv/samferdsel/provider}
             - {name: fint.adapter.endpoints.providers.kulturminne, value: https://api.felleskomponent.no/arkiv/kulturminnevern/provider}
 
-            - {name: fint.arkiv.part, value: "false"}
+            - {name: fint.arkiv.part, value: "true"}
 
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '200638'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: '0'}
