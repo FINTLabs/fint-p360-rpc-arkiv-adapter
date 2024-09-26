@@ -30,9 +30,13 @@ spec:
             - {name: fint.adapter.endpoints.providers.noark, value: https://api.felleskomponent.no/arkiv/noark/provider}
             - {name: fint.adapter.endpoints.providers.samferdsel, value: https://api.felleskomponent.no/arkiv/samferdsel/provider}
             - {name: fint.adapter.endpoints.providers.kulturminne, value: https://api.felleskomponent.no/arkiv/kulturminnevern/provider}
+
             - {name: springfox.title, value: 'P360 RPC Adapter for Troms'}
             - {name: security.basic.enabled, value: 'false'}
             - {name: fint.adapter.reject-unknown-events, value: 'false'}
+
+            - {name: fint.arkiv.part, value: "true" }
+
             - {name: fint.case.coding.dokumentType.B, value: '1'}
             - {name: fint.case.coding.filformat.RA-JPEG, value: 'JPG'}
             - {name: fint.case.coding.filformat.RA-PDF, value: 'PDF'}
@@ -121,7 +125,9 @@ spec:
             - {name: fint.p360.filterset.casetype.tilskuddfartoy, value: 'digisak'}
             - {name: fint.p360.filterset.casetype.tilskuddfredabygningprivateie, value: 'digisak'}
             - {name: fint.p360.filterset.casetype.dispensasjonautomatiskfredakulturminne, value: 'digisak'}
+
             - {name: fint.file-cache.directory, value: '/temp'}
+
             - {name: logging.level.no.fint.arkiv, value: 'info'}
             - {name: logging.level.no.fint.p360.data.p360, value: 'info'}
             - {name: logging.level.reactor.netty.http.client, value: 'warn'}
