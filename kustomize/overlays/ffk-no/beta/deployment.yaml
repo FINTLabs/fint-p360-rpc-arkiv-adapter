@@ -103,8 +103,8 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: 'Søknad om dispensasjon for arkeologiske kulturminner etter kml §8.1 - gbnr. ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${link$matrikkelnummer.kommunenummer#navn} kommune - ${kulturminneId}'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.records, value: '#{tittel} -'}
 
-            - {name: fint.p360.filterset.casetype.sak, value: 'digisak'}
-            - {name: fint.p360.filterset.casetype.default, value: 'digisak'}
+            - {name: fint.p360.filterset.casetype.sak, value: 'flyt'}
+            - {name: fint.p360.filterset.casetype.default, value: 'flyt'}
             - {name: fint.p360.filterset.casetype.soknaddrosjeloyve, value: 'drosjeloyve'}
             - {name: fint.p360.filterset.casetype.tilskuddfartoy, value: 'digisak'}
             - {name: fint.p360.filterset.casetype.tilskuddfredabygningprivateie, value: 'digisak'}
