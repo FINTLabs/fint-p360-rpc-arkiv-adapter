@@ -251,6 +251,10 @@ public class JournalpostFactory {
                 journalpostResource.getJournalstatus(),
                 createDocumentArgs::setStatus);
 
+        applyParameterFromLink(
+                saksmappeResource.getSaksmappetype(),
+                createDocumentArgs::setArchive);
+
         final Pair<List<Contact>, List<UnregisteredContact>> contacts = korrespondansepartService.getContactsFromKorrespondansepart(
                 journalpostResource.getKorrespondansepart(),
                 SkjermingService.hasTilgangsrestriksjon(journalpostResource.getSkjerming()));
