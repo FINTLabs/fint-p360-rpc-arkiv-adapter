@@ -72,7 +72,7 @@ spec:
             - {name: fint.case.defaults.tilskuddfartoy.journalpost.I.status, value: '3'} #S
             - {name: fint.case.defaults.tilskuddfartoy.journalpost.U.status, value: 'E'}
             - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.ordning, value: 'Funksjonsbasert arkivnøkkel'}
-            - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.verdi, value: '801'}
+            - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.verdi, value: '192'}
             - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '203763'}
             - {name: fint.case.defaults.tilskuddfartoy.saksbehandler, value: '203763'}
             - {name: fint.case.defaults.tilskuddfartoy.saksmappeType, value: 'Sak'}
@@ -89,7 +89,7 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpost.I.status, value: '3'} #S
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpost.U.status, value: 'E'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.ordning, value: 'Funksjonsbasert arkivnøkkel'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: '801'}
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: '192'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '203763'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksbehandler, value: '203763'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksmappeType, value: 'Sak'}
@@ -106,7 +106,7 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpost.I.status, value: '3'} #S
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpost.U.status, value: 'E'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.ordning, value: 'Funksjonsbasert arkivnøkkel'}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: '801'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: '192'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '203763'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksbehandler, value: '203763'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
