@@ -28,6 +28,7 @@ import no.p360.model.DocumentService.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -44,6 +45,9 @@ import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 @Slf4j
 @Service
 public class JournalpostFactory {
+
+    @Value("${fint.p360.documentargs.override-archive:false}")
+    private boolean overrideArchive;
 
     @Autowired
     private KodeverkRepository kodeverkRepository;
@@ -251,9 +255,11 @@ public class JournalpostFactory {
                 journalpostResource.getJournalstatus(),
                 createDocumentArgs::setStatus);
 
-        applyParameterFromLink(
-                saksmappeResource.getSaksmappetype(),
-                createDocumentArgs::setArchive);
+        if (overrideArchive) {
+            applyParameterFromLink(
+                    saksmappeResource.getSaksmappetype(),
+                    createDocumentArgs::setArchive);
+        }
 
         final Pair<List<Contact>, List<UnregisteredContact>> contacts = korrespondansepartService.getContactsFromKorrespondansepart(
                 journalpostResource.getKorrespondansepart(),
