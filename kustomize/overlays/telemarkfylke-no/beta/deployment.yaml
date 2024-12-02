@@ -87,7 +87,6 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: '243'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.2.ordning, value: 'FAGKLASSE PRINSIPP'} # FAGKLASSE PRINSIPP
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.2.verdi, value: 'C53'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '200234'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.variantFormat, value: 'P'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: 'Søknad om dispensasjon - kulturminneloven § 8 første ledd - Gbnr. ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ID ${kulturminneId} - ${link$matrikkelnummer.kommunenummer#navn} kommune - Telemark fylkeskommune'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.records, value: '#{tittel}'}
