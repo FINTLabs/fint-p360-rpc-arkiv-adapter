@@ -18,7 +18,8 @@ class ODataFilterUtilsSpec extends Specification {
         query                                                                             | expected                               | propertyGetter
         "mappeid eq '24/00027'"                                                           | "24/00027"                             | { it.getCaseNumber() }
         "systemid eq '201927'"                                                            | 201927                                 | { it.getRecno() }
-        "arkivdel eq '60001'"                                                             | "60001"                                | { it.getSubArchive() }
+        "arkivdel eq '60001'"                                                             | "recno:60001"                          | { it.getSubArchive() }
+        "arkivdel eq 'Opplæring'"                                                         | "Opplæring"                            | { it.getSubArchive() }
         "klassifikasjon/primar/verdi eq 'C52'"                                            | "C52"                                  | { it.getArchiveCode() }
         "klassifikasjon/primar/ordning eq 'ORG' and klassifikasjon/primar/verdi eq '123'" | "123"                                  | { it.getArchiveCode() }
         "kontaktid eq '08089312345'"                                                      | "08089312345"                          | { it.getContactReferenceNumber() }
