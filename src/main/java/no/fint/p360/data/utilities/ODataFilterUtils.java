@@ -7,6 +7,7 @@ import no.fint.p360.data.exception.IllegalODataFilter;
 import no.p360.model.CaseService.GetCasesArgs;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,13 @@ public class ODataFilterUtils {
         String oDataProperty = context.property().getText();
         String oDataOperator = context.comparisonOperator().getText();
         String oDataValue = context.value().getText().replaceAll("'", "");
+
+        if ("arkivdel".equalsIgnoreCase(oDataProperty) && StringUtils.isNumeric(oDataValue)) {
+            log.info("Custon P360 h4ck to prefix our OData filter with 'recno:'");
+            oDataValue = "recno:".concat(oDataValue);
+
+            log.debug("The new modified ODatafitler value: {}", oDataValue);
+        }
 
         if (!"eq".equals(oDataOperator)) {
             throw new IllegalODataFilter(String.format("OData operator %s is not supported. Currently only support for 'eq' operator.", oDataOperator));
