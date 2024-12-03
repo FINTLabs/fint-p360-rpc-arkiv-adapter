@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.antlr.ODataLexer;
 import no.fint.antlr.ODataParser;
 import no.fint.p360.data.exception.IllegalODataFilter;
+import no.p360.model.CaseService.AdditionalField__1;
 import no.p360.model.CaseService.GetCasesArgs;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 import java.util.Map;
@@ -17,11 +19,23 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ODataFilterUtils {
 
+    @Value("${fint.p360.odata.case-status-filter}")
+    private String caseStatusFilter;
+
     private final List<String> supportedODataProperties = List.of("mappeid", "tittel", "systemid", "arkivdel",
             "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid");
 
     public GetCasesArgs getCasesArgs(String query) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
+
+        if (StringUtils.isNotEmpty(caseStatusFilter)) {
+            AdditionalField__1 additionalField = new AdditionalField__1();
+            additionalField.setName("ToCaseStatus");
+            additionalField.setValue(caseStatusFilter);
+            getCasesArgs.setAdditionalFields(List.of(additionalField));
+
+            log.debug("We've just used the ToCaseStatus fitler feature. Setting value to {}", caseStatusFilter);
+        }
 
         Map<String, String> oDataFilter = parseQuery(query);
 
