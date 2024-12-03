@@ -9,7 +9,7 @@ class ODataFilterUtilsSpec extends Specification {
 
     def "Get property from ODataFiltered query"() {
         setup:
-        def filter = oDataFilterUtils.getCasesArgs(query)
+        def filter = oDataFilterUtils.getCasesArgs(query, null)
 
         expect:
         expected == propertyGetter.call(filter)
@@ -28,7 +28,7 @@ class ODataFilterUtilsSpec extends Specification {
 
     def "Get both mappeid and tittel from one magic ODataFiltered query"() {
         when:
-        def filter = oDataFilterUtils.getCasesArgs("tittel eq 'Charlie Foxtrot - S/S Den Sorte Dame' and mappeid eq '2024/123'")
+        def filter = oDataFilterUtils.getCasesArgs("tittel eq 'Charlie Foxtrot - S/S Den Sorte Dame' and mappeid eq '2024/123'", null)
 
         then:
         "Charlie Foxtrot - S/S Den Sorte Dame" == filter.getTitle()
@@ -37,7 +37,7 @@ class ODataFilterUtilsSpec extends Specification {
 
     def "When unsupported ODataFilter property exception is thrown"() {
         when:
-        oDataFilterUtils.getCasesArgs("org eq 'ks dif'")
+        oDataFilterUtils.getCasesArgs("org eq 'ks dif'", null)
 
         then:
         thrown(IllegalODataFilter)
@@ -45,7 +45,7 @@ class ODataFilterUtilsSpec extends Specification {
 
     def "When unsupported ODataFilter operator exception is thrown"() {
         when:
-        oDataFilterUtils.getCasesArgs("fintlabs ne 'ks dif'")
+        oDataFilterUtils.getCasesArgs("fintlabs ne 'ks dif'", null)
 
         then:
         thrown(IllegalODataFilter)
