@@ -18,16 +18,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Service
 public class ODataFilterUtils {
-
-    @Value("${fint.p360.odata.case-status-filter}")
-    private String caseStatusFilter;
 
     private final List<String> supportedODataProperties = List.of("mappeid", "tittel", "systemid", "arkivdel",
             "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid");
 
-    public GetCasesArgs getCasesArgs(String query) {
+    public GetCasesArgs getCasesArgs(String query, String caseStatusFilter) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
 
         log.info("Is there anybody out there? caseStatusFilter from fint.p360.odata.case-status-filter: {}", caseStatusFilter);
