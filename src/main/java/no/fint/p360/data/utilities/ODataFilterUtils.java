@@ -30,6 +30,7 @@ public class ODataFilterUtils {
     public GetCasesArgs getCasesArgs(String query) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
 
+        log.info("Is there anybody out there? caseStatusFilter from fint.p360.odata.case-status-filter: {}", caseStatusFilter);
         if (StringUtils.isNotEmpty(caseStatusFilter)) {
             AdditionalField__1 additionalField = new AdditionalField__1();
             additionalField.setName("ToCaseStatus");
