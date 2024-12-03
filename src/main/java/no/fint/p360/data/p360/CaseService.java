@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class CaseService extends P360Service {
 
-    @Value("${fint.p360.odata.case-status-filter}")
+    @Value("${fint.p360.odata.case-status-filter:}")
     private String caseStatusFilter;
 
     public Case getCaseByCaseNumber(FilterSet filterSet, String caseNumber) throws CaseNotFound {
