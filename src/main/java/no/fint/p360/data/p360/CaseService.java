@@ -7,6 +7,7 @@ import no.fint.p360.data.utilities.Constants;
 import no.fint.p360.data.utilities.ODataFilterUtils;
 import no.fint.p360.model.FilterSet;
 import no.p360.model.CaseService.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
 @Service
 @Slf4j
 public class CaseService extends P360Service {
+
+    @Value("${fint.p360.odata.case-status-filter}")
+    private String caseStatusFilter;
 
     public Case getCaseByCaseNumber(FilterSet filterSet, String caseNumber) throws CaseNotFound {
 
@@ -92,6 +96,6 @@ public class CaseService extends P360Service {
 
     public List<Case> getCaseByODataFilter(FilterSet filterSet, String query) {
         ODataFilterUtils oDataFilterUtils = new ODataFilterUtils();
-        return getCases(filterSet, oDataFilterUtils.getCasesArgs(query));
+        return getCases(filterSet, oDataFilterUtils.getCasesArgs(query, caseStatusFilter));
     }
 }
