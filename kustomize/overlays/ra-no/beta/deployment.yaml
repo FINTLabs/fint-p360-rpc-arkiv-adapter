@@ -71,8 +71,8 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: 'recno:200075'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.korrespondansepartType, value: 'EA'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.noekkelord, value: ''}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200004' }
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200104' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksbehandler, value: '200104' }
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}
