@@ -105,6 +105,7 @@ spec:
             - {name: logging.level.no.fint.p360.data.p360, value: warn}
             - {name: logging.level.no.fint.p360.data, value: warn}
             - {name: logging.level.no.fint.p360.service, value: warn}
+            - {name: logging.level.no.fint.p360.data.noark.part, value: trace}
             - {name: logging.level.no.fint.arkiv, value: warn}
 
             - {name: fint.file-cache.directory, value: '/temp'}
