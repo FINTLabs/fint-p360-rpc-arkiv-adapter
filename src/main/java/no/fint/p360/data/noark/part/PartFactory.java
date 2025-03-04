@@ -53,6 +53,7 @@ public class PartFactory {
         contact.setReferenceNumber("recno:" + recno);
 
         //TODO Set role on the contact?
+        contact.setRole("Sakspart");
 
         return contact;
     }
