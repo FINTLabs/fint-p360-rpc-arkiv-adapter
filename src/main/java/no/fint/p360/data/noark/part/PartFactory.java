@@ -5,6 +5,7 @@ import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.arkiv.kodeverk.PartRolleResource;
 import no.fint.model.resource.arkiv.noark.PartResource;
+import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.CaseService.Contact;
 import no.p360.model.CaseService.Contact__1;
@@ -15,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static java.util.Optional.ofNullable;
 import static no.fint.p360.data.utilities.FintUtils.createAdresseResource;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 
@@ -64,7 +66,7 @@ public class PartFactory {
         );
         */
 
-        log.debug("Part with recno {} and role {}", contact.getReferenceNumber(), contact.getRole());
+        log.debug("Part with reference number {} and role {} created.", contact.getReferenceNumber(), contact.getRole());
         return contact;
     }
 

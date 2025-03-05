@@ -30,11 +30,11 @@ public class PartService {
         this.contactService = contactService;
     }
 
-    public Pair<List<Contact>, List<UnregisteredContact>> getContactsFromSakspart(List<PartResource> partResource) {
+    public Pair<List<Contact>, List<UnregisteredContact>> getContactsFromSakspart(List<PartResource> partResources) {
         final LinkedList<Contact> contacts = new LinkedList<>();
         final LinkedList<UnregisteredContact> unregisteredContacts = new LinkedList<>();
 
-        for (PartResource sakspart : partResource) {
+        for (PartResource sakspart : partResources) {
             try {
                 if (isNotBlank(sakspart.getFodselsnummer())) {
                     final SynchronizePrivatePersonArgs synchronizePrivatePerson = partFactory.toPrivatePerson(sakspart);
@@ -53,7 +53,8 @@ public class PartService {
                     unregisteredContacts.add(partFactory.createUnregisteredContact(sakspart));
                 }
             } catch (CreateContactException | CreateEnterpriseException e) {
-                log.warn("Creating unregistered sakspart due to error: {}", sakspart.getPartNavn(), e);
+                log.warn("Not able to create a registered sakspart, creating a unregistered one instead ({}).",
+                        sakspart.getPartNavn(), e);
                 unregisteredContacts.add(partFactory.createUnregisteredContact(sakspart));
             }
         }
