@@ -1,5 +1,6 @@
 package no.fint.p360.data.noark.part;
 
+import lombok.extern.slf4j.Slf4j;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.arkiv.kodeverk.PartRolleResource;
@@ -18,6 +19,7 @@ import static no.fint.p360.data.utilities.FintUtils.createAdresseResource;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 
 @SuppressWarnings("Duplicates")
+@Slf4j
 @Service
 public class PartFactory {
 
@@ -26,9 +28,11 @@ public class PartFactory {
 
     public PartResource getPartsinformasjon(Contact__1 caseContactResult) {
         PartResource part = new PartResource();
-
         part.setPartNavn(caseContactResult.getContactName());
-        part.setAdresse(createAdresseResource(caseContactResult.getAddress()));
+
+        if (caseContactResult.getAddress() != null) {
+            part.setAdresse(createAdresseResource(caseContactResult.getAddress()));
+        }
 
         // TODO part.setKontaktinformasjon();
         // TODO part.setKontaktperson();
@@ -51,10 +55,16 @@ public class PartFactory {
     public Contact createCaseContact(Integer recno, PartResource part) {
         Contact contact = new Contact();
         contact.setReferenceNumber("recno:" + recno);
-
-        //TODO Set role on the contact?
         contact.setRole("Sakspart");
 
+        /*
+        applyParameterFromLink(
+                part.getPartRolle(),
+                contact::setRole
+        );
+        */
+
+        log.debug("Part with recno {} and role {}", contact.getReferenceNumber(), contact.getRole());
         return contact;
     }
 
