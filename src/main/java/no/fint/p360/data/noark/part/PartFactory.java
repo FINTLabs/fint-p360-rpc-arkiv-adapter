@@ -32,6 +32,14 @@ public class PartFactory {
         PartResource part = new PartResource();
         part.setPartNavn(caseContactResult.getContactName());
 
+        ofNullable(caseContactResult.getReferencenumber())
+                .filter(organisationNumber -> StringUtils.length(organisationNumber) == 9)
+                .ifPresent(part::setOrganisasjonsnummer);
+
+        ofNullable(caseContactResult.getReferencenumber())
+                .filter(nin -> StringUtils.length(nin) == 11)
+                .ifPresent(part::setFodselsnummer);
+
         if (caseContactResult.getAddress() != null) {
             part.setAdresse(createAdresseResource(caseContactResult.getAddress()));
         }
