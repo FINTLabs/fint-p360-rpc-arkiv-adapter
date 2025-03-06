@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.CaseDefaults;
 import no.fint.arkiv.CaseProperties;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
+import no.fint.model.resource.arkiv.noark.PartResource;
 import no.fint.model.resource.arkiv.samferdsel.SoknadDrosjeloyveResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
@@ -18,6 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class SoknadDrosjeloyveFactory {
@@ -27,6 +30,9 @@ public class SoknadDrosjeloyveFactory {
 
     @Value("${fint.case.defaults.drosjeloyve.tilgangsgruppe.sak:Alle}")
     private String sakTilgangsgruppe;
+
+    @Value("${fint.case.defaults.drosjeloyve.part:false}")
+    private boolean createPart;
 
     private final NoarkFactory noarkFactory;
     private final JournalpostFactory journalpostFactory;
@@ -48,6 +54,10 @@ public class SoknadDrosjeloyveFactory {
     }
 
     public CreateCaseArgs convertToCreateCase(SoknadDrosjeloyveResource soknadDrosjeloyveResource) {
+        if (createPart) {
+            addPart(soknadDrosjeloyveResource);
+        }
+
         final CreateCaseArgs caseArgs = noarkFactory.createCaseArgs(properties, soknadDrosjeloyveResource);
 
         if (StringUtils.isNotBlank(sakTilgangsgruppe)) {
@@ -69,5 +79,20 @@ public class SoknadDrosjeloyveFactory {
         }
 
         return createDocumentArgs;
+    }
+
+    private void addPart(SoknadDrosjeloyveResource soknadDrosjeloyveResource) {
+        PartResource part = new PartResource();
+        part.setPartNavn(soknadDrosjeloyveResource.getOrganisasjonsnavn());
+        part.setOrganisasjonsnummer(soknadDrosjeloyveResource.getOrganisasjonsnummer());
+
+        if (soknadDrosjeloyveResource.getPart() != null) {
+            soknadDrosjeloyveResource.getPart().add(part);
+        } else {
+            soknadDrosjeloyveResource.setPart(List.of(part));
+        }
+
+        log.info("Created and added a PartResource ({}, {}) to this SoknadDrosjeloyveResource.",
+                part.getPartNavn(), part.getOrganisasjonsnummer());
     }
 }
