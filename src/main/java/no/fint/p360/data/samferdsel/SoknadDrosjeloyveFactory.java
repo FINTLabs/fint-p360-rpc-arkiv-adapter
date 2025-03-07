@@ -3,6 +3,9 @@ package no.fint.p360.data.samferdsel;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.CaseDefaults;
 import no.fint.arkiv.CaseProperties;
+import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.fint.model.resource.Link;
+import no.fint.model.resource.arkiv.kodeverk.PartRolleResource;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.model.resource.arkiv.noark.PartResource;
 import no.fint.model.resource.arkiv.samferdsel.SoknadDrosjeloyveResource;
@@ -11,6 +14,7 @@ import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.common.NoarkFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.model.FilterSet;
+import no.fint.p360.repository.KodeverkRepository;
 import no.fint.p360.service.FilterSetService;
 import no.p360.model.CaseService.Case;
 import no.p360.model.CaseService.CreateCaseArgs;
@@ -20,6 +24,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 
 @Slf4j
 @Service
@@ -34,20 +40,28 @@ public class SoknadDrosjeloyveFactory {
     @Value("${fint.case.defaults.drosjeloyve.part:false}")
     private boolean createPart;
 
+    @Value("${fint.case.defaults.drosjeloyve.part.rolle:Sakspart}")
+    private String partRolle;
+
     private final NoarkFactory noarkFactory;
     private final JournalpostFactory journalpostFactory;
     private final CaseProperties properties;
     private final FilterSet filterSet;
+    private final KodeverkRepository kodeverkRepository;
 
-    public SoknadDrosjeloyveFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory, CaseDefaults caseDefaults, FilterSetService filterSetService) {
+    public SoknadDrosjeloyveFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory,
+                                    CaseDefaults caseDefaults, FilterSetService filterSetService,
+                                    KodeverkRepository kodeverkRepository) {
         this.noarkFactory = noarkFactory;
         this.journalpostFactory = journalpostFactory;
+        this.kodeverkRepository = kodeverkRepository;
 
         properties = caseDefaults.getSoknaddrosjeloyve();
         filterSet = filterSetService.getFilterSetForCaseType(SoknadDrosjeloyveResource.class);
     }
 
-    public SoknadDrosjeloyveResource toFintResource(Case caseResult) throws GetDocumentException, IllegalCaseNumberFormat {
+    public SoknadDrosjeloyveResource toFintResource(Case caseResult) throws GetDocumentException,
+            IllegalCaseNumberFormat {
         SoknadDrosjeloyveResource drosjeloyve = new SoknadDrosjeloyveResource();
         noarkFactory.getSaksmappe(filterSet, properties, caseResult, drosjeloyve);
         return drosjeloyve;
@@ -70,7 +84,8 @@ public class SoknadDrosjeloyveFactory {
     }
 
     public CreateDocumentArgs convertToCreateDocument(JournalpostResource journalpostResource, String caseNumber) {
-        CreateDocumentArgs createDocumentArgs = journalpostFactory.toP360(journalpostResource, caseNumber, new SoknadDrosjeloyveResource(), properties);
+        CreateDocumentArgs createDocumentArgs = journalpostFactory.toP360(journalpostResource, caseNumber,
+                new SoknadDrosjeloyveResource(), properties);
 
         if (StringUtils.isNotBlank(journalpostTilgangsgruppe)) {
             createDocumentArgs.setAccessGroup(journalpostTilgangsgruppe);
@@ -85,6 +100,18 @@ public class SoknadDrosjeloyveFactory {
         PartResource part = new PartResource();
         part.setPartNavn(soknadDrosjeloyveResource.getOrganisasjonsnavn());
         part.setOrganisasjonsnummer(soknadDrosjeloyveResource.getOrganisasjonsnummer());
+
+        optionalValue(partRolle)
+                .flatMap(role ->
+                        kodeverkRepository
+                                .getPartRolle()
+                                .stream()
+                                .filter(v -> StringUtils.equalsIgnoreCase(role, v.getKode()))
+                                .findAny())
+                .map(PartRolleResource::getSystemId)
+                .map(Identifikator::getIdentifikatorverdi)
+                .map(Link.apply(PartRolleResource.class, "systemid"))
+                .ifPresent(part::addPartRolle);
 
         if (soknadDrosjeloyveResource.getPart() != null) {
             soknadDrosjeloyveResource.getPart().add(part);

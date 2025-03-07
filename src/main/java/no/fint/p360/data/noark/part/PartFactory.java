@@ -2,14 +2,18 @@ package no.fint.p360.data.noark.part;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.arkiv.kodeverk.PartRolleResource;
 import no.fint.model.resource.arkiv.noark.PartResource;
 import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
+import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.CaseService.Contact;
 import no.p360.model.CaseService.Contact__1;
 import no.p360.model.CaseService.UnregisteredContact;
+import no.p360.model.ContactService.PostAddress__4;
+import no.p360.model.ContactService.PostAddress__5;
 import no.p360.model.ContactService.SynchronizeEnterpriseArgs;
 import no.p360.model.ContactService.SynchronizePrivatePersonArgs;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 import static java.util.Optional.ofNullable;
 import static no.fint.p360.data.utilities.FintUtils.createAdresseResource;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
+import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
 @SuppressWarnings("Duplicates")
 @Slf4j
@@ -65,16 +70,14 @@ public class PartFactory {
     public Contact createCaseContact(Integer recno, PartResource part) {
         Contact contact = new Contact();
         contact.setReferenceNumber("recno:" + recno);
-        contact.setRole("Sakspart");
 
-        /*
         applyParameterFromLink(
                 part.getPartRolle(),
                 contact::setRole
         );
-        */
 
-        log.debug("Part with reference number {} and role {} created.", contact.getReferenceNumber(), contact.getRole());
+        log.debug("Part with reference number {} and role {} created.", contact.getReferenceNumber(),
+                contact.getRole());
         return contact;
     }
 
@@ -89,28 +92,121 @@ public class PartFactory {
 
         unregisteredContact.setContactName(part.getPartNavn());
 
-        // TODO Add address and contact information
+        ofNullable(part.getAdresse())
+                .map(AdresseResource::getAdresselinje)
+                .map(line -> String.join("\n", line))
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(unregisteredContact::setAddress);
+
+        ofNullable(part.getAdresse())
+                .map(AdresseResource::getPostnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(unregisteredContact::setZipCode);
+
+        ofNullable(part.getAdresse())
+                .map(AdresseResource::getPoststed)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(unregisteredContact::setZipPlace);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getEpostadresse)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(unregisteredContact::setEmail);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getMobiltelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(unregisteredContact::setMobilePhone);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getTelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(unregisteredContact::setPhone);
 
         return unregisteredContact;
     }
 
-
-    public SynchronizePrivatePersonArgs toPrivatePerson(PartResource sakspart) {
+    public SynchronizePrivatePersonArgs toPrivatePerson(PartResource part) {
         SynchronizePrivatePersonArgs synchronizePrivatePerson = new SynchronizePrivatePersonArgs();
 
-        //TODO Fix name, everything goes in the first name field for now
-        synchronizePrivatePerson.setFirstName(sakspart.getPartNavn());
+        synchronizePrivatePerson.setFirstName(FintUtils.parsePersonnavn(
+                part.getPartNavn()).getFornavn());
+        synchronizePrivatePerson.setLastName(FintUtils.parsePersonnavn(
+                part.getPartNavn()).getEtternavn());
+
+        synchronizePrivatePerson.setPostAddress(createPostAddress(part.getAdresse(), new PostAddress__5()));
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getEpostadresse)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(synchronizePrivatePerson::setEmail);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getMobiltelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(synchronizePrivatePerson::setMobilePhone);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getTelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(synchronizePrivatePerson::setPhoneNumber);
 
         return synchronizePrivatePerson;
     }
 
-    public SynchronizeEnterpriseArgs toEnterprise(PartResource sakspart) {
+    public SynchronizeEnterpriseArgs toEnterprise(PartResource part) {
         SynchronizeEnterpriseArgs synchronizeEnterprise = new SynchronizeEnterpriseArgs();
 
-        //TODO Fix all fields, currently only name and number
-        synchronizeEnterprise.setEnterpriseNumber(sakspart.getOrganisasjonsnummer());
-        synchronizeEnterprise.setName(sakspart.getPartNavn());
+        synchronizeEnterprise.setEnterpriseNumber(part.getOrganisasjonsnummer());
+        synchronizeEnterprise.setName(part.getPartNavn());
+
+        synchronizeEnterprise.setPostAddress(createPostAddress(part.getAdresse(), new PostAddress__4()));
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getEpostadresse)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(synchronizeEnterprise::setEmail);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getMobiltelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(synchronizeEnterprise::setMobilePhone);
+
+        ofNullable(part.getKontaktinformasjon())
+                .map(Kontaktinformasjon::getTelefonnummer)
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(synchronizeEnterprise::setPhoneNumber);
 
         return synchronizeEnterprise;
+    }
+
+    private PostAddress__4 createPostAddress(AdresseResource adresseResource, PostAddress__4 postAddress) {
+        postAddress.setCountry("NOR");
+        ofNullable(adresseResource.getAdresselinje())
+                .map(line -> String.join("\n", line))
+                .ifPresent(postAddress::setStreetAddress);
+
+        ofNullable(adresseResource.getPostnummer())
+                .ifPresent(postAddress::setZipCode);
+
+        ofNullable(adresseResource.getPoststed())
+                .ifPresent(postAddress::setZipPlace);
+
+        return postAddress;
+    }
+
+    private PostAddress__5 createPostAddress(AdresseResource adresseResource, PostAddress__5 postAddress) {
+        postAddress.setCountry("NOR");
+        ofNullable(adresseResource.getAdresselinje())
+                .map(line -> String.join("\n", line))
+                .ifPresent(postAddress::setStreetAddress);
+
+        ofNullable(adresseResource.getPostnummer())
+                .ifPresent(postAddress::setZipCode);
+
+        ofNullable(adresseResource.getPoststed())
+                .ifPresent(postAddress::setZipPlace);
+
+        return postAddress;
     }
 }
