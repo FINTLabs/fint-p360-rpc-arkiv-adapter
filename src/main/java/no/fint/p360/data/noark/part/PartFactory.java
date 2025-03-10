@@ -134,7 +134,8 @@ public class PartFactory {
         synchronizePrivatePerson.setLastName(FintUtils.parsePersonnavn(
                 part.getPartNavn()).getEtternavn());
 
-        synchronizePrivatePerson.setPostAddress(createPostAddress(part.getAdresse(), new PostAddress__5()));
+        ofNullable(part.getAdresse()).ifPresent(adresse ->
+                synchronizePrivatePerson.setPostAddress(createPostAddress(adresse, new PostAddress__5())));
 
         ofNullable(part.getKontaktinformasjon())
                 .map(Kontaktinformasjon::getEpostadresse)
@@ -160,7 +161,8 @@ public class PartFactory {
         synchronizeEnterprise.setEnterpriseNumber(part.getOrganisasjonsnummer());
         synchronizeEnterprise.setName(part.getPartNavn());
 
-        synchronizeEnterprise.setPostAddress(createPostAddress(part.getAdresse(), new PostAddress__4()));
+        ofNullable(part.getAdresse()).ifPresent(adresse ->
+                synchronizeEnterprise.setPostAddress(createPostAddress(adresse, new PostAddress__4())));
 
         ofNullable(part.getKontaktinformasjon())
                 .map(Kontaktinformasjon::getEpostadresse)
