@@ -49,9 +49,6 @@ public class PartFactory {
             part.setAdresse(createAdresseResource(caseContactResult.getAddress()));
         }
 
-        // TODO part.setKontaktinformasjon();
-        // TODO part.setKontaktperson();
-
         optionalValue(caseContactResult.getRole())
                 .flatMap(role ->
                         kodeverkRepository
