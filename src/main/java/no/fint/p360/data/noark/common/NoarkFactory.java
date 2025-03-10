@@ -321,58 +321,6 @@ public class NoarkFactory {
         return remark;
     }
 
-
-    public UnregisteredContact createCaseContactParameter(PartResource part) {
-        UnregisteredContact contact = new UnregisteredContact();
-
-        ofNullable(part.getAdresse())
-                .map(AdresseResource::getAdresselinje)
-                .map(l -> String.join("\n", l))
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setAddress);
-
-        ofNullable(part.getAdresse())
-                .map(AdresseResource::getPostnummer)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setZipCode);
-
-        ofNullable(part.getAdresse())
-                .map(AdresseResource::getPoststed)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setZipPlace);
-
-        ofNullable(part.getKontaktinformasjon())
-                .map(Kontaktinformasjon::getEpostadresse)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setEmail);
-
-        ofNullable(part.getKontaktinformasjon())
-                .map(Kontaktinformasjon::getMobiltelefonnummer)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setMobilePhone);
-
-        ofNullable(part.getKontaktinformasjon())
-                .map(Kontaktinformasjon::getTelefonnummer)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setPhone);
-
-
-        contact.setContactName(part.getKontaktperson());
-        contact.setContactCompanyName(part.getPartNavn());
-
-        part
-                .getPartRolle()
-                .stream()
-                .map(Link::getHref)
-                .filter(StringUtils::isNotBlank)
-                .map(s -> StringUtils.substringAfterLast(s, "/"))
-                .map(s -> StringUtils.prependIfMissing(s, "recno:"))
-                .findFirst()
-                .ifPresent(contact::setRole);
-
-        return contact;
-    }
-
     private String getCaseYear(String caseNumber, Case caseResult) {
         if (StringUtils.isEmpty(caseNumberFormat)) {
             return NOARKUtils.getCaseYear(caseNumber);
