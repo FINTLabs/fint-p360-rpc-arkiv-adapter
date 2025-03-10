@@ -36,6 +36,7 @@ spec:
 
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '200638'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: '0'}
+            - {name: fint.case.defaults.drosjeloyve.part, value: 'true' }
             - {name: fint.case.defaults.soknaddrosjeloyve.journalenhet, value: "506"}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksmappeType, value: Sak}
             - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: F}

@@ -9,16 +9,18 @@ import no.fint.model.arkiv.kodeverk.Saksstatus;
 import no.fint.model.arkiv.noark.AdministrativEnhet;
 import no.fint.model.arkiv.noark.Arkivdel;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.arkiv.kodeverk.SaksstatusResource;
-import no.fint.model.resource.arkiv.noark.*;
-import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
+import no.fint.model.resource.arkiv.noark.JournalpostResource;
+import no.fint.model.resource.arkiv.noark.KlasseResource;
+import no.fint.model.resource.arkiv.noark.MerknadResource;
+import no.fint.model.resource.arkiv.noark.SaksmappeResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.codes.klasse.KlasseFactory;
 import no.fint.p360.data.noark.journalpost.JournalpostFactory;
 import no.fint.p360.data.noark.part.PartFactory;
+import no.fint.p360.data.noark.part.PartService;
 import no.fint.p360.data.p360.DocumentService;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.data.utilities.NOARKUtils;
@@ -29,6 +31,7 @@ import no.fint.p360.service.ContextUserService;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,7 +42,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Optional.ofNullable;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
@@ -72,10 +74,14 @@ public class NoarkFactory {
     private PartFactory partFactory;
 
     @Autowired
+    private PartService partService;
+
+    @Autowired
     private KlasseFactory klasseFactory;
 
     @Autowired
     private ContextUserService contextUserService;
+
 
     public <T extends SaksmappeResource> T getSaksmappe(FilterSet filterSet, CaseProperties caseProperties, Case caseResult, T saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
         String caseNumber = caseResult.getCaseNumber();
@@ -234,13 +240,10 @@ public class NoarkFactory {
         //createCaseParameter.setUnofficialTitle();
 
         if (usePart && saksmappeResource.getPart() != null) {
-            createCaseArgs.setUnregisteredContacts(
-                    saksmappeResource
-                            .getPart()
-                            .stream()
-                            .map(this::createCaseContactParameter)
-                            .collect(Collectors.toList())
-            );
+
+            final Pair<List<Contact>, List<UnregisteredContact>> contacts = partService.getContactsFromSakspart(saksmappeResource.getPart());
+            createCaseArgs.setContacts(contacts.getLeft());
+            createCaseArgs.setUnregisteredContacts(contacts.getRight());
         }
 
         if (saksmappeResource.getMerknad() != null) {
@@ -260,16 +263,6 @@ public class NoarkFactory {
                             .map(this::createCaseArchiveCode)
                             .collect(Collectors.toList()));
         }
-
-
-        // TODO Responsible person
-        /*
-        createCaseParameter.setResponsiblePersonIdNumber(
-                objectFactory.createCaseParameterBaseResponsiblePersonIdNumber(
-                        tilskuddFartoy.getSaksansvarlig().get(0).getHref()
-                )
-        );
-        */
 
         return createCaseArgs;
     }
@@ -306,58 +299,6 @@ public class NoarkFactory {
                 .ifPresent(remark::setRemarkType);
 
         return remark;
-    }
-
-
-    public UnregisteredContact createCaseContactParameter(PartResource part) {
-        UnregisteredContact contact = new UnregisteredContact();
-
-        ofNullable(part.getAdresse())
-                .map(AdresseResource::getAdresselinje)
-                .map(l -> String.join("\n", l))
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setAddress);
-
-        ofNullable(part.getAdresse())
-                .map(AdresseResource::getPostnummer)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setZipCode);
-
-        ofNullable(part.getAdresse())
-                .map(AdresseResource::getPoststed)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setZipPlace);
-
-        ofNullable(part.getKontaktinformasjon())
-                .map(Kontaktinformasjon::getEpostadresse)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setEmail);
-
-        ofNullable(part.getKontaktinformasjon())
-                .map(Kontaktinformasjon::getMobiltelefonnummer)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setMobilePhone);
-
-        ofNullable(part.getKontaktinformasjon())
-                .map(Kontaktinformasjon::getTelefonnummer)
-                .filter(StringUtils::isNotBlank)
-                .ifPresent(contact::setPhone);
-
-
-        contact.setContactName(part.getKontaktperson());
-        contact.setContactCompanyName(part.getPartNavn());
-
-        part
-                .getPartRolle()
-                .stream()
-                .map(Link::getHref)
-                .filter(StringUtils::isNotBlank)
-                .map(s -> StringUtils.substringAfterLast(s, "/"))
-                .map(s -> StringUtils.prependIfMissing(s, "recno:"))
-                .findFirst()
-                .ifPresent(contact::setRole);
-
-        return contact;
     }
 
     private String getCaseYear(String caseNumber, Case caseResult) {

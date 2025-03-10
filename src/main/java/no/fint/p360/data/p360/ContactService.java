@@ -26,7 +26,8 @@ public class ContactService extends P360Service {
         getPrivatePersonsArgs.setIncludeCustomFields(true);
         getPrivatePersonsArgs.setPersonalIdNumber(personalIdNumber);
 
-        GetPrivatePersonsResponse getPrivatePersonsResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/GetPrivatePersons", getPrivatePersonsArgs, GetPrivatePersonsResponse.class);
+        GetPrivatePersonsResponse getPrivatePersonsResponse = call(filterSetService.getDefaultFilterSet(),
+                "ContactService/GetPrivatePersons", getPrivatePersonsArgs, GetPrivatePersonsResponse.class);
         log.debug("PrivatePersonsResult: {}", getPrivatePersonsResponse);
 
         if (getPrivatePersonsResponse.getSuccessful() && getPrivatePersonsResponse.getTotalPageCount() == 1) {
@@ -34,7 +35,6 @@ public class ContactService extends P360Service {
         }
 
         throw new PrivatePersonNotFound(getPrivatePersonsResponse.getErrorMessage());
-
     }
 
     public List<Enterprise> getEnterprisesByCategory(String... categories) throws EnterpriseNotFound {
@@ -54,8 +54,8 @@ public class ContactService extends P360Service {
         getEnterprisesArgs.setIncludeCustomFields(true);
         argsConsumer.accept(getEnterprisesArgs);
 
-        GetEnterprisesResponse getEnterprisesResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
-
+        GetEnterprisesResponse getEnterprisesResponse = call(filterSetService.getDefaultFilterSet(),
+                "ContactService/GetEnterprises", getEnterprisesArgs, GetEnterprisesResponse.class);
         log.debug("EnterpriseResult: {}", getEnterprisesResponse);
 
         if (getEnterprisesResponse.getSuccessful() && getEnterprisesResponse.getTotalPageCount() == 1) {
@@ -67,21 +67,27 @@ public class ContactService extends P360Service {
 
     public Integer synchronizePrivatePerson(SynchronizePrivatePersonArgs privatePerson) throws CreateContactException {
         log.debug("Create Private Person: {}", privatePerson);
-        SynchronizePrivatePersonResponse synchronizePrivatePersonResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/SynchronizePrivatePerson", privatePerson, SynchronizePrivatePersonResponse.class);
+        SynchronizePrivatePersonResponse synchronizePrivatePersonResponse = call(filterSetService.getDefaultFilterSet(),
+                "ContactService/SynchronizePrivatePerson", privatePerson, SynchronizePrivatePersonResponse.class);
         log.debug("Private Person Result: {}", synchronizePrivatePersonResponse);
+
         if (synchronizePrivatePersonResponse.getSuccessful()) {
             return synchronizePrivatePersonResponse.getRecno();
         }
+
         throw new CreateContactException(synchronizePrivatePersonResponse.getErrorMessage());
     }
 
     public Integer synchronizeEnterprise(SynchronizeEnterpriseArgs enterprise) throws CreateEnterpriseException {
         log.debug("Create Enterprise: {}", enterprise);
-        SynchronizeEnterpriseResponse synchronizeEnterpriseResponse = call(filterSetService.getDefaultFilterSet(), "ContactService/SynchronizeEnterprise", enterprise, SynchronizeEnterpriseResponse.class);
+        SynchronizeEnterpriseResponse synchronizeEnterpriseResponse = call(filterSetService.getDefaultFilterSet(),
+                "ContactService/SynchronizeEnterprise", enterprise, SynchronizeEnterpriseResponse.class);
         log.debug("Enterprise Result: {}", synchronizeEnterpriseResponse);
+
         if (synchronizeEnterpriseResponse.getSuccessful()) {
             return synchronizeEnterpriseResponse.getRecno();
         }
+
         throw new CreateEnterpriseException(synchronizeEnterpriseResponse.getErrorMessage());
     }
 }

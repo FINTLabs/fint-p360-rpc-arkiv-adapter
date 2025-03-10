@@ -51,7 +51,7 @@ jobs:
         cluster: [ aks-beta-fint-2021-11-23, aks-api-fint-2022-02-08 ]
         include: 
           - cluster: aks-beta-fint-2021-11-23
-            org: tromsfylke-no
+            org: agderfk-no
             deploy-every-branch: true
 
     steps: 
