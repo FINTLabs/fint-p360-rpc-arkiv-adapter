@@ -9,11 +9,12 @@ import no.fint.model.arkiv.kodeverk.Saksstatus;
 import no.fint.model.arkiv.noark.AdministrativEnhet;
 import no.fint.model.arkiv.noark.Arkivdel;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.arkiv.kodeverk.SaksstatusResource;
-import no.fint.model.resource.arkiv.noark.*;
-import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
+import no.fint.model.resource.arkiv.noark.JournalpostResource;
+import no.fint.model.resource.arkiv.noark.KlasseResource;
+import no.fint.model.resource.arkiv.noark.MerknadResource;
+import no.fint.model.resource.arkiv.noark.SaksmappeResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.codes.klasse.KlasseFactory;
@@ -41,7 +42,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Optional.ofNullable;
 import static no.fint.p360.data.utilities.FintUtils.optionalValue;
 import static no.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
 
@@ -263,16 +263,6 @@ public class NoarkFactory {
                             .map(this::createCaseArchiveCode)
                             .collect(Collectors.toList()));
         }
-
-
-        // TODO Responsible person
-        /*
-        createCaseParameter.setResponsiblePersonIdNumber(
-                objectFactory.createCaseParameterBaseResponsiblePersonIdNumber(
-                        tilskuddFartoy.getSaksansvarlig().get(0).getHref()
-                )
-        );
-        */
 
         return createCaseArgs;
     }
