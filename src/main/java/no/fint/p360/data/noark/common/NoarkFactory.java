@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.AdditionalFieldService;
 import no.fint.arkiv.CaseProperties;
 import no.fint.arkiv.TitleService;
+import no.fint.model.FintMainObject;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.arkiv.kodeverk.Saksstatus;
 import no.fint.model.arkiv.noark.AdministrativEnhet;
@@ -28,6 +29,7 @@ import no.fint.p360.model.ContextUser;
 import no.fint.p360.model.FilterSet;
 import no.fint.p360.repository.KodeverkRepository;
 import no.fint.p360.service.ContextUserService;
+import no.fint.p360.service.FilterSetService;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
@@ -82,6 +84,8 @@ public class NoarkFactory {
     @Autowired
     private ContextUserService contextUserService;
 
+    @Autowired
+    private FilterSetService filterSetService;
 
     public <T extends SaksmappeResource> T getSaksmappe(FilterSet filterSet, CaseProperties caseProperties, Case caseResult, T saksmappeResource) throws GetDocumentException, IllegalCaseNumberFormat {
         String caseNumber = caseResult.getCaseNumber();
@@ -240,8 +244,10 @@ public class NoarkFactory {
         //createCaseParameter.setUnofficialTitle();
 
         if (usePart && saksmappeResource.getPart() != null) {
+            FilterSet filterSet = filterSetService.getFilterSetForCaseType((Class<? extends FintMainObject>) saksmappeResource.getClass());
+            log.debug("FilterSet: {}", filterSet.clientId());
 
-            final Pair<List<Contact>, List<UnregisteredContact>> contacts = partService.getContactsFromSakspart(saksmappeResource.getPart());
+            final Pair<List<Contact>, List<UnregisteredContact>> contacts = partService.getContactsFromSakspart(filterSet, saksmappeResource.getPart());
             createCaseArgs.setContacts(contacts.getLeft());
             createCaseArgs.setUnregisteredContacts(contacts.getRight());
         }

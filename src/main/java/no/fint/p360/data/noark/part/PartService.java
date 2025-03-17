@@ -5,6 +5,7 @@ import no.fint.model.resource.arkiv.noark.PartResource;
 import no.fint.p360.data.exception.CreateContactException;
 import no.fint.p360.data.exception.CreateEnterpriseException;
 import no.fint.p360.data.p360.ContactService;
+import no.fint.p360.model.FilterSet;
 import no.p360.model.CaseService.Contact;
 import no.p360.model.CaseService.UnregisteredContact;
 import no.p360.model.ContactService.SynchronizeEnterpriseArgs;
@@ -30,7 +31,7 @@ public class PartService {
         this.contactService = contactService;
     }
 
-    public Pair<List<Contact>, List<UnregisteredContact>> getContactsFromSakspart(List<PartResource> partResources) {
+    public Pair<List<Contact>, List<UnregisteredContact>> getContactsFromSakspart(FilterSet filterSet, List<PartResource> partResources) {
         final LinkedList<Contact> contacts = new LinkedList<>();
         final LinkedList<UnregisteredContact> unregisteredContacts = new LinkedList<>();
 
@@ -44,7 +45,7 @@ public class PartService {
                     contacts.add(partFactory.createCaseContact(recno, sakspart));
                 } else if (isNotBlank(sakspart.getOrganisasjonsnummer())) {
                     final SynchronizeEnterpriseArgs  synchronizeEnterprise = partFactory.toEnterprise(sakspart);
-                    final Integer recno = contactService.synchronizeEnterprise(synchronizeEnterprise);
+                    final Integer recno = contactService.synchronizeEnterprise(filterSet, synchronizeEnterprise);
                     log.debug("Enterprise recno: {}", recno);
 
                     contacts.add(partFactory.createCaseContact(recno, sakspart));

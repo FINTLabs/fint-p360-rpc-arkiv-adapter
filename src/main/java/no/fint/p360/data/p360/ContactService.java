@@ -5,6 +5,7 @@ import no.fint.p360.data.exception.CreateContactException;
 import no.fint.p360.data.exception.CreateEnterpriseException;
 import no.fint.p360.data.exception.EnterpriseNotFound;
 import no.fint.p360.data.exception.PrivatePersonNotFound;
+import no.fint.p360.model.FilterSet;
 import no.fint.p360.service.FilterSetService;
 import no.p360.model.ContactService.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,9 +79,15 @@ public class ContactService extends P360Service {
         throw new CreateContactException(synchronizePrivatePersonResponse.getErrorMessage());
     }
 
-    public Integer synchronizeEnterprise(SynchronizeEnterpriseArgs enterprise) throws CreateEnterpriseException {
+    public Integer synchronizeEnterprise(FilterSet filterSet, SynchronizeEnterpriseArgs enterprise) throws CreateEnterpriseException {
         log.debug("Create Enterprise: {}", enterprise);
-        SynchronizeEnterpriseResponse synchronizeEnterpriseResponse = call(filterSetService.getDefaultFilterSet(),
+
+        // TODO Fix the korrespondansepart contacts as well
+        if (filterSet == null) {
+            filterSet = filterSetService.getDefaultFilterSet();
+        }
+
+        SynchronizeEnterpriseResponse synchronizeEnterpriseResponse = call(filterSet,
                 "ContactService/SynchronizeEnterprise", enterprise, SynchronizeEnterpriseResponse.class);
         log.debug("Enterprise Result: {}", synchronizeEnterpriseResponse);
 
