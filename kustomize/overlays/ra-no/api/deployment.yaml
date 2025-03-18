@@ -76,7 +76,7 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.field.CF_KulturminneID, value: '${kulturminneId}'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpostType, value: 'I'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpost.I.status, value: '3'} # S (Registrert av ansvarlig person/leder)
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpost.U.status, value: 'A'} # Arkivert
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.journalpost.U.status, value: 'E'} # Ekspedert
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.ordning, value: 'Funksjonsbasert arkivnøkkel'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: 'recno:200075'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.korrespondansepartType, value: 'EA'}
@@ -86,7 +86,7 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${tiltak} - kml § 8, 1. ledd - Dispensasjon - ${link$matrikkelnummer.kommunenummer#navn} - Kulturminne-ID ${kulturminneId} - Søknadsnr. ${soknadsnummer.identifikatorverdi}'}
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${tiltak} - kml § 8, 1. ledd - Dispensasjon - ${link$matrikkelnummer.kommunenummer#navn} - Kulturminne-ID ${kulturminneId} - Digisak ID ${soknadsnummer.identifikatorverdi}'}
 
             - {name: fint.case.coding.journalposttype.I, value: '110'}
             - {name: fint.case.coding.journalposttype.U, value: '111'}
