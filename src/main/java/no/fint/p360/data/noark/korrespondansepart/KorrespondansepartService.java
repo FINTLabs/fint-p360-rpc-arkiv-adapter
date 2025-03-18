@@ -60,7 +60,7 @@ public class KorrespondansepartService {
                 } else if (isNotBlank(resource.getOrganisasjonsnummer())) {
                     final SynchronizeEnterpriseArgs synchronizeEnterprise = korrespondansepartFactory.toEnterprise(
                             resource);
-                    final Integer recno = contactService.synchronizeEnterprise(null, synchronizeEnterprise);
+                    final Integer recno = contactService.synchronizeEnterprise(synchronizeEnterprise);
                     log.info("Enterprise recno = {}", recno);
                     contacts.add(maybeUnofficial(isRestricted,
                             resource.getSkjerming(),
