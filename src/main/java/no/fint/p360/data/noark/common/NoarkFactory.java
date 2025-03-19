@@ -240,8 +240,8 @@ public class NoarkFactory {
         //createCaseParameter.setUnofficialTitle();
 
         if (usePart && saksmappeResource.getPart() != null) {
-
-            final Pair<List<Contact>, List<UnregisteredContact>> contacts = partService.getContactsFromSakspart(saksmappeResource.getPart());
+            final Pair<List<Contact>, List<UnregisteredContact>> contacts = partService
+                    .getContactsFromSakspart(saksmappeResource.getPart());
             createCaseArgs.setContacts(contacts.getLeft());
             createCaseArgs.setUnregisteredContacts(contacts.getRight());
         }

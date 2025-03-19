@@ -80,6 +80,7 @@ public class ContactService extends P360Service {
 
     public Integer synchronizeEnterprise(SynchronizeEnterpriseArgs enterprise) throws CreateEnterpriseException {
         log.debug("Create Enterprise: {}", enterprise);
+
         SynchronizeEnterpriseResponse synchronizeEnterpriseResponse = call(filterSetService.getDefaultFilterSet(),
                 "ContactService/SynchronizeEnterprise", enterprise, SynchronizeEnterpriseResponse.class);
         log.debug("Enterprise Result: {}", synchronizeEnterpriseResponse);

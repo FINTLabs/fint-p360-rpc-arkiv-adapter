@@ -36,6 +36,7 @@ public abstract class P360Service {
         if (log.isTraceEnabled()) {
             try {
                 log.trace("POST {} {}", uri, WRITER.writeValueAsString(args));
+                log.trace("..using authkey starting with: {}", filterSet.authkey().substring(0,3));
             } catch (JsonProcessingException ignore) {
             }
         }
