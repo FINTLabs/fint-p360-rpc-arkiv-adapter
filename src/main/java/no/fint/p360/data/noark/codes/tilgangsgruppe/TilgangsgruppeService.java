@@ -28,6 +28,7 @@ public class TilgangsgruppeService {
         log.info("Getting tilgangsgrupper...");
         GetAccessGroupsArgs args = new GetAccessGroupsArgs();
         args.setIncludeMembers(false);
+        args.setMaxRows(0);
         return accessGroupService.getAccessGroups(args)
             .stream()
             .map(tilgangsgruppeFactory::toFintResource);
