@@ -21,3 +21,4 @@ generated-sources
 /src/main/resources/application-*.properties
 /temp/
 /files/
+.java-version

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.fint.model.resource.arkiv.kodeverk.*;
 import no.fint.model.resource.arkiv.noark.KlasseResource;
 import no.fint.model.resource.arkiv.noark.KlassifikasjonssystemResource;
+import no.fint.model.resource.arkiv.kodeverk.TilgangsgruppeResource;
 import no.fint.p360.data.noark.codes.CaseCategoryService;
 import no.fint.p360.data.noark.codes.ResponseCodeService;
 import no.fint.p360.data.noark.codes.dokumentstatus.DokumentstatusService;
@@ -21,6 +22,7 @@ import no.fint.p360.data.noark.codes.partrolle.PartRolleService;
 import no.fint.p360.data.noark.codes.saksmappetype.SaksmappetypeService;
 import no.fint.p360.data.noark.codes.saksstatus.SaksStatusService;
 import no.fint.p360.data.noark.codes.skjermingshjemmel.SkjermingshjemmelService;
+import no.fint.p360.data.noark.codes.tilgangsgruppe.TilgangsgruppeService;
 import no.fint.p360.data.noark.codes.tilgangsrestriksjon.TilgangsrestriksjonService;
 import no.fint.p360.data.noark.codes.tilknyttetregistreringsom.TilknyttetRegistreringSomService;
 import no.fint.p360.data.noark.codes.variantformat.VariantformatService;
@@ -89,6 +91,9 @@ public class KodeverkRepository {
     @Autowired
     private ResponseCodeService responseCodeService;
 
+    @Autowired
+    private TilgangsgruppeService tilgangsgruppeService;
+
     @Getter
     private List<SaksmappetypeResource> saksmappetype;
 
@@ -140,6 +145,9 @@ public class KodeverkRepository {
     @Getter
     private List<String> avskrivingsmate;
 
+    @Getter
+    private List<TilgangsgruppeResource> tilgangsgruppe;
+
     private transient boolean healthy = false;
 
     @Scheduled(initialDelay = 10000, fixedDelayString = "${fint.kodeverk.refresh-interval:1500000}")
@@ -163,6 +171,7 @@ public class KodeverkRepository {
         avskrivingsmate = responseCodeService.getResponseCodeTable().toList();
         log.info("Refreshed code lists");
         log.info("Case Category Table: {}", caseCategoryService.getCaseCategoryTable().collect(Collectors.joining(", ")));
+        tilgangsgruppe = tilgangsgruppeService.getTilgangsgruppeResource().toList();
         healthy = true;
     }
 

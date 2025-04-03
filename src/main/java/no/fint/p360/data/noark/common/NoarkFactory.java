@@ -229,8 +229,6 @@ public class NoarkFactory {
             applyParameterFromLink(
                     saksmappeResource.getSkjerming().getSkjermingshjemmel(),
                     createCaseArgs::setParagraph);
-
-            // TODO createCaseParameter.setAccessGroup();
         }
 
         // TODO createCaseParameter.setCategory(objectFactory.createCaseParameterBaseCategory("recno:99999"));
@@ -263,6 +261,11 @@ public class NoarkFactory {
                             .map(this::createCaseArchiveCode)
                             .collect(Collectors.toList()));
         }
+
+        applyParameterFromLink(
+                saksmappeResource.getTilgangsgruppe(),
+                createCaseArgs::setAccessGroup
+        );
 
         return createCaseArgs;
     }
