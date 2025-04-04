@@ -12,6 +12,8 @@ import no.fint.p360.data.kulturminne.TilskuddFredaBygningPrivatEieService;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.service.CaseQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -53,7 +55,7 @@ public class GetTilskuddFredaHusPrivatEieHandler implements Handler {
             response.setMessage(e.getMessage());
         } catch (WebClientResponseException e) {
             response.setResponseStatus(ResponseStatus.ERROR);
-            response.setStatusCode(e.getStatusCode().name());
+            response.setStatusCode(((HttpStatus) e.getStatusCode()).name());
             response.setMessage(e.getResponseBodyAsString());
         }
     }
