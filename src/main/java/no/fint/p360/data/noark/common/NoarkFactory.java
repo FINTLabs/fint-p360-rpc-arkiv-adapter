@@ -29,6 +29,7 @@ import no.fint.p360.model.ContextUser;
 import no.fint.p360.model.FilterSet;
 import no.fint.p360.repository.KodeverkRepository;
 import no.fint.p360.service.ContextUserService;
+import no.p360.model.AccessGroupService.AccessGroup;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
@@ -158,6 +159,13 @@ public class NoarkFactory {
                 .ifPresent(saksmappeResource::addSaksansvarlig);
 
         optionalValue(caseResult.getAccessGroup())
+                .flatMap(kode -> kodeverkRepository
+                        .getTilgangsgruppe()
+                        .stream()
+                        .filter(it -> StringUtils.equalsIgnoreCase(kode, it.getNavn()))
+                        .findAny())
+                .map(TilgangsgruppeResource::getSystemId)
+                .map(Identifikator::getIdentifikatorverdi)
                 .map(Link.apply(TilgangsgruppeResource.class, "systemid"))
                 .ifPresent(saksmappeResource::addTilgangsgruppe);
 
