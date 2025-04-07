@@ -11,6 +11,7 @@ import no.fint.model.arkiv.noark.Arkivdel;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.arkiv.kodeverk.SaksstatusResource;
+import no.fint.model.resource.arkiv.kodeverk.TilgangsgruppeResource;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.model.resource.arkiv.noark.KlasseResource;
 import no.fint.model.resource.arkiv.noark.MerknadResource;
@@ -155,6 +156,10 @@ public class NoarkFactory {
                 .map(String::valueOf)
                 .map(Link.apply(Personalressurs.class, "ansattnummer"))
                 .ifPresent(saksmappeResource::addSaksansvarlig);
+
+        optionalValue(caseResult.getAccessGroup())
+                .map(Link.apply(TilgangsgruppeResource.class, "systemid"))
+                .ifPresent(saksmappeResource::addTilgangsgruppe);
 
         saksmappeResource.setKlasse(
                 caseResult

@@ -24,6 +24,7 @@ import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.model.ContextUser;
 import no.fint.p360.repository.KodeverkRepository;
 import no.fint.p360.service.ContextUserService;
+import no.p360.model.AccessGroupService.AccessGroup;
 import no.p360.model.DocumentService.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -170,6 +171,11 @@ public class JournalpostFactory {
                         documentResult::getAccessCodeCode,
                         documentResult::getParagraph
                 )).ifPresent(journalpost::setSkjerming);
+
+        optionalValue(documentResult.getAccessGroup())
+                .map(String::valueOf)
+                .map(Link.apply(AccessGroup.class, "systemid"))
+                .ifPresent(journalpost::addTilgangsgruppe);
 
         return journalpost;
     }
