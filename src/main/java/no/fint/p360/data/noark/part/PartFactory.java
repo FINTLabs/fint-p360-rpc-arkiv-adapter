@@ -89,6 +89,11 @@ public class PartFactory {
 
         unregisteredContact.setContactName(part.getPartNavn());
 
+        applyParameterFromLink(
+                part.getPartRolle(),
+                unregisteredContact::setRole
+        );
+
         ofNullable(part.getAdresse())
                 .map(AdresseResource::getAdresselinje)
                 .map(line -> String.join("\n", line))
