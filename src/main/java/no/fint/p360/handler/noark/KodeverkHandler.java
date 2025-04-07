@@ -46,6 +46,7 @@ public class KodeverkHandler implements Handler {
         suppliers.put(GET_ALL_VARIANTFORMAT, merge(noarkMetadataService::getVariantformat, kodeverkRepository::getVariantformat));
         suppliers.put(GET_ALL_FORMAT, merge(noarkMetadataService::getFormat, kodeverkRepository::getFilformat));
         suppliers.put(GET_ALL_SAKSMAPPETYPE, kodeverkRepository::getSaksmappetype);
+        suppliers.put(GET_ALL_TILGANGSGRUPPE, kodeverkRepository::getTilgangsgruppe);
         //TODO suppliers.put(GET_ALL_KLASSE, kodeverkRepository::getKlasse);
     }
 
