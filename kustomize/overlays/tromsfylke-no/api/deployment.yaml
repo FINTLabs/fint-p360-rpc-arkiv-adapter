@@ -50,8 +50,8 @@ spec:
             - {name: fint.case.coding.korrespondanseparttype.EA, value: '5'}
             - {name: fint.case.coding.korrespondanseparttype.EM, value: '6'}
 
-            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '0'}
-            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: '0'}
+            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '200258'}
+            - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: '200258'}
             - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200023'}
             - {name: fint.case.defaults.soknaddrosjeloyve.arkivdel, value: '200007'}
             - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: 'F'}
@@ -132,5 +132,5 @@ spec:
             - {name: fint.file-cache.directory, value: '/temp'}
 
             - {name: logging.level.no.fint.arkiv, value: 'info'}
-            - {name: logging.level.no.fint.p360.data.p360, value: 'info'}
+            - {name: logging.level.no.fint.p360, value: 'info'}
             - {name: logging.level.reactor.netty.http.client, value: 'warn'}

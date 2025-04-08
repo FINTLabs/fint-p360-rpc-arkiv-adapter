@@ -12,6 +12,7 @@ import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.arkiv.kodeverk.JournalStatusResource;
 import no.fint.model.resource.arkiv.kodeverk.MerknadstypeResource;
+import no.fint.model.resource.arkiv.kodeverk.TilgangsgruppeResource;
 import no.fint.model.resource.arkiv.noark.DokumentbeskrivelseResource;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.model.resource.arkiv.noark.MerknadResource;
@@ -24,6 +25,7 @@ import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.model.ContextUser;
 import no.fint.p360.repository.KodeverkRepository;
 import no.fint.p360.service.ContextUserService;
+import no.p360.model.AccessGroupService.AccessGroup;
 import no.p360.model.DocumentService.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -170,6 +172,17 @@ public class JournalpostFactory {
                         documentResult::getAccessCodeCode,
                         documentResult::getParagraph
                 )).ifPresent(journalpost::setSkjerming);
+
+        optionalValue(documentResult.getAccessGroup())
+                .flatMap(kode -> kodeverkRepository
+                        .getTilgangsgruppe()
+                        .stream()
+                        .filter(it -> StringUtils.equalsIgnoreCase(kode, it.getNavn()))
+                        .findAny())
+                .map(TilgangsgruppeResource::getSystemId)
+                .map(Identifikator::getIdentifikatorverdi)
+                .map(Link.apply(AccessGroup.class, "systemid"))
+                .ifPresent(journalpost::addTilgangsgruppe);
 
         return journalpost;
     }
