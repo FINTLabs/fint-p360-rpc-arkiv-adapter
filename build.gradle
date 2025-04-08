@@ -27,6 +27,8 @@ javadoc {
     destinationDir = file('./javadocs/')
 }
 
+group = 'no.novari'
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
