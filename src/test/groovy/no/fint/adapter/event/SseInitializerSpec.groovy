@@ -25,7 +25,7 @@ class SseInitializerSpec extends Specification {
 
     def "Register and close SSE client for organizations"() {
         given:
-        sseInitializer = new SseInitializer(props: props, endpoints: endpoints, sseClients: [fintSse])
+        sseInitializer = new SseInitializer(props: props, endpoints: endpoints)
 
         when:
         sseInitializer.init()
