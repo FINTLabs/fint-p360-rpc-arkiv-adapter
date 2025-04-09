@@ -131,6 +131,8 @@ public class PartFactory {
     public SynchronizePrivatePersonArgs toPrivatePerson(PartResource part) {
         SynchronizePrivatePersonArgs synchronizePrivatePerson = new SynchronizePrivatePersonArgs();
 
+        synchronizePrivatePerson.setPersonalIdNumber(part.getFodselsnummer());
+
         synchronizePrivatePerson.setFirstName(FintUtils.parsePersonnavn(
                 part.getPartNavn()).getFornavn());
         synchronizePrivatePerson.setLastName(FintUtils.parsePersonnavn(
