@@ -29,7 +29,6 @@ import no.fint.p360.model.ContextUser;
 import no.fint.p360.model.FilterSet;
 import no.fint.p360.repository.KodeverkRepository;
 import no.fint.p360.service.ContextUserService;
-import no.p360.model.AccessGroupService.AccessGroup;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
@@ -191,7 +190,15 @@ public class NoarkFactory {
     public CreateCaseArgs createCaseArgs(CaseProperties caseProperties, SaksmappeResource saksmappeResource) {
         CreateCaseArgs createCaseArgs = new CreateCaseArgs();
 
-        createCaseArgs.setTitle(titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource));
+        String tittel = titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource);
+        String offentligTittel = saksmappeResource.getOffentligTittel();
+
+        if (StringUtils.isNotBlank(offentligTittel)) {
+            createCaseArgs.setUnofficialTitle(tittel);
+            createCaseArgs.setTitle(offentligTittel);
+        } else {
+            createCaseArgs.setTitle(tittel); // offentlig tittel blir det samme som tittel
+        }
 
         Optional.ofNullable(contextUserService.getContextUserForCaseType(saksmappeResource))
                 .map(ContextUser::getUsername)
