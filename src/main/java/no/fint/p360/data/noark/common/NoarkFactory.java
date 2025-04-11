@@ -190,12 +190,14 @@ public class NoarkFactory {
     public CreateCaseArgs createCaseArgs(CaseProperties caseProperties, SaksmappeResource saksmappeResource) {
         CreateCaseArgs createCaseArgs = new CreateCaseArgs();
 
-        String tittel = titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource);
-        String offentligTittel = saksmappeResource.getOffentligTittel();
+        String tittel = titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource); // med navn
+        String offentligTittel = saksmappeResource.getOffentligTittel(); // uten
+
+        log.debug("Case title: {}, officalTitle: {}", tittel, offentligTittel);
 
         if (StringUtils.isNotBlank(offentligTittel)) {
-            createCaseArgs.setUnofficialTitle(tittel);
             createCaseArgs.setTitle(offentligTittel);
+            createCaseArgs.setUnofficialTitle(tittel); // med navn
         } else {
             createCaseArgs.setTitle(tittel); // offentlig tittel blir det samme som tittel
         }
@@ -255,7 +257,6 @@ public class NoarkFactory {
         // TODO Missing parameters
         //createCaseParameter.setRemarks();
         //createCaseParameter.setStartDate();
-        //createCaseParameter.setUnofficialTitle();
 
         if (usePart && saksmappeResource.getPart() != null) {
             final Pair<List<Contact>, List<UnregisteredContact>> contacts = partService
