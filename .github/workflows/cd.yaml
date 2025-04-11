@@ -53,9 +53,6 @@ jobs:
           - cluster: aks-beta-fint-2021-11-23
             org: agderfk-no
             deploy-every-branch: true
-          - cluster: aks-beta-fint-2021-11-23
-            org: tromsfylke-no
-            deploy-every-branch: true
 
     steps: 
       - uses: actions/checkout@v4
