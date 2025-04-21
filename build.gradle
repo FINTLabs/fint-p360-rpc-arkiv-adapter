@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:33.2.1-jre'
+    implementation 'com.google.guava:guava:33.4.8-jre'
     implementation 'org.apache.commons:commons-lang3:3.14.0'
     implementation 'org.apache.tika:tika-core:2.9.2'
 
