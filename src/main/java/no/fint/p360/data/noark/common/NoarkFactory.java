@@ -29,7 +29,6 @@ import no.fint.p360.model.ContextUser;
 import no.fint.p360.model.FilterSet;
 import no.fint.p360.repository.KodeverkRepository;
 import no.fint.p360.service.ContextUserService;
-import no.p360.model.AccessGroupService.AccessGroup;
 import no.p360.model.CaseService.*;
 import no.p360.model.DocumentService.Document__1;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +38,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -111,18 +111,16 @@ public class NoarkFactory {
                 .collect(Collectors.toList()));
 
         saksmappeResource.setPart(
-                optionalValue(caseResult.getContacts())
-                        .map(List::stream)
-                        .orElseGet(Stream::empty)
+                optionalValue(caseResult.getContacts()).stream()
+                        .flatMap(Collection::stream)
                         .map(partFactory::getPartsinformasjon)
                         .collect(Collectors.toList()));
 
-        List<String> journalpostIds = optionalValue(caseResult.getDocuments())
-                .map(List::stream)
-                .orElse(Stream.empty())
+        List<String> journalpostIds = optionalValue(caseResult.getDocuments()).stream()
+                .flatMap(Collection::stream)
                 .map(Document::getRecno)
                 .map(String::valueOf)
-                .collect(Collectors.toList());
+                .toList();
         List<JournalpostResource> journalpostList = new ArrayList<>(journalpostIds.size());
         for (String journalpostRecord : journalpostIds) {
             Document__1 documentResult = documentService.getDocumentBySystemId(filterSet, journalpostRecord);
@@ -191,7 +189,17 @@ public class NoarkFactory {
     public CreateCaseArgs createCaseArgs(CaseProperties caseProperties, SaksmappeResource saksmappeResource) {
         CreateCaseArgs createCaseArgs = new CreateCaseArgs();
 
-        createCaseArgs.setTitle(titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource));
+        String tittel = titleService.getCaseTitle(caseProperties.getTitle(), saksmappeResource);
+        String offentligTittel = saksmappeResource.getOffentligTittel();
+
+        log.debug("Case title: {}, officalTitle: {}", tittel, offentligTittel);
+
+        if (StringUtils.isNotBlank(offentligTittel)) {
+            createCaseArgs.setTitle(offentligTittel);
+            createCaseArgs.setUnofficialTitle(tittel);
+        } else {
+            createCaseArgs.setTitle(tittel); // When not set, UnofficialTitle will get the same value as Title in P360
+        }
 
         Optional.ofNullable(contextUserService.getContextUserForCaseType(saksmappeResource))
                 .map(ContextUser::getUsername)
@@ -248,7 +256,6 @@ public class NoarkFactory {
         // TODO Missing parameters
         //createCaseParameter.setRemarks();
         //createCaseParameter.setStartDate();
-        //createCaseParameter.setUnofficialTitle();
 
         if (usePart && saksmappeResource.getPart() != null) {
             final Pair<List<Contact>, List<UnregisteredContact>> contacts = partService
