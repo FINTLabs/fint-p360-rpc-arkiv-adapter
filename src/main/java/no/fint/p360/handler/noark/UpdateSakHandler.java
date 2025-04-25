@@ -1,6 +1,8 @@
 package no.fint.p360.handler.noark;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.arkiv.CaseProperties;
 import no.fint.event.model.Event;
@@ -31,6 +33,7 @@ import java.util.Set;
 @Service
 @Slf4j
 public class UpdateSakHandler implements Handler {
+
     private final ObjectMapper objectMapper;
     private final ValidationService validationService;
     private final SakService sakService;
@@ -41,6 +44,11 @@ public class UpdateSakHandler implements Handler {
     private final CaseService caseService;
     private final DocumentService documentService;
     private final FilterSet filterSet;
+
+    private final MeterRegistry meterRegistry;
+    private final Timer.Builder updateSakTimer;
+
+
     public UpdateSakHandler(ObjectMapper objectMapper,
                             ValidationService validationService,
                             SakService sakService,
@@ -49,7 +57,8 @@ public class UpdateSakHandler implements Handler {
                             CaseQueryService caseQueryService,
                             CaseService caseService,
                             DocumentService documentService,
-                            FilterSetService filterSetService) {
+                            FilterSetService filterSetService,
+                            MeterRegistry meterRegistry) {
         this.objectMapper = objectMapper;
         this.validationService = validationService;
         this.sakService = sakService;
@@ -60,6 +69,10 @@ public class UpdateSakHandler implements Handler {
         this.caseService = caseService;
         this.documentService = documentService;
         this.filterSet = filterSetService.getFilterSetForCaseType(SakResource.class);
+
+        this.meterRegistry = meterRegistry;
+        updateSakTimer = Timer.builder("fint.p360.update-sak.timer")
+                .description("The Archive Update Timer");
     }
 
     @Override
@@ -103,6 +116,8 @@ public class UpdateSakHandler implements Handler {
             throw new IllegalArgumentException("Update must contain at least one Journalpost");
         }
 
+        Timer.Sample sample = Timer.start(meterRegistry);
+
         try {
             Case theCase = caseQueryService.query(filterSet, query).collect(QueryUtils.toSingleton());
             String caseNumber = theCase.getCaseNumber();
@@ -114,10 +129,17 @@ public class UpdateSakHandler implements Handler {
                  NotTilskuddfartoyException e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setMessage(e.getMessage());
+        } finally {
+            sample.stop(updateSakTimer.tag("request", "updateCase")
+                    .tag("status", response.getStatus().name())
+                    .tag("statusCode", response.getStatusCode() != null ? response.getStatusCode() : "N/A")
+                    .register(meterRegistry));
         }
     }
 
     private void createCase(Event<FintLinks> response, SakResource sakResource) {
+        Timer.Sample sample = Timer.start(meterRegistry);
+
         try {
             final CreateCaseArgs createCaseArgs =
                     caseDefaultsService
@@ -132,6 +154,11 @@ public class UpdateSakHandler implements Handler {
                  IllegalCaseNumberFormat | NotTilskuddfartoyException e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setMessage(e.getMessage());
+        } finally {
+            sample.stop(updateSakTimer.tag("request", "createCase")
+                    .tag("status", response.getStatus().name())
+                    .tag("statusCode", response.getStatusCode() != null ? response.getStatusCode() : "N/A")
+                    .register(meterRegistry));
         }
     }
 

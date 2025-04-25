@@ -1,5 +1,7 @@
 package no.fint.p360.handler.noark;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
@@ -26,15 +28,27 @@ public class GetSakHandler implements Handler {
     private final CaseQueryService caseQueryService;
     private final FilterSet filterSet;
 
-    public GetSakHandler(SakFactory sakFactory, CaseQueryService caseQueryService, FilterSetService filterSetService) {
+    private final MeterRegistry meterRegistry;
+    private final Timer.Builder getSakTimer;
+
+    public GetSakHandler(SakFactory sakFactory, CaseQueryService caseQueryService, FilterSetService filterSetService,
+                         MeterRegistry meterRegistry) {
         this.sakFactory = sakFactory;
         this.caseQueryService = caseQueryService;
         filterSet = filterSetService.getDefaultFilterSet();
+
+        this.meterRegistry = meterRegistry;
+        getSakTimer = Timer.builder("fint.p360.sak.timer")
+                .description("The Archive Sak Timer");
     }
 
     @Override
     public void accept(Event<FintLinks> response) {
         String query = response.getQuery();
+        log.debug("Try to get a sak based on this query (and we do even counting and do some time analysis): {}", query);
+
+        Timer.Sample sample = Timer.start(meterRegistry);
+
         if (!caseQueryService.isValidQuery(query)) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode("BAD_REQUEST");
@@ -52,8 +66,12 @@ public class GetSakHandler implements Handler {
         } catch (GetDocumentException | IllegalCaseNumberFormat e) {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setMessage(e.getMessage());
+        } finally {
+            sample.stop(getSakTimer.tag("request", "getCase")
+                    .tag("status", response.getStatus().name())
+                    .tag("statusCode", response.getStatusCode() != null ? response.getStatusCode() : "N/A")
+                    .register(meterRegistry));
         }
-
     }
 
     @Override
