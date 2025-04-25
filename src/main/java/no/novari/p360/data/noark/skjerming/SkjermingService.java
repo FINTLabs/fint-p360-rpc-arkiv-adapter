@@ -87,5 +87,4 @@ public class SkjermingService {
         }
         return FintUtils.getIdFromLink(skjermingResource.getTilgangsrestriksjon()).isPresent();
     }
-
 }
