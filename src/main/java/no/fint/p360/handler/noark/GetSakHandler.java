@@ -38,8 +38,8 @@ public class GetSakHandler implements Handler {
         filterSet = filterSetService.getDefaultFilterSet();
 
         this.meterRegistry = meterRegistry;
-        getSakTimer = Timer.builder("fint.p360.sak.timer")
-                .description("The Archive Sak Timer");
+        getSakTimer = Timer.builder("fint.arkiv.sak.timer")
+                .description("The P360 Archive Sak Timer");
     }
 
     @Override

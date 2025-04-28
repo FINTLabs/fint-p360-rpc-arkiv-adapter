@@ -71,8 +71,8 @@ public class UpdateSakHandler implements Handler {
         this.filterSet = filterSetService.getFilterSetForCaseType(SakResource.class);
 
         this.meterRegistry = meterRegistry;
-        updateSakTimer = Timer.builder("fint.p360.update-sak.timer")
-                .description("The Archive Update Timer");
+        updateSakTimer = Timer.builder("fint.arkiv.update-sak.timer")
+                .description("The P360 Archive Update Timer");
     }
 
     @Override
