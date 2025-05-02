@@ -19,6 +19,7 @@ spec:
     metadata:
       labels:
         app: adapter-arkiv-p360
+        observability.fintlabs.no/loki: "true"
       annotations:
           prometheus.io/scrape: "true"
           prometheus.io/port: "8091"
