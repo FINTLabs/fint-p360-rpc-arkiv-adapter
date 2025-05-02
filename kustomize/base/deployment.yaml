@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/name: adapter-arkiv-p360
     fintlabs.no/team: arkiv
     fintlabs.no/org-id: fintlabs.no
-    observability.fintlabs.no/loki: "true"
 spec:
   strategy:
     rollingUpdate:
@@ -20,6 +19,7 @@ spec:
     metadata:
       labels:
         app: adapter-arkiv-p360
+        observability.fintlabs.no/loki: "true"
       annotations:
           prometheus.io/scrape: "true"
           prometheus.io/port: "8091"
