@@ -305,6 +305,10 @@ public class JournalpostFactory {
                 Integer::valueOf,
                 createDocumentArgs::setResponsiblePersonRecno);
 
+        applyParameterFromLink(
+                journalpostResource.getTilgangsgruppe(),
+                createDocumentArgs::setAccessGroup);
+
         return createDocumentArgs;
     }
 
