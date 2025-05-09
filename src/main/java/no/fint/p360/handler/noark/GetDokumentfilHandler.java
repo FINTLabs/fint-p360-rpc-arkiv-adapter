@@ -1,5 +1,7 @@
 package no.fint.p360.handler.noark;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
@@ -23,8 +25,19 @@ public class GetDokumentfilHandler implements Handler {
     @Autowired
     private DokumentfilService dokumentfilService;
 
+    private final MeterRegistry meterRegistry;
+    private final Timer.Builder getDokumentfilTimer;
+
+    public GetDokumentfilHandler(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+        getDokumentfilTimer = Timer.builder("fint.arkiv.get-dokumentfil.timer")
+                .description("The P360 Archie Dokumentfil Timer");
+    }
+
     @Override
     public void accept(Event<FintLinks> response) {
+        Timer.Sample sample = Timer.start(meterRegistry);
+
         try {
             if (!StringUtils.startsWithIgnoreCase(response.getQuery(), "systemid/")) {
                 response.setResponseStatus(ResponseStatus.REJECTED);
@@ -40,8 +53,12 @@ public class GetDokumentfilHandler implements Handler {
             response.setResponseStatus(ResponseStatus.REJECTED);
             response.setStatusCode("NOT_FOUND");
             response.setMessage(e.getMessage());
+        } finally {
+            sample.stop(getDokumentfilTimer.tag("request", "getDokumentfil")
+                    .tag("status", response.getStatus().name())
+                    .tag("statusCode", response.getStatusCode() != null ? response.getStatusCode() : "N/A")
+                    .register(meterRegistry));
         }
-
     }
 
     @Override
