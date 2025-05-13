@@ -58,11 +58,6 @@ public class AzureBlobRepository extends InternalRepository {
         resource.setSystemId(FintUtils.createIdentifikator(blobName));
         BlobClient blobClient = blobContainerClient.getBlobClient(blobName);
 
-        if (blobClient.exists()) {
-            log.warn("This is a announced crisis. It seems like the {} already exists. You're hereby warned!",
-                    blobName);
-        }
-
         try (BlobOutputStream outputStream = blobClient.getBlockBlobClient().getBlobOutputStream()) {
             outputStream.write(Base64.getDecoder().decode(resource.getData()));
         }
