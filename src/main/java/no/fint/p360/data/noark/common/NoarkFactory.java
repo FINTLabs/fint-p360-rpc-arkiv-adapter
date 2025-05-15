@@ -207,9 +207,17 @@ public class NoarkFactory {
                 .ifPresent(createCaseArgs::setADContextUser);
 
         Optional.ofNullable(caseProperties.getSaksansvarlig())
-            .filter(StringUtils::isNotBlank)
-            .map(Integer::valueOf)
-            .ifPresent(createCaseArgs::setResponsiblePersonRecno);
+                .filter(StringUtils::isNotBlank)
+                .map(Integer::valueOf)
+                .ifPresent(creaqteCaseArgs::setResponsiblePersonRecno);
+
+        if (StringUtils.isBlank(caseProperties.getSaksansvarlig())) {
+            log.debug("No saksansvarlig from Case Defaults, we'll fetch it from the SaksmappeResource.");
+            applyParameterFromLink(
+                    saksmappeResource.getSaksansvarlig(),
+                    Integer::valueOf,
+                    createCaseArgs::setResponsiblePersonRecno);
+        }
 
         createCaseArgs.setAdditionalFields(
                 additionalFieldService.getFieldsForResource(caseProperties.getField(), saksmappeResource)
