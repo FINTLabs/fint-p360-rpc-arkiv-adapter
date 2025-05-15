@@ -94,7 +94,6 @@ public class UpdateSakHandler implements Handler {
             }
             createCase(response, sakResource);
         } else if (operation == Operation.UPDATE) {
-            log.info("UpdateCase (SakResource): {}", sakResource);
             caseDefaultsService.applyDefaultsForUpdate(caseProperties, sakResource);
             if (!validationService.validate(response, sakResource.getJournalpost())) {
                 return;
