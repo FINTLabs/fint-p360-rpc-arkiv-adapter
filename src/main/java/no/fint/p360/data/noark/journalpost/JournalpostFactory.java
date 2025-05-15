@@ -131,6 +131,7 @@ public class JournalpostFactory {
                 .map(String::valueOf)
                 .map(Link.apply(Personalressurs.class, "ansattnummer"))
                 .ifPresent(journalpost::addSaksbehandler);
+
         optionalValue(documentResult.getResponsibleEnterprise())
                 .map(ResponsibleEnterprise::getRecno)
                 .map(String::valueOf)
@@ -274,7 +275,7 @@ public class JournalpostFactory {
         }
 
         final Pair<List<Contact>, List<UnregisteredContact>> contacts = korrespondansepartService.getContactsFromKorrespondansepart(
-                journalpostResource.getKorrespondansepart(),
+                ofNullable(journalpostResource.getKorrespondansepart()).orElse(Collections.emptyList()),
                 SkjermingService.hasTilgangsrestriksjon(journalpostResource.getSkjerming()));
 
         createDocumentArgs.setContacts(contacts.getLeft());
