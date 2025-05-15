@@ -209,7 +209,7 @@ public class NoarkFactory {
         Optional.ofNullable(caseProperties.getSaksansvarlig())
                 .filter(StringUtils::isNotBlank)
                 .map(Integer::valueOf)
-                .ifPresent(creaqteCaseArgs::setResponsiblePersonRecno);
+                .ifPresent(createCaseArgs::setResponsiblePersonRecno);
 
         if (StringUtils.isBlank(caseProperties.getSaksansvarlig())) {
             log.debug("No saksansvarlig from Case Defaults, we'll fetch it from the SaksmappeResource.");
