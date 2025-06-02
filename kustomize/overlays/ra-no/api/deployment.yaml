@@ -48,8 +48,8 @@ spec:
             - {name: fint.case.defaults.tilskuddfartoy.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.tilskuddfartoy.dokumentType, value: Brev}
             - {name: fint.case.defaults.tilskuddfartoy.tilknyttetRegistreringSom, value: H}
-            - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '200004' }
-            - {name: fint.case.defaults.tilskuddfartoy.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '234011' }
+            - {name: fint.case.defaults.tilskuddfartoy.saksbehandler, value: '234011' }
 
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} Tilskudd post 71 - Kulturminne-ID ${kulturminneId} - ${bygningsnavn} - Søknadsnr. ${soknadsnummer.identifikatorverdi}'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.field.CF_KulturminneID, value: '${kulturminneId}'}
@@ -66,8 +66,8 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentType, value: 'Brev'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.tilknyttetRegistreringSom, value: 'H'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '200004' }
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '234011' }
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksbehandler, value: '234011' }
 
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.administrativEnhet, value: '200018'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.arkivdel, value: '200002'}
@@ -82,8 +82,8 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: 'recno:200075'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.korrespondansepartType, value: 'EA'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.noekkelord, value: ''}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200004' }
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '234011' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksbehandler, value: '234011' }
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}
