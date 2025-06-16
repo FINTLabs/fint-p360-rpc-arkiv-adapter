@@ -43,8 +43,9 @@ spec:
             - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.verdi, value: 'recno:200074'}
             - {name: fint.case.defaults.tilskuddfartoy.noekkelord, value: ''}
             - {name: fint.case.defaults.tilskuddfartoy.korrespondansepartType, value: '5'}
-            - {name: fint.case.defaults.tilskuddfartoy.journalpostType, value: '110'}
-            - {name: fint.case.defaults.tilskuddfartoy.journalstatus, value: 'A'} # F eller M gir feilmelding
+            - {name: fint.case.defaults.tilskuddfartoy.journalpostType, value: 'I' }
+            - {name: fint.case.defaults.tilskuddfartoy.journalpost.I.status, value: '3' } # S (Registrert av ansvarlig person/leder)
+            - {name: fint.case.defaults.tilskuddfartoy.journalpost.U.status, value: 'E' } # Ekspedert
             - {name: fint.case.defaults.tilskuddfartoy.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.tilskuddfartoy.dokumentType, value: Brev}
             - {name: fint.case.defaults.tilskuddfartoy.tilknyttetRegistreringSom, value: H}
@@ -61,8 +62,9 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: 'recno:200073'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.noekkelord, value: ''}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.korrespondansepartType, value: '5'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpostType, value: '110'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalstatus, value: 'A'} # F eller M gir feilmelding
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpostType, value: 'I' }
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpost.I.status, value: '3' } # S (Registrert av ansvarlig person/leder)
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpost.U.status, value: 'E' } # Ekspedert
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentType, value: 'Brev'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.tilknyttetRegistreringSom, value: 'H'}
