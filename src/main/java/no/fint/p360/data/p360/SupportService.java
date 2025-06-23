@@ -24,7 +24,7 @@ public class SupportService extends P360Service {
         GetCodeTableRowsArgs getCodeTableRowsArgs = new GetCodeTableRowsArgs();
         getCodeTableRowsArgs.setCodeTableName(table);
         //getCodeTableRowsArgs.setLanguage("NOR");
-        //getCodeTableRowsArgs.setIncludeExpiredValues(true);
+        getCodeTableRowsArgs.setIncludeExpiredValues(false);
         GetCodeTableRowsResponse getCodeTableRowsResponse = call(filterSetService.getDefaultFilterSet(), "SupportService/GetCodeTableRows", getCodeTableRowsArgs, GetCodeTableRowsResponse.class);
         if (getCodeTableRowsResponse.getSuccessful()) {
             return getCodeTableRowsResponse;
