@@ -47,7 +47,7 @@ This adapter have support for OData filtering of cases. That means it's now poss
 get cases based on a OData filter, not only `mappeid`, `systemid` and `soknadsnummer`.
 The old filter (query param `title`) is now deprecated and will be removed, use `$filter=tittel eq 'Tittel'` instead!
 
-We currently support `mappeid`, `tittel`, `systemid`, `arkivdel`, `klassifikasjon/primar/verdi` and `kontaktid`.
+We currently support `mappeid`, `tittel`, `systemid`, `arkivdel`, `klassifikasjon/primar/verdi`, `kontaktid`, `saksstatus`.
 
 ### Examples
 - `$filter=arkivdel eq '1337'`
@@ -56,3 +56,4 @@ We currently support `mappeid`, `tittel`, `systemid`, `arkivdel`, `klassifikasjo
 - `$filter=systemid eq '123456'`
 - `$filter=klassifikasjon/primar/verdi eq 'C52'`
 - `$filter=kontaktid eq '08089312345'`
+- `$filter=saksstatus eq '8'`

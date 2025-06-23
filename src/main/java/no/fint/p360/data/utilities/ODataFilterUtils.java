@@ -9,8 +9,6 @@ import no.p360.model.CaseService.GetCasesArgs;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +19,7 @@ import java.util.stream.Collectors;
 public class ODataFilterUtils {
 
     private final List<String> supportedODataProperties = List.of("mappeid", "tittel", "systemid", "arkivdel",
-            "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid");
+            "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid", "saksstatus");
 
     public GetCasesArgs getCasesArgs(String query, String caseStatusFilter) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
@@ -55,6 +53,14 @@ public class ODataFilterUtils {
 
         Optional.ofNullable(oDataFilter.get("kontaktid"))
                 .ifPresent(getCasesArgs::setContactReferenceNumber);
+
+        Optional.ofNullable(oDataFilter.get("saksstatus"))
+                .ifPresent(saksstatus -> {
+                    AdditionalField__1 additionalField = new AdditionalField__1();
+                    additionalField.setName("ToCaseStatus");
+                    additionalField.setValue(saksstatus); // saksstatus må bruke recno?
+                    getCasesArgs.setAdditionalFields(List.of(additionalField));
+                });
 
         return getCasesArgs;
     }
