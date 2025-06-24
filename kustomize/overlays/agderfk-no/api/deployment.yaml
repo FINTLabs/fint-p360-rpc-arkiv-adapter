@@ -43,7 +43,7 @@ spec:
             - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: F}
             - {name: fint.case.defaults.soknaddrosjeloyve.journalstatus, value: J}
             - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: "322118"}
+            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: "200228"}
             - {name: fint.case.defaults.soknaddrosjeloyve.arkivdel, value: "200009"}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksstatus, value: B}
             - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.ordning, value: ORGNR}
