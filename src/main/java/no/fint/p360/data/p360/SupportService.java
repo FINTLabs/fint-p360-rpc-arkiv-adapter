@@ -24,7 +24,7 @@ public class SupportService extends P360Service {
         GetCodeTableRowsArgs getCodeTableRowsArgs = new GetCodeTableRowsArgs();
         getCodeTableRowsArgs.setCodeTableName(table);
         //getCodeTableRowsArgs.setLanguage("NOR");
-        getCodeTableRowsArgs.setIncludeExpiredValues(false);
+        //getCodeTableRowsArgs.setIncludeExpiredValues(true);
         GetCodeTableRowsResponse getCodeTableRowsResponse = call(filterSetService.getDefaultFilterSet(), "SupportService/GetCodeTableRows", getCodeTableRowsArgs, GetCodeTableRowsResponse.class);
         if (getCodeTableRowsResponse.getSuccessful()) {
             return getCodeTableRowsResponse;
@@ -46,6 +46,5 @@ public class SupportService extends P360Service {
     public String getSIFVersion() {
         return call(filterSetService.getDefaultFilterSet(), "SupportService/GetSIFVersion" , "", String.class);
     }
-
-    }
+}
 
