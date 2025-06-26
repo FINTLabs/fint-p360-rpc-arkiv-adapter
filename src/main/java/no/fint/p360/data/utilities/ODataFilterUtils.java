@@ -24,15 +24,6 @@ public class ODataFilterUtils {
     public GetCasesArgs getCasesArgs(String query, String caseStatusFilter) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
 
-        if (StringUtils.isNotEmpty(caseStatusFilter)) {
-            AdditionalField__1 additionalField = new AdditionalField__1();
-            additionalField.setName("ToCaseStatus");
-            additionalField.setValue(caseStatusFilter);
-            getCasesArgs.setAdditionalFields(List.of(additionalField));
-
-            log.debug("We've just used the ToCaseStatus fitler feature. Setting value to {}", caseStatusFilter);
-        }
-
         Map<String, String> oDataFilter = parseQuery(query);
 
         Optional.ofNullable(oDataFilter.get("mappeid"))
@@ -55,11 +46,14 @@ public class ODataFilterUtils {
                 .ifPresent(getCasesArgs::setContactReferenceNumber);
 
         Optional.ofNullable(oDataFilter.get("saksstatus"))
+                .or(() -> Optional.ofNullable(caseStatusFilter))
                 .ifPresent(saksstatus -> {
                     AdditionalField__1 additionalField = new AdditionalField__1();
                     additionalField.setName("ToCaseStatus");
-                    additionalField.setValue(saksstatus); // saksstatus må bruke recno?
+                    additionalField.setValue(saksstatus);
                     getCasesArgs.setAdditionalFields(List.of(additionalField));
+
+                    log.debug("We've just used the ToCaseStatus fitler feature. Setting value to {}", saksstatus);
                 });
 
         return getCasesArgs;

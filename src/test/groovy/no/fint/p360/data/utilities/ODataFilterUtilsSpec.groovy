@@ -24,7 +24,7 @@ class ODataFilterUtilsSpec extends Specification {
         "klassifikasjon/primar/ordning eq 'ORG' and klassifikasjon/primar/verdi eq '123'" | "123"                                  | { it.getArchiveCode() }
         "kontaktid eq '08089312345'"                                                      | "08089312345"                          | { it.getContactReferenceNumber() }
         "tittel eq 'Post 74 - S/S Den Sorte Dame - 12345'"                                | "Post 74 - S/S Den Sorte Dame - 12345" | { it.getTitle() }
-        "saksstatus eq 'B'"                                                               | "B"                                    | { it.getAdditionalFields().first().getValue() }
+        "saksstatus eq '5'"                                                               | "5"                                    | { it.getAdditionalFields().first().getValue() }
     }
 
     def "Get both mappeid and tittel from one magic ODataFiltered query"() {

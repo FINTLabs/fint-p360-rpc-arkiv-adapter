@@ -56,4 +56,4 @@ We currently support `mappeid`, `tittel`, `systemid`, `arkivdel`, `klassifikasjo
 - `$filter=systemid eq '123456'`
 - `$filter=klassifikasjon/primar/verdi eq 'C52'`
 - `$filter=kontaktid eq '08089312345'`
-- `$filter=saksstatus eq '8'`
+- `$filter=saksstatus eq '5'` PS! It`s only possible to filter with recno.
