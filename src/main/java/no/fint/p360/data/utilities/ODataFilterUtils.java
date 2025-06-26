@@ -46,7 +46,7 @@ public class ODataFilterUtils {
                 .ifPresent(getCasesArgs::setContactReferenceNumber);
 
         Optional.ofNullable(oDataFilter.get("saksstatus"))
-                .or(() -> Optional.ofNullable(caseStatusFilter))
+                .or(() -> Optional.ofNullable(caseStatusFilter).filter(StringUtils::isNotBlank))
                 .ifPresent(saksstatus -> {
                     AdditionalField__1 additionalField = new AdditionalField__1();
                     additionalField.setName("ToCaseStatus");
