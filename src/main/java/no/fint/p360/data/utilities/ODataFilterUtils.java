@@ -9,8 +9,6 @@ import no.p360.model.CaseService.GetCasesArgs;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -21,19 +19,10 @@ import java.util.stream.Collectors;
 public class ODataFilterUtils {
 
     private final List<String> supportedODataProperties = List.of("mappeid", "tittel", "systemid", "arkivdel",
-            "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid");
+            "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid", "saksstatus");
 
     public GetCasesArgs getCasesArgs(String query, String caseStatusFilter) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
-
-        if (StringUtils.isNotEmpty(caseStatusFilter)) {
-            AdditionalField__1 additionalField = new AdditionalField__1();
-            additionalField.setName("ToCaseStatus");
-            additionalField.setValue(caseStatusFilter);
-            getCasesArgs.setAdditionalFields(List.of(additionalField));
-
-            log.debug("We've just used the ToCaseStatus fitler feature. Setting value to {}", caseStatusFilter);
-        }
 
         Map<String, String> oDataFilter = parseQuery(query);
 
@@ -55,6 +44,17 @@ public class ODataFilterUtils {
 
         Optional.ofNullable(oDataFilter.get("kontaktid"))
                 .ifPresent(getCasesArgs::setContactReferenceNumber);
+
+        Optional.ofNullable(oDataFilter.get("saksstatus"))
+                .or(() -> Optional.ofNullable(caseStatusFilter).filter(StringUtils::isNotBlank))
+                .ifPresent(saksstatus -> {
+                    AdditionalField__1 additionalField = new AdditionalField__1();
+                    additionalField.setName("ToCaseStatus");
+                    additionalField.setValue(saksstatus);
+                    getCasesArgs.setAdditionalFields(List.of(additionalField));
+
+                    log.debug("We've just used the ToCaseStatus filter feature. Setting value to {}", saksstatus);
+                });
 
         return getCasesArgs;
     }

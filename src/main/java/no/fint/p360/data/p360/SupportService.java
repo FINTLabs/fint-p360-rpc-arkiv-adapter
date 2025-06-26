@@ -46,6 +46,5 @@ public class SupportService extends P360Service {
     public String getSIFVersion() {
         return call(filterSetService.getDefaultFilterSet(), "SupportService/GetSIFVersion" , "", String.class);
     }
-
-    }
+}
 
