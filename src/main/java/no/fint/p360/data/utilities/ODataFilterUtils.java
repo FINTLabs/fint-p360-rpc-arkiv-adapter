@@ -53,7 +53,7 @@ public class ODataFilterUtils {
                     additionalField.setValue(saksstatus);
                     getCasesArgs.setAdditionalFields(List.of(additionalField));
 
-                    log.debug("We've just used the ToCaseStatus fitler feature. Setting value to {}", saksstatus);
+                    log.debug("We've just used the ToCaseStatus filter feature. Setting value to {}", saksstatus);
                 });
 
         return getCasesArgs;
