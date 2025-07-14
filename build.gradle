@@ -42,7 +42,7 @@ repositories {
 dependencies {
     implementation 'com.google.guava:guava:33.2.1-jre'
     implementation 'org.apache.commons:commons-lang3:3.14.0'
-    implementation 'org.apache.tika:tika-core:2.9.2'
+    implementation 'org.apache.tika:tika-core:3.2.1'
 
     implementation 'org.glassfish.jersey.core:jersey-client:2.43'
     implementation 'org.glassfish.jersey.core:jersey-common:2.41'
