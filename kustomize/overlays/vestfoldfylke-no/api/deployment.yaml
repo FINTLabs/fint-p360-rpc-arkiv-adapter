@@ -33,6 +33,8 @@ spec:
 
             - {name: springfox.title, value: 'P360 RPC Adapter for Vestfold'}
             - {name: fint.adapter.reject-unknown-events, value: 'false'}
+            - {name: fint.arkiv.part, value: "true" }
+
             - {name: fint.case.coding.dokumentType.B, value: '1'}
             - {name: fint.case.coding.journalposttype.I, value: '110'}
             - {name: fint.case.coding.journalposttype.U, value: '111'}
@@ -45,6 +47,7 @@ spec:
             - {name: fint.case.coding.filformat.RA-TEKST, value: 'TXT'}
             - {name: fint.case.coding.filformat.RA-JPEG, value: 'JPG'}
             - {name: fint.case.coding.filformat.RA-TIFF6, value: 'TIF'}
+
             - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: '200100'}
             - {name: fint.case.defaults.soknaddrosjeloyve.arkivdel, value: '200004'}
             - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: 'F'}
@@ -63,6 +66,7 @@ spec:
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.sak, value: 'Alle'}
             - {name: fint.case.defaults.drosjeloyve.tilgangsgruppe.journalpost, value: '200677'}
             - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
+
             - {name: fint.case.defaults.tilskuddfartoy.title.cases, value: 'Fartøy - ${fartoyNavn} - ${kulturminneId}'}
             - {name: fint.case.defaults.tilskuddfartoy.title.records, value: '#{tittel}'}
             - {name: fint.case.defaults.tilskuddfartoy.administrativEnhet, value: '200022'} # Seksjon for kulturarv
@@ -79,6 +83,7 @@ spec:
             - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.2.verdi, value: 'C54'}
             - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '200022'}
             - {name: fint.case.defaults.tilskuddfartoy.variantFormat, value: 'P'}
+
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: 'Tilskudd - ${bygningsnavn} - ${kulturminneId} - Gbnr. ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ${link$matrikkelnummer.kommunenummer#navn} kommune'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.records, value: '#{tittel}'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.administrativEnhet, value: '200022'} # Seksjon for kulturarv
@@ -95,6 +100,7 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.2.verdi, value: 'C53'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '200022'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.variantFormat, value: 'P'}
+
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.cases, value: 'Søknad om dispensasjon - kulturminneloven § 8 første ledd - Gbnr. ${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} - ID ${kulturminneId} - ${link$matrikkelnummer.kommunenummer#navn} kommune - Vestfold fylkeskommune'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.title.records, value: '#{tittel}'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.administrativEnhet, value: '200022'} # Seksjon for kulturarv
@@ -113,6 +119,7 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.3.verdi, value: 'recno:380029'} # &18
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200022'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.variantFormat, value: 'P'}
+
             - {name: logging.level.no.fint.arkiv, value: 'info'}
             - {name: logging.level.no.fint.p360, value: 'info'}
             - {name: logging.level.reactor.netty.http.client, value: 'warn'}
