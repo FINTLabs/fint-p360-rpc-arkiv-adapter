@@ -269,6 +269,9 @@ public class JournalpostFactory {
                 createDocumentArgs::setStatus);
 
         if (overrideArchive) {
+            log.debug("Let's override the default archive value. We're setting it based on the Saksmappetype: {}",
+                    saksmappeResource.getSaksmappetype());
+
             applyParameterFromLink(
                     saksmappeResource.getSaksmappetype(),
                     createDocumentArgs::setArchive);
