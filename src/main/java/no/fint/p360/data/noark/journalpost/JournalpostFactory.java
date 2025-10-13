@@ -286,7 +286,7 @@ public class JournalpostFactory {
                                     .filter(item -> item.getSakmappetype().equals(saksmappetype))
                                     .findFirst()
                                     .ifPresent(item ->
-                                            createDocumentArgs.setArchive(item.getDocumentarchive())));
+                                            createDocumentArgs.setArchive("recno:" + item.getDocumentarchive())));
         }
 
         final Pair<List<Contact>, List<UnregisteredContact>> contacts = korrespondansepartService.getContactsFromKorrespondansepart(
