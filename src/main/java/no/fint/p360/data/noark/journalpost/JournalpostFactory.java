@@ -52,7 +52,7 @@ public class JournalpostFactory {
     @Value("${fint.p360.documentargs.override-archive:false}")
     private boolean overrideArchive;
 
-    private List<DocumentArgsConfiguration.SakmappetypeMapping> sakmappetypeDocumentarchivesMapping;
+    private final List<DocumentArgsConfiguration.SakmappetypeMapping> sakmappetypeDocumentarchivesMapping;
 
     @Autowired
     private KodeverkRepository kodeverkRepository;
@@ -123,9 +123,7 @@ public class JournalpostFactory {
         journalpost.setForfatter(Collections.singletonList(documentResult.getResponsiblePersonName()));
 
         journalpost.setKorrespondansepart(
-                optionalValue(documentResult.getContacts())
-                        .map(Collection::stream)
-                        .orElse(Stream.empty())
+                optionalValue(documentResult.getContacts()).stream().flatMap(Collection::stream)
                         .map(korrespondansepartFactory::toFintResource)
                         .collect(Collectors.toList()));
 
@@ -162,9 +160,7 @@ public class JournalpostFactory {
                 .ifPresent(journalpost::addJournalstatus);
 
         journalpost.setMerknad(
-                optionalValue(documentResult.getRemarks())
-                        .map(List::stream)
-                        .orElse(Stream.empty())
+                optionalValue(documentResult.getRemarks()).stream().flatMap(Collection::stream)
                         .map(this::createMerknad)
                         .collect(Collectors.toList()));
 
@@ -277,16 +273,16 @@ public class JournalpostFactory {
                 createDocumentArgs::setStatus);
 
         if (overrideArchive) {
-            log.debug("Let's override the default archive value. We're setting it based on the Saksmappetype: {}",
+            log.debug("Let's override the default document archive value. We're setting it based on the Saksmappetype: {}",
                     saksmappeResource.getSaksmappetype());
 
-            getLinkTargets(saksmappeResource.getSaksmappetype()).findFirst()
-                    .ifPresent(saksmappetype ->
-                            sakmappetypeDocumentarchivesMapping.stream()
-                                    .filter(item -> item.getSakmappetype().equals(saksmappetype))
-                                    .findFirst()
-                                    .ifPresent(item ->
-                                            createDocumentArgs.setArchive("recno:" + item.getDocumentarchive())));
+            getLinkTargets(saksmappeResource.getSaksmappetype())
+                    .findFirst()
+                    .flatMap(saksmappetype -> sakmappetypeDocumentarchivesMapping.stream()
+                            .filter(item -> item.getSakmappetype().equals(saksmappetype))
+                            .findFirst())
+                    .ifPresent(item ->
+                            createDocumentArgs.setArchive(item.getDocumentarchive()));
         }
 
         final Pair<List<Contact>, List<UnregisteredContact>> contacts = korrespondansepartService.getContactsFromKorrespondansepart(
@@ -297,17 +293,13 @@ public class JournalpostFactory {
         createDocumentArgs.setUnregisteredContacts(contacts.getRight());
 
         createDocumentArgs.setFiles(
-                ofNullable(journalpostResource.getDokumentbeskrivelse())
-                        .map(List::stream)
-                        .orElseGet(Stream::empty)
+                ofNullable(journalpostResource.getDokumentbeskrivelse()).stream().flatMap(Collection::stream)
                         .peek(r -> log.info("Handling Dokumentbeskrivelse: {}", r))
                         .flatMap(this::createFiles)
                         .collect(Collectors.toList()));
 
         createDocumentArgs.setRemarks(
-                ofNullable(journalpostResource.getMerknad())
-                        .map(List::stream)
-                        .orElseGet(Stream::empty)
+                ofNullable(journalpostResource.getMerknad()).stream().flatMap(Collection::stream)
                         .map(this::createDocumentRemarkParameter)
                         .collect(Collectors.toList()));
 
