@@ -13,12 +13,6 @@ fint:
       response: /response
     organizations: fintlabs.no
 
-  p360:
-    documentargs:
-      sakmappetype-mapping:
-        - sakmappetype: 27
-          documentarchive: 150003
-
   oauth:
     enabled: true
     access-token-uri: https://idp.felleskomponent.no/nidp/oauth/nam/token
