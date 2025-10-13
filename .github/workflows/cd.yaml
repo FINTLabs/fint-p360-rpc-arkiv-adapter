@@ -51,6 +51,7 @@ jobs:
         cluster: [ aks-beta-fint-2021-11-23, aks-api-fint-2022-02-08 ]
         include:
           - org: trondelagfylke-no
+            cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
 
     steps: 
