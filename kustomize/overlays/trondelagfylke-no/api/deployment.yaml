@@ -36,6 +36,10 @@ spec:
             - {name: fint.arkiv.casenumber.format, value: 'yyyy'}
             - {name: fint.arkiv.part, value: 'true'}
 
+            - { name: fint.p360.documentargs.override-archive, value: 'true' }
+            - { name: fint.p360.documentargs.sakmappetype-mapping.0.sakmappetype, value: '27' }
+            - { name: fint.p360.documentargs.sakmappetype-mapping.0.documentarchive, value: '150004' }
+
             - {name: fint.case.coding.dokumentType.B, value: '1'}
             - {name: fint.case.coding.journalposttype.I, value: '110'}
             - {name: fint.case.coding.journalposttype.N, value: '113'}
