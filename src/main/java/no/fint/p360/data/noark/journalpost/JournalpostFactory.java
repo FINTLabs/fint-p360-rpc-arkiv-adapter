@@ -160,7 +160,7 @@ public class JournalpostFactory {
                 .ifPresent(journalpost::addJournalstatus);
 
         journalpost.setMerknad(
-                optionalValue(documentResult.getRemarks()).stream().flatMap(Collection::stream)
+                optionalValue(documentResult.getRemarks()).orElse(Collections.emptyList()).stream()
                         .map(this::createMerknad)
                         .collect(Collectors.toList()));
 
