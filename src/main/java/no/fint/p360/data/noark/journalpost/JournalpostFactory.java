@@ -299,7 +299,7 @@ public class JournalpostFactory {
                         .collect(Collectors.toList()));
 
         createDocumentArgs.setRemarks(
-                ofNullable(journalpostResource.getMerknad()).stream().flatMap(Collection::stream)
+                ofNullable(journalpostResource.getMerknad()).orElse(Collections.emptyList()).stream()
                         .map(this::createDocumentRemarkParameter)
                         .collect(Collectors.toList()));
 
