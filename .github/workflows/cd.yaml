@@ -50,7 +50,8 @@ jobs:
         org: [ agderfk-no, ra-no, trondelagfylke-no, telemarkfylke-no, vestfoldfylke-no, ffk-no, tromsfylke-no ]
         cluster: [ aks-beta-fint-2021-11-23, aks-api-fint-2022-02-08 ]
         include:
-          - org: agderfk-no
+          - org: trondelagfylke-no
+            cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
 
     steps: 

@@ -10,6 +10,7 @@ import no.fint.model.arkiv.noark.AdministrativEnhet;
 import no.fint.model.arkiv.noark.Arkivdel;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.Link;
+import no.fint.model.resource.arkiv.kodeverk.SaksmappetypeResource;
 import no.fint.model.resource.arkiv.kodeverk.SaksstatusResource;
 import no.fint.model.resource.arkiv.kodeverk.TilgangsgruppeResource;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
@@ -182,6 +183,17 @@ public class NoarkFactory {
                         .map(f -> new AdditionalFieldService.Field(f.getName(), StringUtils.trimToEmpty(f.getValue())))
                         .collect(Collectors.toList()));
 
+        optionalValue(caseResult.getCaseTypeCode())
+                .flatMap(casetype -> kodeverkRepository.getSaksmappetype()
+                        .stream()
+                        .filter(saksmappetype ->
+                                StringUtils.equalsIgnoreCase(casetype, saksmappetype.getKode()))
+                        .findAny())
+                .map(SaksmappetypeResource::getSystemId)
+                .map(Identifikator::getIdentifikatorverdi)
+                .map(Link.apply(SaksmappetypeResource.class, "systemid"))
+                .ifPresent(saksmappeResource::addSaksmappetype);
+
         return saksmappeResource;
     }
 
@@ -336,12 +348,12 @@ public class NoarkFactory {
         if (StringUtils.isEmpty(caseNumberFormat)) {
             return NOARKUtils.getCaseYear(caseNumber);
         } else if (caseNumberFormat.equalsIgnoreCase("yyyy")) {
-            return caseNumber.substring(0,4);
+            return caseNumber.substring(0, 4);
         } else if (caseNumberFormat.equalsIgnoreCase("yy")) {
-            return caseNumber.substring(0,2);
+            return caseNumber.substring(0, 2);
         }
 
-        String caseYear = caseResult.getCreatedDate().substring(0,4);
+        String caseYear = caseResult.getCreatedDate().substring(0, 4);
         log.warn("We're not able to determine case year from the case number ({}). Therefore we'll use the case created date's year ({}).",
                 caseNumber, caseYear);
         return caseYear;

@@ -26,6 +26,16 @@ The adapter uses the following services:
 | fint.kulturminne.tilskudd-fartoy.achive-code-type     |                                          |               |
 | fint.kulturminne.tilskudd-fartoy.intitial-case-status | `B`                                      |               |
 
+## How to set custom document archive on journal post
+
+The document args config are used to override the default values for _document archive_ on journalpost. You can define the _document archive_ (recno) based on the value of the _sakmappetype_ (recno). See the Kustomize example below:
+
+```yaml
+- {name: fint.p360.documentargs.override-archive, value: 'true' }
+- {name: fint.p360.documentargs.sakmappetype-mapping.0.sakmappetype, value: '27'}
+- {name: fint.p360.documentargs.sakmappetype-mapping.0.documentarchive, value: '150004'}
+```
+
 # Code Tables
 | Code Table                                            | Default P360 Table                            | NOARK code                |
 | :---------------------------------------------------- | :-------------------------------------------- | :------------------------ |

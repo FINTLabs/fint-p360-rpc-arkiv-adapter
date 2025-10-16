@@ -6,6 +6,7 @@ import no.fint.arkiv.TitleService
 import no.fint.model.resource.arkiv.noark.SakResource
 import no.fint.p360.data.noark.common.NoarkFactory
 import no.fint.p360.data.noark.journalpost.JournalpostFactory
+import no.fint.p360.service.CaseQueryService
 import no.fint.p360.service.ContextUserService
 import no.fint.p360.service.FilterSetService
 import spock.lang.Specification
@@ -23,7 +24,8 @@ class SakFactorySpec extends Specification
                     contextUserService: Mock(ContextUserService),
             ),
             Mock(FilterSetService),
-            Mock(JournalpostFactory)
+            Mock(JournalpostFactory),
+            Mock(CaseQueryService)
     )
 
     void setup() {
