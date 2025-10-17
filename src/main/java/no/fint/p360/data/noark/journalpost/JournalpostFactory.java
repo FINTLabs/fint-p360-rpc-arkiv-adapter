@@ -76,7 +76,8 @@ public class JournalpostFactory {
     private TitleService titleService;
 
     public JournalpostFactory(DocumentArgsConfiguration documentArgsConfiguration) {
-        this.sakmappetypeDocumentarchivesMapping = documentArgsConfiguration.getSakmappetypeMapping();
+        this.sakmappetypeDocumentarchivesMapping = ofNullable(documentArgsConfiguration.getSakmappetypeMapping())
+                .orElse(Collections.emptyList());
     }
 
     public JournalpostResource toFintResource(Document__1 documentResult,
