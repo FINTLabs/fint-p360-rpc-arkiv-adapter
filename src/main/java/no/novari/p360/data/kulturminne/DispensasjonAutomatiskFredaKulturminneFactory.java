@@ -39,8 +39,11 @@ public class DispensasjonAutomatiskFredaKulturminneFactory {
     private final CaseQueryService caseQueryService;
     private final FilterSet filterSet;
 
-    public DispensasjonAutomatiskFredaKulturminneFactory(NoarkFactory noarkFactory, JournalpostFactory journalpostFactory,
-            CaseDefaults caseDefaults, CaseQueryService caseQueryService, FilterSetService filterSetService) {
+    public DispensasjonAutomatiskFredaKulturminneFactory(NoarkFactory noarkFactory,
+                                                         JournalpostFactory journalpostFactory,
+                                                         CaseDefaults caseDefaults,
+                                                         CaseQueryService caseQueryService,
+                                                         FilterSetService filterSetService) {
 
         this.noarkFactory = noarkFactory;
         this.journalpostFactory = journalpostFactory;
@@ -79,7 +82,7 @@ public class DispensasjonAutomatiskFredaKulturminneFactory {
         DispensasjonAutomatiskFredaKulturminneResource resource = noarkFactory.getSaksmappe(filterSet, properties, theCase,
                 new DispensasjonAutomatiskFredaKulturminneResource());
         Optional.of(FintUtils.createIdentifikator(theCase.getExternalId().getId())).ifPresent(resource::setSoknadsnummer);
-        log.debug("Currently working (aka creating documents) with søknadsnummer: ", resource.getSoknadsnummer());
+        log.debug("Currently working (aka creating documents) with søknadsnummer: {}", resource.getSoknadsnummer());
 
         return journalpostFactory.toP360(journalpostResource, caseNumber, resource, properties);
     }
