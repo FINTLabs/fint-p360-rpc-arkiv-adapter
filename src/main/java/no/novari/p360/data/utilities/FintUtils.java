@@ -2,10 +2,7 @@ package no.novari.p360.data.utilities;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fint.model.felles.kodeverk.iso.Landkode;
-import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
-import no.fint.model.felles.kompleksedatatyper.Periode;
-import no.fint.model.felles.kompleksedatatyper.Personnavn;
+import no.fint.model.felles.kompleksedatatyper.*;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.p360.model.CaseService.Address;
@@ -95,7 +92,8 @@ public enum FintUtils {
         adresseResource.setPostnummer(address.getZipCode());
         if (StringUtils.isNotBlank(address.getCountry()))
             adresseResource.addLand(Link.with(Landkode.class, "systemid", address.getCountry()));
-        return adresseResource;
+
+        return cleanAdresseResource(adresseResource);
     }
 
     private static AdresseResource createAdresseResource(PostAddress__2 address) {
@@ -120,7 +118,7 @@ public enum FintUtils {
         adresseResource.setPoststed(address.getZipPlace());
         adresseResource.setPostnummer(address.getZipCode());
 
-        return adresseResource;
+        return cleanAdresseResource(adresseResource);
     }
 
     public static AdresseResource createAdresseResource(Address address) {
@@ -131,11 +129,31 @@ public enum FintUtils {
         if (StringUtils.isNotBlank(address.getCountry())) {
             adresseResource.addLand(Link.with(Landkode.class, "systemid", address.getCountry()));
         }
-        return adresseResource;
+        return cleanAdresseResource(adresseResource);
     }
 
     public static AdresseResource createAdresse(Enterprise result) {
         return optionalValue(result.getPostAddress()).map(FintUtils::createAdresseResource).orElse(null);
+    }
+
+    private static AdresseResource cleanAdresseResource(AdresseResource adresseResource) {
+        AdresseResource cleanAdresseResource = new AdresseResource();
+
+        if (adresseResource.getAdresselinje() != null && adresseResource.getAdresselinje().size() == 1) {
+            if (StringUtils.isNotBlank(adresseResource.getAdresselinje().get(0))) {
+                cleanAdresseResource.setAdresselinje(adresseResource.getAdresselinje());
+            }
+        }
+
+        if (adresseResource.getPostnummer() != null && !adresseResource.getPostnummer().isBlank()) {
+            cleanAdresseResource.setPostnummer(adresseResource.getPostnummer());
+        }
+
+        if (adresseResource.getPoststed() != null && !adresseResource.getPoststed().isBlank()) {
+            cleanAdresseResource.setPoststed(adresseResource.getPoststed());
+        }
+
+        return cleanAdresseResource;
     }
 
     public static Personnavn parsePersonnavn(String input) {

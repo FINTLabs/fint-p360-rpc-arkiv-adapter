@@ -34,6 +34,9 @@ public class EventResponseService {
             HttpHeaders headers = new HttpHeaders();
             headers.add(HeaderConstants.ORG_ID, event.getOrgId());
             headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+            headers.add(HeaderConstants.CLIENT, "p360-adapter@" + event.getOrgId());
+            headers.add("x-allowed-asset-ids", event.getOrgId());
+
             String url = endpoints.getProviders().get(component) + endpoints.getResponse();
             log.info("{}: Posting response for {} ...", component, event.getAction());
             ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(event, headers), Void.class);

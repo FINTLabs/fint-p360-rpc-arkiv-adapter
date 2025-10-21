@@ -156,7 +156,11 @@ public class KorrespondansepartFactory {
     public KorrespondansepartResource toFintResource(Contact__1 contact) {
         KorrespondansepartResource result = new KorrespondansepartResource();
         result.setKorrespondansepartNavn(contact.getSearchName());
-        result.setAdresse(createAdresseResource(contact));
+
+        if (!createAdresseResource(contact).equals(new AdresseResource())) {
+            result.setAdresse(createAdresseResource(contact));
+        }
+
         result.setKontaktinformasjon(createKontaktinformasjon(contact));
         optionalValue(contact.getRole())
                 .flatMap(role ->

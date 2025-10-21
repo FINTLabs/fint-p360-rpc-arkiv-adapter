@@ -26,10 +26,11 @@ spec:
                 -Xmx4G -verbose:gc
                 -XX:+ExitOnOutOfMemoryError
                 -Dfile.encoding=UTF-8
-            - {name: fint.adapter.endpoints.providers.kodeverk, value: https://api.felleskomponent.no/arkiv/kodeverk/provider}
-            - {name: fint.adapter.endpoints.providers.noark, value: https://api.felleskomponent.no/arkiv/noark/provider}
-            - {name: fint.adapter.endpoints.providers.samferdsel, value: https://api.felleskomponent.no/arkiv/samferdsel/provider}
-            - {name: fint.adapter.endpoints.providers.kulturminne, value: https://api.felleskomponent.no/arkiv/kulturminnevern/provider}
+
+            - { name: fint.adapter.endpoints.providers.kodeverk, value: http://provider-arkiv-kodeverk.default:8080/arkiv/kodeverk/provider }
+            - { name: fint.adapter.endpoints.providers.noark, value: http://provider-arkiv-noark.default:8080/arkiv/noark/provider }
+            - { name: fint.adapter.endpoints.providers.kulturminne, value: http://provider-arkiv-kulturminnevern.default:8080/arkiv/kulturminnevern/provider }
+            - { name: fint.adapter.endpoints.providers.samferdsel, value: http://provider-arkiv-samferdsel.default:8080/arkiv/samferdsel/provider }
 
             - {name: springfox.title, value: 'P360 RPC Adapter for Troms'}
             - {name: security.basic.enabled, value: 'false'}
@@ -127,6 +128,9 @@ spec:
             - {name: fint.p360.filterset.casetype.dispensasjonautomatiskfredakulturminne, value: 'digisak'}
 
             - {name: fint.p360.documentargs.override-archive, value: 'true'}
+            - {name: fint.p360.documentargs.sakmappetype-mapping.0.sakmappetype, value: '200002' }
+            - {name: fint.p360.documentargs.sakmappetype-mapping.0.documentarchive, value: '200002' }
+
             - {name: fint.p360.odata.case-status-filter, value: '5' }
 
             - {name: fint.file-cache.directory, value: '/temp'}

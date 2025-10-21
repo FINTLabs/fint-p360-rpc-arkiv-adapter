@@ -17,6 +17,7 @@ import no.fint.model.resource.arkiv.noark.DokumentbeskrivelseResource;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.model.resource.arkiv.noark.MerknadResource;
 import no.fint.model.resource.arkiv.noark.SaksmappeResource;
+import no.novari.p360.config.DocumentArgsConfiguration;
 import no.novari.p360.data.noark.dokument.DokumentbeskrivelseFactory;
 import no.novari.p360.data.noark.korrespondansepart.KorrespondansepartFactory;
 import no.novari.p360.data.noark.korrespondansepart.KorrespondansepartService;
@@ -25,7 +26,6 @@ import no.novari.p360.data.utilities.FintUtils;
 import no.novari.p360.model.ContextUser;
 import no.novari.p360.repository.KodeverkRepository;
 import no.novari.p360.service.ContextUserService;
-import no.p360.model.AccessGroupService.AccessGroup;
 import no.p360.model.DocumentService.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -43,6 +43,7 @@ import java.util.stream.Stream;
 import static java.util.Optional.ofNullable;
 import static no.novari.p360.data.utilities.FintUtils.optionalValue;
 import static no.novari.p360.data.utilities.P360Utils.applyParameterFromLink;
+import static no.novari.p360.data.utilities.P360Utils.getLinkTargets;
 
 @Slf4j
 @Service
@@ -50,6 +51,8 @@ public class JournalpostFactory {
 
     @Value("${fint.p360.documentargs.override-archive:false}")
     private boolean overrideArchive;
+
+    private final List<DocumentArgsConfiguration.SakmappetypeMapping> sakmappetypeDocumentarchivesMapping;
 
     @Autowired
     private KodeverkRepository kodeverkRepository;
@@ -71,6 +74,11 @@ public class JournalpostFactory {
 
     @Autowired
     private TitleService titleService;
+
+    public JournalpostFactory(DocumentArgsConfiguration documentArgsConfiguration) {
+        this.sakmappetypeDocumentarchivesMapping = ofNullable(documentArgsConfiguration.getSakmappetypeMapping())
+                .orElse(Collections.emptyList());
+    }
 
     public JournalpostResource toFintResource(Document__1 documentResult,
                                               CaseProperties caseProperties,
@@ -116,9 +124,7 @@ public class JournalpostFactory {
         journalpost.setForfatter(Collections.singletonList(documentResult.getResponsiblePersonName()));
 
         journalpost.setKorrespondansepart(
-                optionalValue(documentResult.getContacts())
-                        .map(Collection::stream)
-                        .orElse(Stream.empty())
+                optionalValue(documentResult.getContacts()).stream().flatMap(Collection::stream)
                         .map(korrespondansepartFactory::toFintResource)
                         .collect(Collectors.toList()));
 
@@ -132,6 +138,7 @@ public class JournalpostFactory {
                 .map(String::valueOf)
                 .map(Link.apply(Personalressurs.class, "ansattnummer"))
                 .ifPresent(journalpost::addSaksbehandler);
+
         optionalValue(documentResult.getResponsibleEnterprise())
                 .map(ResponsibleEnterprise::getRecno)
                 .map(String::valueOf)
@@ -154,9 +161,7 @@ public class JournalpostFactory {
                 .ifPresent(journalpost::addJournalstatus);
 
         journalpost.setMerknad(
-                optionalValue(documentResult.getRemarks())
-                        .map(List::stream)
-                        .orElse(Stream.empty())
+                optionalValue(documentResult.getRemarks()).orElse(Collections.emptyList()).stream()
                         .map(this::createMerknad)
                         .collect(Collectors.toList()));
 
@@ -181,7 +186,7 @@ public class JournalpostFactory {
                         .findAny())
                 .map(TilgangsgruppeResource::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
-                .map(Link.apply(AccessGroup.class, "systemid"))
+                .map(Link.apply(TilgangsgruppeResource.class, "systemid"))
                 .ifPresent(journalpost::addTilgangsgruppe);
 
         return journalpost;
@@ -269,30 +274,33 @@ public class JournalpostFactory {
                 createDocumentArgs::setStatus);
 
         if (overrideArchive) {
-            applyParameterFromLink(
-                    saksmappeResource.getSaksmappetype(),
-                    createDocumentArgs::setArchive);
+            log.debug("Let's override the default document archive value. We're setting it based on the Saksmappetype: {}",
+                    saksmappeResource.getSaksmappetype());
+
+            getLinkTargets(saksmappeResource.getSaksmappetype())
+                    .findFirst()
+                    .flatMap(saksmappetype -> sakmappetypeDocumentarchivesMapping.stream()
+                            .filter(item -> item.getSakmappetype().equals(saksmappetype))
+                            .findFirst())
+                    .ifPresent(item ->
+                            createDocumentArgs.setArchive(item.getDocumentarchive()));
         }
 
         final Pair<List<Contact>, List<UnregisteredContact>> contacts = korrespondansepartService.getContactsFromKorrespondansepart(
-                journalpostResource.getKorrespondansepart(),
+                ofNullable(journalpostResource.getKorrespondansepart()).orElse(Collections.emptyList()),
                 SkjermingService.hasTilgangsrestriksjon(journalpostResource.getSkjerming()));
 
         createDocumentArgs.setContacts(contacts.getLeft());
         createDocumentArgs.setUnregisteredContacts(contacts.getRight());
 
         createDocumentArgs.setFiles(
-                ofNullable(journalpostResource.getDokumentbeskrivelse())
-                        .map(List::stream)
-                        .orElseGet(Stream::empty)
+                ofNullable(journalpostResource.getDokumentbeskrivelse()).stream().flatMap(Collection::stream)
                         .peek(r -> log.info("Handling Dokumentbeskrivelse: {}", r))
                         .flatMap(this::createFiles)
                         .collect(Collectors.toList()));
 
         createDocumentArgs.setRemarks(
-                ofNullable(journalpostResource.getMerknad())
-                        .map(List::stream)
-                        .orElseGet(Stream::empty)
+                ofNullable(journalpostResource.getMerknad()).orElse(Collections.emptyList()).stream()
                         .map(this::createDocumentRemarkParameter)
                         .collect(Collectors.toList()));
 
@@ -305,6 +313,10 @@ public class JournalpostFactory {
                 journalpostResource.getSaksbehandler(),
                 Integer::valueOf,
                 createDocumentArgs::setResponsiblePersonRecno);
+
+        applyParameterFromLink(
+                journalpostResource.getTilgangsgruppe(),
+                createDocumentArgs::setAccessGroup);
 
         return createDocumentArgs;
     }

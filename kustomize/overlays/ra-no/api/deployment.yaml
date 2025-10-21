@@ -28,9 +28,10 @@ spec:
 
             - {name: fint.adapter.organizations, value: ra.no}
             - {name: fint.adapter.reject-unknown-events, value: 'false'}
-            - {name: fint.adapter.endpoints.providers.kodeverk, value: https://api.felleskomponent.no/arkiv/kodeverk/provider}
-            - {name: fint.adapter.endpoints.providers.noark, value: https://api.felleskomponent.no/arkiv/noark/provider}
-            - {name: fint.adapter.endpoints.providers.kulturminne, value: https://api.felleskomponent.no/arkiv/kulturminnevern/provider}
+
+            - { name: fint.adapter.endpoints.providers.kodeverk, value: http://provider-arkiv-kodeverk.default:8080/arkiv/kodeverk/provider }
+            - { name: fint.adapter.endpoints.providers.noark, value: http://provider-arkiv-noark.default:8080/arkiv/noark/provider }
+            - { name: fint.adapter.endpoints.providers.kulturminne, value: http://provider-arkiv-kulturminnevern.default:8080/arkiv/kulturminnevern/provider }
 
             - {name: fint.case.defaults.tilskuddfartoy.title.cases, value: '${kallesignal} - ${fartoyNavn} - Tilskudd - Kulturminne-ID ${kulturminneId} - Søknadsnr. ${soknadsnummer.identifikatorverdi}'}
             - {name: fint.case.defaults.tilskuddfartoy.field.CF_KulturminneID, value: '${kulturminneId}'}
@@ -42,13 +43,14 @@ spec:
             - {name: fint.case.defaults.tilskuddfartoy.klassifikasjon.1.verdi, value: 'recno:200074'}
             - {name: fint.case.defaults.tilskuddfartoy.noekkelord, value: ''}
             - {name: fint.case.defaults.tilskuddfartoy.korrespondansepartType, value: '5'}
-            - {name: fint.case.defaults.tilskuddfartoy.journalpostType, value: '110'}
-            - {name: fint.case.defaults.tilskuddfartoy.journalstatus, value: 'A'} # F eller M gir feilmelding
+            - {name: fint.case.defaults.tilskuddfartoy.journalpostType, value: 'I' }
+            - {name: fint.case.defaults.tilskuddfartoy.journalpost.I.status, value: '3' } # S (Registrert av ansvarlig person/leder)
+            - {name: fint.case.defaults.tilskuddfartoy.journalpost.U.status, value: 'E' } # Ekspedert
             - {name: fint.case.defaults.tilskuddfartoy.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.tilskuddfartoy.dokumentType, value: Brev}
             - {name: fint.case.defaults.tilskuddfartoy.tilknyttetRegistreringSom, value: H}
-            - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '200004' }
-            - {name: fint.case.defaults.tilskuddfartoy.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.tilskuddfartoy.saksansvarlig, value: '234011' }
+            - {name: fint.case.defaults.tilskuddfartoy.saksbehandler, value: '234011' }
 
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.title.cases, value: '${matrikkelnummer.gardsnummer}/${matrikkelnummer.bruksnummer} Tilskudd post 71 - Kulturminne-ID ${kulturminneId} - ${bygningsnavn} - Søknadsnr. ${soknadsnummer.identifikatorverdi}'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.field.CF_KulturminneID, value: '${kulturminneId}'}
@@ -60,13 +62,14 @@ spec:
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.klassifikasjon.1.verdi, value: 'recno:200073'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.noekkelord, value: ''}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.korrespondansepartType, value: '5'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpostType, value: '110'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalstatus, value: 'A'} # F eller M gir feilmelding
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpostType, value: 'I' }
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpost.I.status, value: '3' } # S (Registrert av ansvarlig person/leder)
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.journalpost.U.status, value: 'E' } # Ekspedert
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentstatus, value: 'F'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.dokumentType, value: 'Brev'}
             - {name: fint.case.defaults.tilskuddfredabygningprivateie.tilknyttetRegistreringSom, value: 'H'}
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '200004' }
-            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksansvarlig, value: '234011' }
+            - {name: fint.case.defaults.tilskuddfredabygningprivateie.saksbehandler, value: '234011' }
 
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.administrativEnhet, value: '200018'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.arkivdel, value: '200002'}
@@ -81,8 +84,8 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.1.verdi, value: 'recno:200075'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.korrespondansepartType, value: 'EA'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.noekkelord, value: ''}
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200004' }
-            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksbehandler, value: '200004' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '234011' }
+            - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksbehandler, value: '234011' }
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksmappeType, value: 'Sak'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksstatus, value: 'B'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.tilknyttetRegistreringSom, value: 'H'}

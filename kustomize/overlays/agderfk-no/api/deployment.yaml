@@ -27,10 +27,11 @@ spec:
             - {name: springfox.title, value: P360 RPC Adapter for Agder}
             - {name: security.basic.enabled, value: "false"}
             - {name: fint.adapter.reject-unknown-events, value: "true"}
-            - {name: fint.adapter.endpoints.providers.kodeverk, value: https://api.felleskomponent.no/arkiv/kodeverk/provider}
-            - {name: fint.adapter.endpoints.providers.noark, value: https://api.felleskomponent.no/arkiv/noark/provider}
-            - {name: fint.adapter.endpoints.providers.samferdsel, value: https://api.felleskomponent.no/arkiv/samferdsel/provider}
-            - {name: fint.adapter.endpoints.providers.kulturminne, value: https://api.felleskomponent.no/arkiv/kulturminnevern/provider}
+
+            - { name: fint.adapter.endpoints.providers.kodeverk, value: http://provider-arkiv-kodeverk.default:8080/arkiv/kodeverk/provider }
+            - { name: fint.adapter.endpoints.providers.noark, value: http://provider-arkiv-noark.default:8080/arkiv/noark/provider }
+            - { name: fint.adapter.endpoints.providers.kulturminne, value: http://provider-arkiv-kulturminnevern.default:8080/arkiv/kulturminnevern/provider }
+            - { name: fint.adapter.endpoints.providers.samferdsel, value: http://provider-arkiv-samferdsel.default:8080/arkiv/samferdsel/provider }
 
             - {name: fint.arkiv.part, value: "true"}
 
@@ -42,7 +43,7 @@ spec:
             - {name: fint.case.defaults.soknaddrosjeloyve.dokumentstatus, value: F}
             - {name: fint.case.defaults.soknaddrosjeloyve.journalstatus, value: J}
             - {name: fint.case.defaults.soknaddrosjeloyve.title.cases, value: 'Drosjeløyve - ${organisasjonsnavn} - ${organisasjonsnummer}'}
-            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: "200227"}
+            - {name: fint.case.defaults.soknaddrosjeloyve.administrativEnhet, value: "200228"}
             - {name: fint.case.defaults.soknaddrosjeloyve.arkivdel, value: "200009"}
             - {name: fint.case.defaults.soknaddrosjeloyve.saksstatus, value: B}
             - {name: fint.case.defaults.soknaddrosjeloyve.klassifikasjon.1.ordning, value: ORGNR}

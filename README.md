@@ -26,6 +26,16 @@ The adapter uses the following services:
 | fint.kulturminne.tilskudd-fartoy.achive-code-type     |                                          |               |
 | fint.kulturminne.tilskudd-fartoy.intitial-case-status | `B`                                      |               |
 
+## How to set custom document archive on journal post
+
+The document args config are used to override the default values for _document archive_ on journalpost. You can define the _document archive_ (recno) based on the value of the _sakmappetype_ (recno). See the Kustomize example below:
+
+```yaml
+- {name: fint.p360.documentargs.override-archive, value: 'true' }
+- {name: fint.p360.documentargs.sakmappetype-mapping.0.sakmappetype, value: '27'}
+- {name: fint.p360.documentargs.sakmappetype-mapping.0.documentarchive, value: '150004'}
+```
+
 # Code Tables
 | Code Table                                            | Default P360 Table                            | NOARK code                |
 | :---------------------------------------------------- | :-------------------------------------------- | :------------------------ |
@@ -47,7 +57,7 @@ This adapter have support for OData filtering of cases. That means it's now poss
 get cases based on a OData filter, not only `mappeid`, `systemid` and `soknadsnummer`.
 The old filter (query param `title`) is now deprecated and will be removed, use `$filter=tittel eq 'Tittel'` instead!
 
-We currently support `mappeid`, `tittel`, `systemid`, `arkivdel`, `klassifikasjon/primar/verdi` and `kontaktid`.
+We currently support `mappeid`, `tittel`, `systemid`, `arkivdel`, `klassifikasjon/primar/verdi`, `kontaktid` and `saksstatus`.
 
 ### Examples
 - `$filter=arkivdel eq '1337'`
@@ -56,3 +66,4 @@ We currently support `mappeid`, `tittel`, `systemid`, `arkivdel`, `klassifikasjo
 - `$filter=systemid eq '123456'`
 - `$filter=klassifikasjon/primar/verdi eq 'C52'`
 - `$filter=kontaktid eq '08089312345'`
+- `$filter=saksstatus eq '5'` PS! It's only possible to filter with recno.

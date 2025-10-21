@@ -25,14 +25,20 @@ spec:
                 -Dfile.encoding=UTF-8
 
             - {name: springfox.title, value: 'P360 RPC Adapter for Trøndelag'}
-            - {name: fint.adapter.endpoints.providers.kodeverk, value: https://api.felleskomponent.no/arkiv/kodeverk/provider}
-            - {name: fint.adapter.endpoints.providers.noark, value: https://api.felleskomponent.no/arkiv/noark/provider}
-            - {name: fint.adapter.endpoints.providers.kulturminne, value: https://api.felleskomponent.no/arkiv/kulturminnevern/provider}
-            - {name: fint.adapter.endpoints.providers.samferdsel, value: https://api.felleskomponent.no/arkiv/samferdsel/provider}
+
+            - { name: fint.adapter.endpoints.providers.kodeverk, value: http://provider-arkiv-kodeverk.default:8080/arkiv/kodeverk/provider }
+            - { name: fint.adapter.endpoints.providers.noark, value: http://provider-arkiv-noark.default:8080/arkiv/noark/provider }
+            - { name: fint.adapter.endpoints.providers.kulturminne, value: http://provider-arkiv-kulturminnevern.default:8080/arkiv/kulturminnevern/provider }
+            - { name: fint.adapter.endpoints.providers.samferdsel, value: http://provider-arkiv-samferdsel.default:8080/arkiv/samferdsel/provider }
+
             - {name: fint.adapter.reject-unknown-events, value: 'false'}
 
             - {name: fint.arkiv.casenumber.format, value: 'yyyy'}
-            - {name: fint.arkiv.part, value: 'false'}
+            - {name: fint.arkiv.part, value: 'true'}
+
+            - { name: fint.p360.documentargs.override-archive, value: 'true' }
+            - { name: fint.p360.documentargs.sakmappetype-mapping.0.sakmappetype, value: '27' }
+            - { name: fint.p360.documentargs.sakmappetype-mapping.0.documentarchive, value: '150004' }
 
             - {name: fint.case.coding.dokumentType.B, value: '1'}
             - {name: fint.case.coding.journalposttype.I, value: '110'}

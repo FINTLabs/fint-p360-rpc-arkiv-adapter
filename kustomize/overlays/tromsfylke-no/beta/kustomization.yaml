@@ -8,9 +8,11 @@ resources:
   - onepassword.yaml
   - fint-adapter.yaml
 
-commonLabels:
- app.kubernetes.io/instance: adapter-arkiv-p360_tromsfylke-no
- fintlabs.no/org-id: tromsfylke.no
+labels:
+  - pairs:
+      fintlabs.no/org-id: tromsfylke.no
+      app.kubernetes.io/instance: adapter-arkiv-p360_tromsfylke-no
+    includeSelectors: true
 
 patches:
   
