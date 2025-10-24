@@ -46,6 +46,7 @@ public class ODataFilterUtils {
                 .ifPresent(getCasesArgs::setContactReferenceNumber);
 
         Optional.ofNullable(oDataFilter.get("saksmappetype"))
+                .map(value -> value.matches("\\d+") ? "recno:" + value : value)
                 .ifPresent(getCasesArgs::setCaseType);
 
         Optional.ofNullable(oDataFilter.get("saksstatus"))

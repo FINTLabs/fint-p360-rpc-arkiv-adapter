@@ -27,6 +27,7 @@ class ODataFilterUtilsSpec extends Specification {
         "tittel eq 'Post 74, Post 44 - Fiskeskøyte'"                                      | "Post 74, Post 44 - Fiskeskøyte"       | { it.getTitle() }
         "saksstatus eq '5'"                                                               | "5"                                    | { it.getAdditionalFields().first().getValue() }
         "saksmappetype eq 'Personalmappe'"                                                | "Personalmappe"                        | { it.getCaseType() }
+        "saksmappetype eq '27'"                                                           | "recno:27"                             | { it.getCaseType() }
     }
 
     def "Get both mappeid and tittel from one magic ODataFiltered query"() {
