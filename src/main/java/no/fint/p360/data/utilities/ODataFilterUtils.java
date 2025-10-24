@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class ODataFilterUtils {
 
     private final List<String> supportedODataProperties = List.of("mappeid", "tittel", "systemid", "arkivdel",
-            "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid", "saksstatus");
+            "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid", "saksstatus", "saksmappetype");
 
     public GetCasesArgs getCasesArgs(String query, String caseStatusFilter) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
@@ -44,6 +44,9 @@ public class ODataFilterUtils {
 
         Optional.ofNullable(oDataFilter.get("kontaktid"))
                 .ifPresent(getCasesArgs::setContactReferenceNumber);
+
+        Optional.ofNullable(oDataFilter.get("saksmappetype"))
+                .ifPresent(getCasesArgs::setCaseType);
 
         Optional.ofNullable(oDataFilter.get("saksstatus"))
                 .or(() -> Optional.ofNullable(caseStatusFilter).filter(StringUtils::isNotBlank))
