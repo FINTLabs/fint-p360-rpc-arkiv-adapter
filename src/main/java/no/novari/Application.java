@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @Import(OAuthConfig.class)
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"no.novari", "no.fint"})
 public class Application {
 
     public static void main(String[] args) {
