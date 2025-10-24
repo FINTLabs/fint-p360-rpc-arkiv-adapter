@@ -37,6 +37,7 @@ public class ODataFilterUtils {
                 .ifPresent(getCasesArgs::setTitle);
 
         Optional.ofNullable(oDataFilter.get("arkivdel"))
+                .map(ODataFilterUtils::prefixWithRecnoIfNumeric)
                 .ifPresent(getCasesArgs::setSubArchive);
 
         Optional.ofNullable(oDataFilter.get("klassifikasjon/primar/verdi"))
@@ -46,7 +47,7 @@ public class ODataFilterUtils {
                 .ifPresent(getCasesArgs::setContactReferenceNumber);
 
         Optional.ofNullable(oDataFilter.get("saksmappetype"))
-                .map(value -> StringUtils.isNumeric(value) ? "recno:" + value : value)
+                .map(ODataFilterUtils::prefixWithRecnoIfNumeric)
                 .ifPresent(getCasesArgs::setCaseType);
 
         Optional.ofNullable(oDataFilter.get("saksstatus"))
@@ -63,6 +64,10 @@ public class ODataFilterUtils {
         return getCasesArgs;
     }
 
+    private static String prefixWithRecnoIfNumeric(String value) {
+        return StringUtils.isNumeric(value) ? "recno:" + value : value;
+    }
+
     private Map<String, String> parseQuery(String query) throws IllegalODataFilter {
         ODataLexer lexer = new ODataLexer(CharStreams.fromString(query));
         CommonTokenStream commonTokens = new CommonTokenStream(lexer);
@@ -77,13 +82,6 @@ public class ODataFilterUtils {
         String oDataProperty = context.property().getText();
         String oDataOperator = context.comparisonOperator().getText();
         String oDataValue = context.value().getText().replaceAll("'", "");
-
-        if ("arkivdel".equalsIgnoreCase(oDataProperty) && StringUtils.isNumeric(oDataValue)) {
-            log.info("Custom P360 h4ck to prefix our OData filter with 'recno:.'");
-            oDataValue = "recno:".concat(oDataValue);
-
-            log.debug("The new modified ODatafitler value: {}", oDataValue);
-        }
 
         if (!"eq".equals(oDataOperator)) {
             throw new IllegalODataFilter(String.format("OData operator %s is not supported. Currently only support for 'eq' operator.", oDataOperator));
