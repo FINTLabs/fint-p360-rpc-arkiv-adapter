@@ -1,7 +1,7 @@
 package no.novari.p360.data.noark.sak;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.CaseProperties;
+import no.novari.fint.arkiv.CaseProperties;
 import no.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.model.resource.arkiv.noark.SakResource;
 import no.novari.p360.data.exception.GetDocumentException;

@@ -1,8 +1,8 @@
 package no.novari.p360.data.noark.journalpost;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.CaseProperties;
-import no.fint.arkiv.TitleService;
+import no.novari.fint.arkiv.CaseProperties;
+import no.novari.fint.arkiv.TitleService;
 import no.fint.model.administrasjon.personal.Personalressurs;
 import no.fint.model.arkiv.kodeverk.JournalStatus;
 import no.fint.model.arkiv.kodeverk.JournalpostType;

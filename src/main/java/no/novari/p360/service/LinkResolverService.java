@@ -1,7 +1,7 @@
 package no.novari.p360.service;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.LinkResolver;
+import no.novari.fint.arkiv.LinkResolver;
 import no.fint.model.resource.Link;
 import no.fint.model.resource.felles.kodeverk.FylkeResource;
 import no.fint.model.resource.felles.kodeverk.KommuneResource;

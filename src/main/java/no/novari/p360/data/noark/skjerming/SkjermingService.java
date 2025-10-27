@@ -1,7 +1,7 @@
 package no.novari.p360.data.noark.skjerming;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.NoarkMetadataService;
+import no.novari.fint.arkiv.NoarkMetadataService;
 import no.fint.model.arkiv.kodeverk.Skjermingshjemmel;
 import no.fint.model.arkiv.kodeverk.Tilgangsrestriksjon;
 import no.fint.model.felles.basisklasser.Begrep;

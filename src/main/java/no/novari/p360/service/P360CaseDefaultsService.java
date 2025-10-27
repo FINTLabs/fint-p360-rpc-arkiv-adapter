@@ -1,8 +1,8 @@
 package no.novari.p360.service;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.CaseDefaultsService;
-import no.fint.arkiv.CaseProperties;
+import no.novari.fint.arkiv.CaseDefaultsService;
+import no.novari.fint.arkiv.CaseProperties;
 import no.p360.model.CaseService.CreateCaseArgs;
 import org.springframework.stereotype.Service;
 

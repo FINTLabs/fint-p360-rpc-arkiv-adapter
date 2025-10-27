@@ -1,8 +1,8 @@
 package no.novari.p360.data.noark.sak
 
-import no.fint.arkiv.AdditionalFieldService
-import no.fint.arkiv.SubstitutorService
-import no.fint.arkiv.TitleService
+import no.novari.fint.arkiv.AdditionalFieldService
+import no.novari.fint.arkiv.SubstitutorService
+import no.novari.fint.arkiv.TitleService
 import no.fint.model.resource.arkiv.noark.SakResource
 import no.novari.p360.data.noark.common.NoarkFactory
 import no.novari.p360.data.noark.journalpost.JournalpostFactory
