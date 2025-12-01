@@ -112,6 +112,6 @@ spec:
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.klassifikasjon.3.verdi, value: 'recno:380029'} # &18
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.saksansvarlig, value: '200418'}
             - {name: fint.case.defaults.dispensasjonautomatiskfredakulturminne.variantFormat, value: 'P'}
-            - {name: logging.level.no.fint.arkiv, value: 'info'}
-            - {name: logging.level.no.fint.p360, value: 'info'}
+            - {name: logging.level.no.fint.arkiv, value: 'trace'}
+            - {name: logging.level.no.fint.p360, value: 'trace'}
             - {name: logging.level.reactor.netty.http.client, value: 'warn'}
