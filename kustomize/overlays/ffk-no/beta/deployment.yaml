@@ -110,6 +110,10 @@ spec:
             - {name: fint.p360.filterset.casetype.tilskuddfredabygningprivateie, value: 'digisak'}
             - {name: fint.p360.filterset.casetype.dispensasjonautomatiskfredakulturminne, value: 'digisak'}
 
+            - {name: fint.p360.documentargs.override-archive, value: 'true'}
+            - {name: fint.p360.documentargs.sakmappetype-mapping.0.sakmappetype, value: '200003' }
+            - {name: fint.p360.documentargs.sakmappetype-mapping.0.documentarchive, value: '200003' }
+
             - {name: fint.file-cache.directory, value: '/temp'}
             - {name: logging.level.no.fint.arkiv, value: 'trace'}
             - {name: logging.level.no.fint.p360, value: 'trace'}
