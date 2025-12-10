@@ -135,6 +135,6 @@ spec:
 
             - {name: fint.file-cache.directory, value: '/temp'}
 
-            - {name: logging.level.no.fint.arkiv, value: 'trace'}
-            - {name: logging.level.no.fint.p360, value: 'trace'}
+            - {name: logging.level.no.fint.arkiv, value: 'info'}
+            - {name: logging.level.no.fint.p360, value: 'info'}
             - {name: logging.level.reactor.netty.http.client, value: 'warn'}
