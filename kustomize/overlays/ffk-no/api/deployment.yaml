@@ -35,6 +35,9 @@ spec:
             - {name: springfox.title, value: 'P360 RPC Adapter for Finnmark'}
             - {name: security.basic.enabled, value: 'false'}
             - {name: fint.adapter.reject-unknown-events, value: 'false'}
+
+            - {name: fint.arkiv.part, value: "true" }
+
             - {name: fint.case.coding.dokumentType.B, value: '1'}
             - {name: fint.case.coding.filformat.RA-JPEG, value: 'JPG'}
             - {name: fint.case.coding.filformat.RA-PDF, value: 'PDF'}
