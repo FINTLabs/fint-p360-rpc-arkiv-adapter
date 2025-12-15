@@ -76,8 +76,8 @@ dependencies {
     implementation 'org.apache.commons:commons-text:1.14.0'
 
     testImplementation 'cglib:cglib-nodep:3.3.0'
-    testImplementation 'org.spockframework:spock-spring:2.3-groovy-4.0'
-    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+    testImplementation 'org.spockframework:spock-spring:2.4-groovy-5.0'
+    testImplementation 'org.spockframework:spock-core:2.4-groovy-5.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
