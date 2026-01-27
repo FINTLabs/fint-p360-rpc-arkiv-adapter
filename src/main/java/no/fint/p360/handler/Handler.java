@@ -1,7 +1,7 @@
 package no.fint.p360.handler;
 
 import no.fint.event.model.Event;
-import no.fint.model.resource.FintLinks;
+import no.novari.fint.model.resource.FintLinks;
 
 import java.util.Collections;
 import java.util.Set;

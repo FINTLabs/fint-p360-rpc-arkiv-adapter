@@ -2,8 +2,8 @@ package no.fint.p360.handler.kulturminne;
 
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
-import no.fint.model.arkiv.kulturminnevern.KulturminnevernActions;
-import no.fint.model.resource.FintLinks;
+import no.novari.fint.model.arkiv.kulturminnevern.KulturminnevernActions;
+import no.novari.fint.model.resource.FintLinks;
 import no.fint.p360.data.exception.*;
 import no.fint.p360.data.kulturminne.DispensasjonAutomatiskFredaKulturminneService;
 import no.fint.p360.handler.Handler;

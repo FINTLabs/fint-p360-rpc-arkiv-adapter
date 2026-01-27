@@ -1,12 +1,12 @@
 package no.fint.p360.handler.noark;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.NoarkMetadataService;
+import no.novari.fint.arkiv.NoarkMetadataService;
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
 import no.fint.event.model.Status;
-import no.fint.model.arkiv.kodeverk.KodeverkActions;
-import no.fint.model.resource.FintLinks;
+import no.novari.fint.model.arkiv.kodeverk.KodeverkActions;
+import no.novari.fint.model.resource.FintLinks;
 import no.fint.p360.handler.Handler;
 import no.fint.p360.repository.KodeverkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static no.fint.model.arkiv.kodeverk.KodeverkActions.*;
+import static no.novari.fint.model.arkiv.kodeverk.KodeverkActions.*;
 
 @Service
 @Slf4j

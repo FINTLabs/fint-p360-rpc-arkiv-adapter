@@ -1,10 +1,10 @@
 package no.fint.p360.data.utilities;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.felles.kodeverk.iso.Landkode;
-import no.fint.model.felles.kompleksedatatyper.*;
-import no.fint.model.resource.Link;
-import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
+import no.novari.fint.model.felles.kodeverk.iso.Landkode;
+import no.novari.fint.model.felles.kompleksedatatyper.*;
+import no.novari.fint.model.resource.Link;
+import no.novari.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.p360.model.CaseService.Address;
 import no.p360.model.ContactService.*;
 import no.p360.model.DocumentService.Contact__1;

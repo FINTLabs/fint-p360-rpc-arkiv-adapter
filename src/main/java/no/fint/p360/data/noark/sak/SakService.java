@@ -2,8 +2,8 @@ package no.fint.p360.data.noark.sak;
 
 import no.fint.event.model.Event;
 import no.fint.event.model.ResponseStatus;
-import no.fint.model.resource.FintLinks;
-import no.fint.model.resource.arkiv.noark.SakResource;
+import no.novari.fint.model.resource.FintLinks;
+import no.novari.fint.model.resource.arkiv.noark.SakResource;
 import no.fint.p360.model.FilterSet;
 import no.fint.p360.service.CaseQueryService;
 import no.fint.p360.service.FilterSetService;

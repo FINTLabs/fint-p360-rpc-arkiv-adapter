@@ -1,14 +1,14 @@
 package no.fint.p360.data.samferdsel;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.CaseDefaults;
-import no.fint.arkiv.CaseProperties;
-import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.resource.Link;
-import no.fint.model.resource.arkiv.kodeverk.PartRolleResource;
-import no.fint.model.resource.arkiv.noark.JournalpostResource;
-import no.fint.model.resource.arkiv.noark.PartResource;
-import no.fint.model.resource.arkiv.samferdsel.SoknadDrosjeloyveResource;
+import no.novari.fint.arkiv.CaseDefaults;
+import no.novari.fint.arkiv.CaseProperties;
+import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.novari.fint.model.resource.Link;
+import no.novari.fint.model.resource.arkiv.kodeverk.PartRolleResource;
+import no.novari.fint.model.resource.arkiv.noark.JournalpostResource;
+import no.novari.fint.model.resource.arkiv.noark.PartResource;
+import no.novari.fint.model.resource.arkiv.samferdsel.SoknadDrosjeloyveResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.common.NoarkFactory;

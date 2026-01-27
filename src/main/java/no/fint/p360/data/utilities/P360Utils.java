@@ -1,7 +1,7 @@
 package no.fint.p360.data.utilities;
 
-import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.resource.Link;
+import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.novari.fint.model.resource.Link;
 import no.p360.model.CaseService.ExternalId;
 import org.apache.commons.lang3.StringUtils;
 

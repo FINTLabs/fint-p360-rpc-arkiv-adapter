@@ -1,6 +1,6 @@
 package no.fint.p360.data.utilities;
 
-import no.fint.model.felles.basisklasser.Begrep;
+import no.novari.fint.model.felles.basisklasser.Begrep;
 import no.p360.model.SupportService.CodeTableRow;
 
 import java.util.function.Function;

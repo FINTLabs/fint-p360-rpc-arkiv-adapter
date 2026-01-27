@@ -2,10 +2,10 @@ package no.fint.p360.repository;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.resource.arkiv.kodeverk.*;
-import no.fint.model.resource.arkiv.noark.KlasseResource;
-import no.fint.model.resource.arkiv.noark.KlassifikasjonssystemResource;
-import no.fint.model.resource.arkiv.kodeverk.TilgangsgruppeResource;
+import no.novari.fint.model.resource.arkiv.kodeverk.*;
+import no.novari.fint.model.resource.arkiv.noark.KlasseResource;
+import no.novari.fint.model.resource.arkiv.noark.KlassifikasjonssystemResource;
+import no.novari.fint.model.resource.arkiv.kodeverk.TilgangsgruppeResource;
 import no.fint.p360.data.noark.codes.CaseCategoryService;
 import no.fint.p360.data.noark.codes.ResponseCodeService;
 import no.fint.p360.data.noark.codes.dokumentstatus.DokumentstatusService;

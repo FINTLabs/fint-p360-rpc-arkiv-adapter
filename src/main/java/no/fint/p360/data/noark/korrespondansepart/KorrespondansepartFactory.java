@@ -1,13 +1,13 @@
 package no.fint.p360.data.noark.korrespondansepart;
 
-import no.fint.model.arkiv.kodeverk.KorrespondansepartType;
-import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
-import no.fint.model.felles.kompleksedatatyper.Personnavn;
-import no.fint.model.resource.Link;
-import no.fint.model.resource.arkiv.kodeverk.KorrespondansepartTypeResource;
-import no.fint.model.resource.arkiv.noark.KorrespondansepartResource;
-import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
+import no.novari.fint.model.arkiv.kodeverk.KorrespondansepartType;
+import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.novari.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
+import no.novari.fint.model.felles.kompleksedatatyper.Personnavn;
+import no.novari.fint.model.resource.Link;
+import no.novari.fint.model.resource.arkiv.kodeverk.KorrespondansepartTypeResource;
+import no.novari.fint.model.resource.arkiv.noark.KorrespondansepartResource;
+import no.novari.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.ContactService.PostAddress__4;
 import no.p360.model.ContactService.PrivateAddress__3;

@@ -1,7 +1,7 @@
 package no.fint.p360.data.noark.codes.tilgangsgruppe;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.resource.arkiv.kodeverk.TilgangsgruppeResource;
+import no.novari.fint.model.resource.arkiv.kodeverk.TilgangsgruppeResource;
 import no.fint.p360.data.p360.AccessGroupService;
 import no.p360.model.AccessGroupService.AccessGroup;
 import no.p360.model.AccessGroupService.GetAccessGroupsArgs;

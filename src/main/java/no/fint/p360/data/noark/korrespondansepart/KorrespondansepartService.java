@@ -1,8 +1,8 @@
 package no.fint.p360.data.noark.korrespondansepart;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.resource.arkiv.noark.KorrespondansepartResource;
-import no.fint.model.resource.arkiv.noark.SkjermingResource;
+import no.novari.fint.model.resource.arkiv.noark.KorrespondansepartResource;
+import no.novari.fint.model.resource.arkiv.noark.SkjermingResource;
 import no.fint.p360.data.exception.CreateContactException;
 import no.fint.p360.data.exception.CreateEnterpriseException;
 import no.fint.p360.data.exception.EnterpriseNotFound;

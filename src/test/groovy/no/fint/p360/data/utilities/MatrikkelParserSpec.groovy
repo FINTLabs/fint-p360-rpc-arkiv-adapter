@@ -1,8 +1,8 @@
 package no.fint.p360.data.utilities
 
-import no.fint.model.felles.kodeverk.Kommune
-import no.fint.model.resource.Link
-import no.fint.model.resource.felles.kompleksedatatyper.MatrikkelnummerResource
+import no.novari.fint.model.felles.kodeverk.Kommune
+import no.novari.fint.model.resource.Link
+import no.novari.fint.model.resource.felles.kompleksedatatyper.MatrikkelnummerResource
 import no.fint.p360.data.exception.UnableToParseMatrikkel
 import spock.lang.Specification
 

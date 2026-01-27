@@ -8,7 +8,7 @@ import no.fint.event.model.ResponseStatus;
 import no.fint.event.model.Status;
 import no.fint.event.model.health.Health;
 import no.fint.event.model.health.HealthStatus;
-import no.fint.model.resource.FintLinks;
+import no.novari.fint.model.resource.FintLinks;
 import no.fint.p360.SupportedActions;
 import no.fint.p360.data.p360.SupportService;
 import no.fint.p360.handler.Handler;

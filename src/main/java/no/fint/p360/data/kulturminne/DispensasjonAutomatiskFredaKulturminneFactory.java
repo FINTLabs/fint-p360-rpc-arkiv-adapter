@@ -1,10 +1,10 @@
 package no.fint.p360.data.kulturminne;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.CaseDefaults;
-import no.fint.arkiv.CaseProperties;
-import no.fint.model.resource.arkiv.kulturminnevern.DispensasjonAutomatiskFredaKulturminneResource;
-import no.fint.model.resource.arkiv.noark.JournalpostResource;
+import no.novari.fint.arkiv.CaseDefaults;
+import no.novari.fint.arkiv.CaseProperties;
+import no.novari.fint.model.resource.arkiv.kulturminnevern.DispensasjonAutomatiskFredaKulturminneResource;
+import no.novari.fint.model.resource.arkiv.noark.JournalpostResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.exception.NotDispensasjonAutomatiskFredaKulturminneException;

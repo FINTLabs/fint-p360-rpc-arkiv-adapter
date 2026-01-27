@@ -1,7 +1,7 @@
 package no.fint.p360.data.noark.part;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.resource.arkiv.noark.PartResource;
+import no.novari.fint.model.resource.arkiv.noark.PartResource;
 import no.fint.p360.data.exception.CreateContactException;
 import no.fint.p360.data.exception.CreateEnterpriseException;
 import no.fint.p360.data.p360.ContactService;

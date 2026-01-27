@@ -2,11 +2,11 @@ package no.fint.p360.data.noark.codes.klasse;
 
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.arkiv.noark.Klassifikasjonssystem;
-import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.resource.Link;
-import no.fint.model.resource.arkiv.noark.KlasseResource;
-import no.fint.model.resource.arkiv.noark.KlassifikasjonssystemResource;
+import no.novari.fint.model.arkiv.noark.Klassifikasjonssystem;
+import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.novari.fint.model.resource.Link;
+import no.novari.fint.model.resource.arkiv.noark.KlasseResource;
+import no.novari.fint.model.resource.arkiv.noark.KlassifikasjonssystemResource;
 import no.fint.p360.data.noark.codes.klassifikasjonssystem.KlassifikasjonssystemService;
 import no.p360.model.CaseService.ArchiveCode__1;
 import no.p360.model.SupportService.CodeTableRow;

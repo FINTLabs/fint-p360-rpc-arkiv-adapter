@@ -1,10 +1,10 @@
 package no.fint.p360.data.noark.sak;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.arkiv.CaseProperties;
-import no.fint.model.resource.arkiv.noark.JournalpostResource;
-import no.fint.model.resource.arkiv.noark.SakResource;
-import no.fint.model.resource.arkiv.noark.SaksmappeResource;
+import no.novari.fint.arkiv.CaseProperties;
+import no.novari.fint.model.resource.arkiv.noark.JournalpostResource;
+import no.novari.fint.model.resource.arkiv.noark.SakResource;
+import no.novari.fint.model.resource.arkiv.noark.SaksmappeResource;
 import no.fint.p360.data.exception.GetDocumentException;
 import no.fint.p360.data.exception.IllegalCaseNumberFormat;
 import no.fint.p360.data.noark.common.NoarkFactory;

@@ -1,10 +1,10 @@
 package no.fint.p360.data.noark.codes.filformat;
 
 import lombok.*;
-import no.fint.model.FintMainObject;
-import no.fint.model.felles.basisklasser.Begrep;
-import no.fint.model.resource.FintLinks;
-import no.fint.model.resource.Link;
+import no.novari.fint.model.FintMainObject;
+import no.novari.fint.model.felles.basisklasser.Begrep;
+import no.novari.fint.model.resource.FintLinks;
+import no.novari.fint.model.resource.Link;
 
 import java.util.List;
 import java.util.Map;

@@ -1,12 +1,12 @@
 package no.fint.p360.data.noark.part;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
-import no.fint.model.resource.Link;
-import no.fint.model.resource.arkiv.kodeverk.PartRolleResource;
-import no.fint.model.resource.arkiv.noark.PartResource;
-import no.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
+import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.novari.fint.model.felles.kompleksedatatyper.Kontaktinformasjon;
+import no.novari.fint.model.resource.Link;
+import no.novari.fint.model.resource.arkiv.kodeverk.PartRolleResource;
+import no.novari.fint.model.resource.arkiv.noark.PartResource;
+import no.novari.fint.model.resource.felles.kompleksedatatyper.AdresseResource;
 import no.fint.p360.data.utilities.FintUtils;
 import no.fint.p360.repository.KodeverkRepository;
 import no.p360.model.CaseService.Contact;

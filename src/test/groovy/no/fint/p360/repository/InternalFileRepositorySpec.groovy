@@ -2,8 +2,8 @@ package no.fint.p360.repository
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import no.fint.event.model.Event
-import no.fint.model.resource.FintLinks
-import no.fint.model.resource.arkiv.noark.DokumentfilResource
+import no.novari.fint.model.resource.FintLinks
+import no.novari.fint.model.resource.arkiv.noark.DokumentfilResource
 import no.fint.p360.data.utilities.FintUtils
 import spock.lang.Specification
 
