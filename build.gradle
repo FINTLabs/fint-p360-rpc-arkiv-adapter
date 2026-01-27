@@ -59,7 +59,7 @@ dependencies {
     implementation 'no.fint:fint-relation-model:1.1.6'
     implementation 'no.fint:fint-model-resource:0.4.1'
 
-    implementation 'no.novari:fint-arkiv-case-defaults:5.0.0-rc-5'
+    implementation 'no.novari:fint-arkiv-case-defaults:5.0.0'
     implementation "no.novari:fint-arkiv-resource-model-java:${apiVersion}"
     implementation "no.novari:fint-administrasjon-model-java:${apiVersion}"
 
