@@ -85,7 +85,7 @@ spec:
             - {name: fint.case.coding.journalposttype.S, value: '1'}
             - {name: fint.case.coding.korrespondanseparttype.EA, value: '5'}
             - {name: fint.case.coding.korrespondanseparttype.EM, value: '6'}
-            - {name: logging.level.no.fint.p360.data.p360, value: trace}
-            - {name: logging.level.no.fint.p360.service, value: debug}
-            - {name: logging.level.no.fint.p360.repository, value: debug}
+            - {name: logging.level.no.fint.p360.data.p360, value: info}
+            - {name: logging.level.no.fint.p360.service, value: info}
+            - {name: logging.level.no.fint.p360.repository, value: info}
             - {name: fint.p360.file.format-mapper, value: 'false'}
