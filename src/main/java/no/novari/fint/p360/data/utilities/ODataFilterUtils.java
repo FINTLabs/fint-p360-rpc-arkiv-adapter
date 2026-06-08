@@ -37,7 +37,7 @@ public class ODataFilterUtils {
                 .ifPresent(getCasesArgs::setTitle);
 
         Optional.ofNullable(oDataFilter.get("arkivdel"))
-                .map(ODataFilterUtils::prefixWithRecnoIfNumeric)
+                .map(P360Utils::prefixWithRecnoIfNumeric)
                 .ifPresent(getCasesArgs::setSubArchive);
 
         Optional.ofNullable(oDataFilter.get("klassifikasjon/primar/verdi"))
@@ -47,7 +47,7 @@ public class ODataFilterUtils {
                 .ifPresent(getCasesArgs::setContactReferenceNumber);
 
         Optional.ofNullable(oDataFilter.get("saksmappetype"))
-                .map(ODataFilterUtils::prefixWithRecnoIfNumeric)
+                .map(P360Utils::prefixWithRecnoIfNumeric)
                 .ifPresent(getCasesArgs::setCaseType);
 
         Optional.ofNullable(oDataFilter.get("saksstatus"))
@@ -62,10 +62,6 @@ public class ODataFilterUtils {
                 });
 
         return getCasesArgs;
-    }
-
-    private static String prefixWithRecnoIfNumeric(String value) {
-        return StringUtils.isNumeric(value) ? "recno:" + value : value;
     }
 
     private Map<String, String> parseQuery(String query) throws IllegalODataFilter {

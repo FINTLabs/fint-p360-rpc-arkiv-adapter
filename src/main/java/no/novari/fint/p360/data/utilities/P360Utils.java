@@ -72,6 +72,16 @@ public enum P360Utils {
                 .ifPresent(consumer);
     }
 
+    public static void applyParameterFromLinkWithRecnoSupport(List<Link> links, Consumer<String> consumer) {
+        links.stream()
+                .map(Link::getHref)
+                .filter(StringUtils::isNotBlank)
+                .map(s -> StringUtils.substringAfterLast(s, "/"))
+                .map(P360Utils::prefixWithRecnoIfNumeric)
+                .findFirst()
+                .ifPresent(consumer);
+    }
+
     public static <T> void applyParameterFromLink(List<Link> links, Function<String, T> mapper, Consumer<T> consumer) {
         links.stream()
                 .map(Link::getHref)
@@ -80,5 +90,9 @@ public enum P360Utils {
                 .map(mapper)
                 .findFirst()
                 .ifPresent(consumer);
+    }
+
+    public static String prefixWithRecnoIfNumeric(String value) {
+        return StringUtils.isNumeric(value) ? "recno:" + value : value;
     }
 }

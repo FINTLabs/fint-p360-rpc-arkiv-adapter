@@ -47,6 +47,7 @@ import java.util.stream.Stream;
 
 import static no.novari.fint.p360.data.utilities.FintUtils.optionalValue;
 import static no.novari.fint.p360.data.utilities.P360Utils.applyParameterFromLink;
+import static no.novari.fint.p360.data.utilities.P360Utils.applyParameterFromLinkWithRecnoSupport;
 
 @Service
 @Slf4j
@@ -267,7 +268,7 @@ public class NoarkFactory {
                     saksmappeResource.getSkjerming().getTilgangsrestriksjon(),
                     createCaseArgs::setAccessCode);
 
-            applyParameterFromLink(
+            applyParameterFromLinkWithRecnoSupport(
                     saksmappeResource.getSkjerming().getSkjermingshjemmel(),
                     createCaseArgs::setParagraph);
         }
