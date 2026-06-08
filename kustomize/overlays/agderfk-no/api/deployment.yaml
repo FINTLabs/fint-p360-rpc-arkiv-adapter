@@ -122,6 +122,6 @@ spec:
             - {name: fint.p360.filterset.casetype.dispensasjonautomatiskfredakulturminne, value: 'digisak'}
 
             - {name: logging.level.no.novari.fint.p360.data.p360, value: debug}
-            - {name: logging.level.no.novari.fint.p360.data, value: info}
-            - {name: logging.level.no.novari.fint.p360.service, value: info}
+            - {name: logging.level.no.novari.fint.p360.data, value: trace}
+            - {name: logging.level.no.novari.fint.p360.service, value: trace}
             - {name: logging.level.no.novari.fint.arkiv, value: info}
