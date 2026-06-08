@@ -132,6 +132,6 @@ spec:
             - {name: fint.p360.documentargs.sakmappetype-mapping.0.documentarchive, value: '200003' }
 
             - {name: fint.file-cache.directory, value: '/temp'}
-            - {name: logging.level.no.fint.arkiv, value: 'info'}
-            - {name: logging.level.no.fint.p360.data.p360, value: 'info'}
+            - {name: logging.level.no.fint.arkiv, value: 'trace'}
+            - {name: logging.level.no.fint.p360.data.p360, value: 'trace'}
             - {name: logging.level.reactor.netty.http.client, value: 'warn'}
