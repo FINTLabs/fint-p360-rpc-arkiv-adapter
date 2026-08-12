@@ -116,7 +116,7 @@ spec:
 
             - { name: fint.p360.documentargs.override-archive, value: 'true' }
             - { name: fint.p360.documentargs.sakmappetype-mapping.0.sakmappetype, value: '200002' }
-            - { name: fint.p360.documentargs.sakmappetype-mapping.0.documentarchive, value: '200002' }
+            - { name: fint.p360.documentargs.sakmappetype-mapping.0.documentarchive, value: '200018' }
 
             - {name: logging.level.no.fint.arkiv, value: 'info'}
             - {name: logging.level.no.fint.p360, value: 'info'}
