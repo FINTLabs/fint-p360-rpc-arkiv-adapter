@@ -52,7 +52,7 @@ jobs:
         include:
           - org: tromsfylke-no
             cluster: aks-beta-fint-2021-11-23
-            deploy-every-branch: true
+            #deploy-every-branch: true
 
     steps: 
       - uses: actions/checkout@v6
