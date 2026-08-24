@@ -70,6 +70,8 @@ public class ContactService extends P360Service {
         GetContactPersonsResponse getContactPersonsResponse = call(filterSetService.getDefaultFilterSet(),
                 "ContactService/GetContactPersons", getContactPersonsArgs, GetContactPersonsResponse.class);
 
+        log.debug("ContactPersonResult: {}", getContactPersonsResponse);
+
         if (getContactPersonsResponse.getSuccessful() && getContactPersonsResponse.getTotalPageCount() == 1) {
             return getContactPersonsResponse.getContactPersons();
         }
