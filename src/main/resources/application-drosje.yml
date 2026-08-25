@@ -16,6 +16,16 @@ fint:
         dokumentType:
         tilknyttetRegistreringSom:
         noekkelord:
+  client:
+    base-url: https://beta.felleskomponent.no
+    oauth:
+      access-token-uri: https://idp.felleskomponent.no/nidp/oauth/nam/token
+      scope: fint-client
+      username:
+      password:
+      client-id:
+      client-secret:
+
   adapter:
     endpoints:
       sse: /sse/%s
@@ -36,6 +46,9 @@ fint:
   #    client-secret:
   #    access-token-uri:
   #    scope:
+
+  personalressurs:
+    refresh-interval: 3600000
 
 security:
   basic:
