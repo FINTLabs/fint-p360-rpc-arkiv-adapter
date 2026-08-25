@@ -19,6 +19,9 @@ spec:
                 -Xmx1G -verbose:gc
                 -XX:+ExitOnOutOfMemoryError
                 -Dfile.encoding=UTF-8
+
+            - {name: fint.client.base-url, value: https://beta.felleskomponent.no}
+
             - {name: fint.adapter.endpoints.providers.samferdsel, value: https://beta.felleskomponent.no/arkiv/samferdsel/provider}
             - {name: fint.adapter.endpoints.providers.kodeverk, value: https://beta.felleskomponent.no/arkiv/kodeverk/provider}
             - {name: fint.adapter.endpoints.providers.noark, value: https://beta.felleskomponent.no/arkiv/noark/provider}

@@ -6,6 +6,14 @@ springfox:
   version: '@version@'
 
 fint:
+  client:
+    base-url:
+
+    # Det naturlige hadde vært en fint-client.yaml, men håndteres manuelt av Flais.
+    oauth:
+      access-token-uri: https://idp.felleskomponent.no/nidp/oauth/nam/token
+      scope: fint-client
+
   adapter:
     endpoints:
       sse: /sse/%s
