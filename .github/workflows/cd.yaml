@@ -12,7 +12,7 @@ jobs:
       DOCKER_BUILDKIT: 1
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Docker meta
         id: meta
@@ -55,7 +55,7 @@ jobs:
             deploy-every-branch: true
 
     steps: 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Get environment
         id: environment
@@ -68,6 +68,12 @@ jobs:
         with:
           renderEngine: 'kustomize'
           kustomizationPath: 'kustomize/overlays/${{ matrix.org }}/${{ steps.environment.outputs.name }}'
+
+      - name: Copy baked manifest into workspace
+        id: workspace-manifest
+        run: |
+          cp -- "${{ steps.bake.outputs.manifestsBundle }}" "${GITHUB_WORKSPACE}/baked-manifest.yaml"
+          echo "manifestsBundle=${GITHUB_WORKSPACE}/baked-manifest.yaml" >> "$GITHUB_OUTPUT"
 
       - name: Login to Azure
         uses: azure/login@v3
@@ -91,7 +97,7 @@ jobs:
       - name: Get namespace from config file
         id: namespace
         run: |
-          namespace=$(yq '.metadata.namespace' ${{ steps.bake.outputs.manifestsBundle }} | head -n 1 | sed 's/^null$/default/')
+          namespace=$(yq '.metadata.namespace' ${{ steps.workspace-manifest.outputs.manifestsBundle }} | head -n 1 | sed 's/^null$/default/')
           echo "name=$namespace" >> $GITHUB_OUTPUT
 
       - name: Deploy to Kubernetes
@@ -99,6 +105,6 @@ jobs:
         uses: azure/k8s-deploy@v5
         with:
           action: deploy
-          manifests: ${{ steps.bake.outputs.manifestsBundle }}
+          manifests: ${{ steps.workspace-manifest.outputs.manifestsBundle }}
           images: ${{ matrix.use-image-from-overlay && 'none:none' || needs.build-and-publish.outputs.tags }}
           namespace: ${{ steps.namespace.outputs.name }}
