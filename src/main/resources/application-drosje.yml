@@ -18,13 +18,6 @@ fint:
         noekkelord:
   client:
     base-url: https://beta.felleskomponent.no
-    oauth:
-      access-token-uri: https://idp.felleskomponent.no/nidp/oauth/nam/token
-      scope: fint-client
-      username:
-      password:
-      client-id:
-      client-secret:
 
   adapter:
     endpoints:
