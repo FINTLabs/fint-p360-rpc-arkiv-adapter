@@ -109,6 +109,8 @@ spec:
             - {name: logging.level.no.fint.arkiv, value: info}
 
             - {name: fint.file-cache.directory, value: '/temp'}
+            -
+            - {name: fint.client.base-url, value: https://beta.felleskomponent.no}
 
             - {name: fint.adapter.endpoints.providers.samferdsel, value: https://beta.felleskomponent.no/arkiv/samferdsel/provider}
             - {name: fint.adapter.endpoints.providers.kodeverk, value: https://beta.felleskomponent.no/arkiv/kodeverk/provider}
