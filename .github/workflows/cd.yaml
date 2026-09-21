@@ -1,6 +1,9 @@
 name: CD
 
-on: push
+on:
+  push:
+    paths-ignore:
+      - README.md
 
 jobs:
 
@@ -54,7 +57,7 @@ jobs:
             cluster: aks-beta-fint-2021-11-23
             deploy-every-branch: true
 
-    steps: 
+    steps:
       - uses: actions/checkout@v6
 
       - name: Get environment
@@ -80,7 +83,7 @@ jobs:
           cluster-name: ${{ matrix.cluster }}
           resource-group: rg-aks-${{ steps.environment.outputs.name }}
           admin: true
-       
+
       - if: github.ref != format('refs/heads/{0}', github.event.repository.default_branch) && matrix.deploy-every-branch != true
         run: |
           {

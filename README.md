@@ -28,7 +28,10 @@ The adapter uses the following services:
 
 ## How to set custom document archive on journal post
 
-The document args config are used to override the default values for _document archive_ on journalpost. You can define the _document archive_ (recno) based on the value of the _sakmappetype_ (recno). See the Kustomize example below:
+The document args config are used to override the default values for _document archive_ on journalpost. You can define 
+the _document archive_ (recno) based on the value of the _sakmappetype_ (recno). If you encounter the following error: 
+`The selected case type is not valid for the document` you need to configure a custom document archive for the relevant 
+sakmappetype, as shown in the Kustomize example below:
 
 ```yaml
 - {name: fint.p360.documentargs.override-archive, value: 'true' }
