@@ -10,6 +10,12 @@ The adapter uses the following services:
 - FileService
 - SupportService
 
+# Additional trusted CA certificates
+
+The Docker image includes GlobalSign Root R46 for outgoing HTTPS connections,
+alongside the runtime's existing trusted root certificates. See
+[`certs/README.md`](certs/README.md) for the certificate source and fingerprint.
+
 # Properties
 
 | Properties                                            | Default                                  | Description   |
