@@ -26,7 +26,9 @@ public class ODataFilterUtils {
     public GetCasesArgs getCasesArgs(String query, String caseStatusFilter) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
         getCasesArgs.setMaxReturnedCases(MAX_RETURNED_CASES);
-        log.debug("To avoid misuse of a beloved feature, the max returned cases are set to {}", MAX_RETURNED_CASES);
+        getCasesArgs.setIncludeDocuments(Boolean.FALSE);
+        log.debug("To avoid misuse of a beloved feature, the max returned cases are set to {} and no documents are included",
+                MAX_RETURNED_CASES);
 
         Map<String, String> oDataFilter = parseQuery(query);
 
