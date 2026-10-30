@@ -62,6 +62,7 @@ dependencies {
     implementation 'no.novari:fint-arkiv-case-defaults:5.0.0'
     implementation "no.novari:fint-arkiv-resource-model-java:${apiVersion}"
     implementation "no.novari:fint-administrasjon-model-java:${apiVersion}"
+    implementation "no.novari:fint-administrasjon-resource-model-java:${apiVersion}"
 
     implementation 'no.fintlabs:fint-antlr:1.2.0'
 

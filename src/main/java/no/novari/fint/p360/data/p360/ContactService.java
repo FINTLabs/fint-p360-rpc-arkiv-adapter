@@ -1,10 +1,7 @@
 package no.novari.fint.p360.data.p360;
 
 import lombok.extern.slf4j.Slf4j;
-import no.novari.fint.p360.data.exception.CreateContactException;
-import no.novari.fint.p360.data.exception.CreateEnterpriseException;
-import no.novari.fint.p360.data.exception.EnterpriseNotFound;
-import no.novari.fint.p360.data.exception.PrivatePersonNotFound;
+import no.novari.fint.p360.data.exception.*;
 import no.novari.fint.p360.service.FilterSetService;
 import no.p360.model.ContactService.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +60,22 @@ public class ContactService extends P360Service {
         }
 
         throw new EnterpriseNotFound(getEnterprisesResponse.getErrorMessage());
+    }
+
+    public List<ContactPerson> getContactPersonsByCategory( String... categories) throws ContactPersonNotFound {
+        GetContactPersonsArgs getContactPersonsArgs = new GetContactPersonsArgs();
+
+        getContactPersonsArgs.setCategories(Arrays.asList(categories));
+
+        GetContactPersonsResponse getContactPersonsResponse = call(filterSetService.getDefaultFilterSet(),
+                "ContactService/GetContactPersons", getContactPersonsArgs, GetContactPersonsResponse.class);
+
+        log.debug("ContactPersonResult: {}", getContactPersonsResponse);
+
+        if (getContactPersonsResponse.getSuccessful() && getContactPersonsResponse.getTotalPageCount() == 1) {
+            return getContactPersonsResponse.getContactPersons();
+        }
+        throw new ContactPersonNotFound(getContactPersonsResponse.getErrorMessage());
     }
 
     public Integer synchronizePrivatePerson(SynchronizePrivatePersonArgs privatePerson) throws CreateContactException {
