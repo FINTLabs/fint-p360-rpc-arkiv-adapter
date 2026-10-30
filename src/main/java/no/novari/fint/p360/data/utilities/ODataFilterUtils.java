@@ -18,11 +18,15 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ODataFilterUtils {
 
+    private static final Integer MAX_RETURNED_CASES = 10;
+
     private final List<String> supportedODataProperties = List.of("mappeid", "tittel", "systemid", "arkivdel",
             "klassifikasjon/primar/verdi", "klassifikasjon/primar/ordning", "kontaktid", "saksstatus", "saksmappetype");
 
     public GetCasesArgs getCasesArgs(String query, String caseStatusFilter) {
         GetCasesArgs getCasesArgs = new GetCasesArgs();
+        getCasesArgs.setMaxReturnedCases(MAX_RETURNED_CASES);
+        log.debug("To avoid misuse of a beloved feature, the max returned cases are set to {}", MAX_RETURNED_CASES);
 
         Map<String, String> oDataFilter = parseQuery(query);
 
