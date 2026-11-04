@@ -1,11 +1,11 @@
-FROM gradle:8.14.6-jdk17 AS builder
+FROM gradle:9.8.1-jdk17 AS builder
 USER root
 COPY . .
 RUN gradle --no-daemon build
 
 FROM gcr.io/distroless/java17 AS runtime-base
 
-FROM gradle:8.14.6-jdk17 AS certificates
+FROM gradle:9.8.1-jdk17 AS certificates
 USER root
 COPY --from=runtime-base /etc/ssl/certs/java/cacerts /tmp/truststore.jks
 COPY certs/globalsign-root-r46.crt /tmp/globalsign-root-r46.crt
