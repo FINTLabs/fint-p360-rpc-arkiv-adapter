@@ -6,6 +6,9 @@ springfox:
   version: '@version@'
 
 fint:
+  client:
+    base-url:
+
   adapter:
     endpoints:
       sse: /sse/%s
@@ -16,7 +19,7 @@ fint:
   oauth:
     enabled: true
     access-token-uri: https://idp.felleskomponent.no/nidp/oauth/nam/token
-    scope: fint-client
+    scope: fint-client fint-adapter
     username: ${fint.core.oauth2.username}
     password: ${fint.core.oauth2.password}
     client-id: ${fint.core.oauth2.client-id}
@@ -31,3 +34,8 @@ management:
     web:
       exposure:
         include: health, shutdown, prometheus
+
+spring:
+  output:
+    ansi:
+      enabled: always
