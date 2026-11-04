@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.github.ben-manes.versions' version '0.51.0'
+    id 'io.github.ben-manes.versions' version '0.66.0'
     id 'org.springframework.boot' version '2.7.18'
     id 'io.spring.dependency-management' version '1.1.5'
     id 'java'
@@ -20,6 +20,8 @@ apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'jsonschema2pojo'
+
+ext['junit-jupiter.version'] = '5.10.1'
 
 javadoc {
     source = sourceSets.main.allJava
@@ -40,12 +42,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:33.2.1-jre'
+    implementation 'com.google.guava:guava:33.7.2-jre'
     implementation 'org.apache.commons:commons-lang3:3.20.0'
     implementation 'org.apache.tika:tika-core:3.2.3'
 
-    implementation 'org.glassfish.jersey.core:jersey-client:2.43'
-    implementation 'org.glassfish.jersey.core:jersey-common:2.41'
+    implementation 'org.glassfish.jersey.core:jersey-client:2.48'
+    implementation 'org.glassfish.jersey.core:jersey-common:2.48'
     implementation 'org.jooq:jool-java-8:0.9.15'
     implementation 'org.projectlombok:lombok'
 
@@ -77,8 +79,8 @@ dependencies {
     implementation 'org.apache.commons:commons-text:1.15.0'
 
     testImplementation 'cglib:cglib-nodep:3.3.0'
-    testImplementation 'org.spockframework:spock-spring:2.3-groovy-4.0'
-    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+    testImplementation 'org.spockframework:spock-spring:2.5-groovy-4.0'
+    testImplementation 'org.spockframework:spock-core:2.5-groovy-4.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
