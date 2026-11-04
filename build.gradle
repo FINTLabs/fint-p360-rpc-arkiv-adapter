@@ -21,6 +21,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'jsonschema2pojo'
 
+ext['junit-jupiter.version'] = '5.10.1'
+
 javadoc {
     source = sourceSets.main.allJava
     classpath = configurations.runtimeClasspath
