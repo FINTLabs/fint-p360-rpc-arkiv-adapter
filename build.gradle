@@ -21,6 +21,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'jsonschema2pojo'
 
+ext['junit-jupiter.version'] = '5.10.1'
+
 javadoc {
     source = sourceSets.main.allJava
     classpath = configurations.runtimeClasspath
@@ -76,8 +78,8 @@ dependencies {
     implementation 'org.apache.commons:commons-text:1.15.0'
 
     testImplementation 'cglib:cglib-nodep:3.3.0'
-    testImplementation 'org.spockframework:spock-spring:2.3-groovy-4.0'
-    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+    testImplementation 'org.spockframework:spock-spring:2.5-groovy-4.0'
+    testImplementation 'org.spockframework:spock-core:2.5-groovy-4.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
