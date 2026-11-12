@@ -8,9 +8,11 @@ import no.novari.fint.p360.repository.PersonalressursRepository;
 import no.p360.model.ContactService.ContactPerson;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
+@ConditionalOnProperty(name = "fint.arkiv.arkivressurs", havingValue = "true")
 public class ArkivressursFactory {
 
     @Autowired

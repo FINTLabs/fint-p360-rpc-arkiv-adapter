@@ -5,12 +5,14 @@ import no.novari.fint.model.resource.arkiv.noark.ArkivressursResource;
 import no.novari.fint.p360.data.exception.ContactPersonNotFound;
 import no.novari.fint.p360.data.p360.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Stream;
 
 @Slf4j
 @Service
+@ConditionalOnProperty(name = "fint.arkiv.arkivressurs", havingValue = "true")
 public class ArkivressursService {
 
     @Autowired
