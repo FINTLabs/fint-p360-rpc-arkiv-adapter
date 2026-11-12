@@ -16,6 +16,9 @@ fint:
         dokumentType:
         tilknyttetRegistreringSom:
         noekkelord:
+  client:
+    base-url: https://beta.felleskomponent.no
+
   adapter:
     endpoints:
       sse: /sse/%s
@@ -37,6 +40,9 @@ fint:
   #    access-token-uri:
   #    scope:
 
+  personalressurs:
+    refresh-interval: 3600000
+
 security:
   basic:
     enabled: false
@@ -46,3 +52,7 @@ management:
     web:
       exposure:
         include: health, shutdown, prometheus
+
+logging:
+  level:
+    no.novari.fint.p360: DEBUG
