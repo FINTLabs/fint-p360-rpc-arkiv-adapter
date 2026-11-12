@@ -6,6 +6,7 @@ import no.novari.fint.model.resource.administrasjon.personal.PersonalressursReso
 import no.novari.fint.p360.client.FintClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@ConditionalOnProperty(name = "fint.arkiv.arkivressurs", havingValue = "true")
 public class PersonalressursRepository {
 
     @Autowired
