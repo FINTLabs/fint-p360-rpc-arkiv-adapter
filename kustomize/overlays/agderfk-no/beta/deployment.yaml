@@ -118,3 +118,4 @@ spec:
             - {name: fint.adapter.endpoints.providers.kulturminne, value: https://beta.felleskomponent.no/arkiv/kulturminnevern/provider}
 
             - {name: fint.arkiv.part, value: "true"}
+            - {name: fint.arkiv.arkivressurs, value: "true"}

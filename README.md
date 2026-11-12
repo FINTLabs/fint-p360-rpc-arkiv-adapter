@@ -31,6 +31,7 @@ alongside the runtime's existing trusted root certificates. See
 | fint.kulturminne.tilskudd-fartoy.keywords             |                                          |               |
 | fint.kulturminne.tilskudd-fartoy.achive-code-type     |                                          |               |
 | fint.kulturminne.tilskudd-fartoy.intitial-case-status | `B`                                      |               |
+| fint.arkiv.arkivressurs                                | `false`                                  | Set to `true` to enable fetching arkivressurs. |
 
 ## How to set custom document archive on journal post
 
