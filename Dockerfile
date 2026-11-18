@@ -17,7 +17,7 @@ RUN keytool -importcert -noprompt \
     -storepass changeit
 
 FROM runtime-base
-ENV JAVA_TOOL_OPTIONS=-XX:+ExitOnOutOfMemoryError
+ENV JAVA_TOOL_OPTIONS="-XX:+ExitOnOutOfMemoryError -XX:-UseBASE64Intrinsics"
 COPY --from=certificates /tmp/truststore.jks /etc/ssl/certs/java/cacerts
 WORKDIR /app
 COPY --from=builder /home/gradle/build/libs/fint-p360-rpc-arkiv-adapter.jar /app/fint-p360-rpc-arkiv-adapter.jar
