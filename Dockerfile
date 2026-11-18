@@ -1,24 +1,12 @@
-FROM gradle:8.14.6-jdk17 AS builder
-USER root
+FROM eclipse-temurin:17-jdk AS builder
 COPY . .
-RUN gradle --no-daemon build
+RUN ./gradlew --no-daemon build
 
-FROM gcr.io/distroless/java17 AS runtime-base
-
-FROM gradle:8.14.6-jdk17 AS certificates
-USER root
-COPY --from=runtime-base /etc/ssl/certs/java/cacerts /tmp/truststore.jks
-COPY certs/globalsign-root-r46.crt /tmp/globalsign-root-r46.crt
-RUN keytool -importcert -noprompt \
-    -alias globalsign-root-r46 \
-    -file /tmp/globalsign-root-r46.crt \
-    -keystore /tmp/truststore.jks \
-    -storetype JKS \
-    -storepass changeit
-
-FROM runtime-base
+FROM eclipse-temurin:17-jre
 ENV JAVA_TOOL_OPTIONS="-XX:+ExitOnOutOfMemoryError -XX:-UseBASE64Intrinsics"
-COPY --from=certificates /tmp/truststore.jks /etc/ssl/certs/java/cacerts
 WORKDIR /app
-COPY --from=builder /home/gradle/build/libs/fint-p360-rpc-arkiv-adapter.jar /app/fint-p360-rpc-arkiv-adapter.jar
+COPY --from=builder build/libs/fint-p360-rpc-arkiv-adapter.jar /app/fint-p360-rpc-arkiv-adapter.jar
+
+USER 1337
+ENTRYPOINT ["java", "-jar"]
 CMD ["/app/fint-p360-rpc-arkiv-adapter.jar"]
