@@ -58,6 +58,7 @@ spec:
               value: >-
                 -Xmx1G -verbose:gc
                 -XX:+ExitOnOutOfMemoryError
+                -XX:-UseBASE64Intrinsics
                 -Dfile.encoding=UTF-8
             - {name: security.basic.enabled, value: "false"}
             - {name: fint.adapter.reject-unknown-events, value: 'true'}
